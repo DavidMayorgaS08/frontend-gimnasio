@@ -5,11 +5,11 @@
             <form>
                 <div class="user-box">
                     <input type="text" name="" required="" v-model="correo">
-                    <label>CORREO</label>
+                    <label>Correo</label>
                 </div>
                 <div class="user-box">
                     <input type="password" name="" required="" v-model="contraseña">
-                    <label>CONTRASEÑA</label>
+                    <label>Contraseña</label>
                 </div>
                 <center>
                     <a href="#">
@@ -130,13 +130,13 @@
 }
 
 .login-box a:hover {
-    background: #03f40f;
-    color: #fff;
+    background: #e2e4e8;
+    color: #000000;
     border-radius: 5px;
-    box-shadow: 0 0 5px #03f40f,
-        0 0 25px #03f40f,
-        0 0 50px #03f40f,
-        0 0 100px #03f40f;
+    box-shadow: 0 0 5px #e2e4e8,
+        0 0 15px #e2e4e8,
+        0 0 35px #e2e4e8,
+        0 0 5px #e2e4e8;
 }
 
 .login-box a span {
@@ -160,7 +160,7 @@
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #03f40f);
+    background: linear-gradient(90deg, transparent, #e2e4e8);
     animation: btn-anim1 2s linear infinite;
 }
 </style>
