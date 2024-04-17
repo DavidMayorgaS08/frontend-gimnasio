@@ -1,0 +1,182 @@
+<template>
+    <div class="app">
+        <div class="container"></div>
+        <div class="login-box">
+            <form>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="nombreCompleto">
+                    <label>Nombre Completo</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Identificacion">
+                    <label>Identificacion</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Telefono">
+                    <label>Telefono</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Correo">
+                    <label>Correo</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Contraseña">
+                    <label>Contraseña</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Rol">
+                    <label>Rol</label>
+                </div>
+                <center>
+                    <a href="#">
+                        Registrar
+                        <span></span>
+                    </a>
+                </center>
+            </form>
+        </div>
+    </div>
+</template>
+<script setup>
+</script>
+<style scoped>
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000000;
+}
+
+.container {
+  /* Basic dimensions and centering */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Dark mode colors and gradient */
+  background: #121212; /* Fallback for browsers that don't support gradients */
+  background: linear-gradient(
+    135deg,
+    #121212 25%,
+    #1a1a1a 25%,
+    #1a1a1a 50%,
+    #121212 50%,
+    #121212 75%,
+    #1a1a1a 75%,
+    #1a1a1a
+  );
+  background-size: 40px 40px;
+
+  /* Animation */
+  animation: move 4s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(24, 20, 20, 0.987);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+}
+
+.login-box .user-box {
+    position: relative;
+}
+
+.login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+
+.login-box .user-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.login-box .user-box input:focus~label,
+.login-box .user-box input:valid~label {
+    top: -20px;
+    left: 0;
+    color: #bdb8b8;
+    font-size: 12px;
+}
+
+.login-box form a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ffffff;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 4px
+}
+
+.login-box a:hover {
+    background: #e2e4e8;
+    color: #000000;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #e2e4e8,
+        0 0 15px #e2e4e8,
+        0 0 35px #e2e4e8,
+        0 0 5px #e2e4e8;
+}
+
+.login-box a span {
+    position: absolute;
+    display: block;
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+
+    50%,
+    100% {
+        left: 100%;
+    }
+}
+
+.login-box a span:nth-child(1) {
+    bottom: 2px;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #e2e4e8);
+    animation: btn-anim1 2s linear infinite;
+}
+</style>
