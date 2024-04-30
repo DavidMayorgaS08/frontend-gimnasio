@@ -4,16 +4,12 @@
         <div class="login-box">
             <form>
                 <div class="user-box">
-                    <input type="text" name="" required="" v-model="nombreCompleto">
+                    <input type="text" name="" required="" v-model="nombre">
                     <label>Nombre Completo</label>
                 </div>
                 <div class="user-box">
-                    <input type="text" name="" required="" v-model="Identificacion">
-                    <label>Identificacion</label>
-                </div>
-                <div class="user-box">
-                    <input type="text" name="" required="" v-model="Telefono">
-                    <label>Telefono</label>
+                    <input type="text" name="" required="" v-model="sede">
+                    <label>Sede</label>
                 </div>
                 <div class="user-box">
                     <input type="text" name="" required="" v-model="Correo">
@@ -24,20 +20,59 @@
                     <label>Contraseña</label>
                 </div>
                 <div class="user-box">
+                    <input type="text" name="" required="" v-model="Telefono">
+                    <label>Telefono</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="estado">
+                    <label>Estado</label>
+                </div>
+                <div class="user-box">
                     <input type="text" name="" required="" v-model="Rol">
                     <label>Rol</label>
                 </div>
                 <center>
-                    <a href="#">
-                        Registrar
-                        <span></span>
-                    </a>
+                    <button @click.prevent="registrarUsuario()">
+                        registrar
+                    </button>
                 </center>
             </form>
         </div>
     </div>
 </template>
 <script setup>
+import { ref } from 'vue';
+import { useUsuarioStore } from "../stores/usuarios.js"
+
+let useUsuarios = useUsuarioStore()
+
+let nombre = ref('')
+let sede = ref('')
+let Correo = ref('')
+let Contraseña = ref('')
+let Telefono = ref('')
+let estado = ref('')
+let Rol = ref('')
+
+let r = null
+
+async function registrarUsuario() {
+    try {
+        let usuario = {
+            nombre: nombre.value,
+            sede: sede.value,
+            correo: Correo.value,
+            contrasena: Contraseña.value,
+            telefono: Telefono.value,
+            estado: parseInt(estado.value),
+            rol: parseInt(Rol.value)
+        };
+
+        r = await useUsuarios.postUsuario(usuario);
+    } catch (error) {
+        error
+    }
+}
 </script>
 <style scoped>
 .app {
@@ -49,38 +84,38 @@
 }
 
 .container {
-  /* Basic dimensions and centering */
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    /* Basic dimensions and centering */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  /* Dark mode colors and gradient */
-  background: #121212; /* Fallback for browsers that don't support gradients */
-  background: linear-gradient(
-    135deg,
-    #121212 25%,
-    #1a1a1a 25%,
-    #1a1a1a 50%,
-    #121212 50%,
-    #121212 75%,
-    #1a1a1a 75%,
-    #1a1a1a
-  );
-  background-size: 40px 40px;
+    /* Dark mode colors and gradient */
+    background: #121212;
+    /* Fallback for browsers that don't support gradients */
+    background: linear-gradient(135deg,
+            #121212 25%,
+            #1a1a1a 25%,
+            #1a1a1a 50%,
+            #121212 50%,
+            #121212 75%,
+            #1a1a1a 75%,
+            #1a1a1a);
+    background-size: 40px 40px;
 
-  /* Animation */
-  animation: move 4s linear infinite;
+    /* Animation */
+    animation: move 4s linear infinite;
 }
 
 @keyframes move {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 40px 40px;
-  }
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
 }
 
 .login-box {
@@ -178,5 +213,45 @@
     height: 2px;
     background: linear-gradient(90deg, transparent, #e2e4e8);
     animation: btn-anim1 2s linear infinite;
+}
+
+button {
+    font-size: 18px;
+    color: #e1e1e1;
+    font-family: inherit;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    text-transform: uppercase;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: color;
+    margin-top: 10px;
+}
+
+button:focus,
+button:hover {
+    color: #fff;
+}
+
+button:focus:after,
+button:hover:after {
+    width: 100%;
+    left: 0%;
+}
+
+button:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: #fff;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 400ms;
+    transition-property: width, left;
 }
 </style>
