@@ -1,0 +1,49 @@
+<template>
+  <div>
+    <div class="q-pa-md">
+      <q-table title="Treats" :rows="rows" :columns="columns" row-key="name">
+        <template v-slot:body-cell-opciones="props">
+          <q-td :props="props">
+            <q-btn flat dense round>📝</q-btn>
+            <q-btn
+              flat
+              dense
+              round
+              icon="delete"
+              @click="eliminarUsuario(props.row)"
+            />
+          </q-td>
+        </template>
+      </q-table>
+    </div>
+
+    <button @click="listarSedes()">traer datos</button>
+  </div>
+</template>
+<script setup>
+import { ref } from 'vue'
+import { useSedeStore } from "../stores/sede.js"
+
+let useSedes = useSedeStore()
+
+let rows = ref([])
+let columns = ref([
+    {name:"nombre", label:"Nombre", align:"center", field:"nombre"},
+    {name:"direccion", label:"Dirección", align:"center", field:"direccion"},
+    {name:"codigo", label:"Código", align:"center", field:"codigo"},
+    {name:"horario", label:"Horario", align:"center", field:"horario"},
+    {name:"ciudad", label:"Ciudad", align:"center", field:"ciudad"},
+    {name:"telefono", label:"Teléfono", align:"center", field:"telefono"},
+    {name:"opciones", label:"Opciones", align:"center", field:"opciones"},
+])
+
+let r = null
+
+let listarSedes = async () => {
+    r = await useSedes.getSede()
+    rows.value = r
+    console.log(r)
+}
+</script>
+<style scoped>
+</style>

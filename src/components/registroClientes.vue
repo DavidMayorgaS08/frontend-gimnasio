@@ -4,15 +4,35 @@
         <div class="login-box">
             <form>
                 <div class="user-box">
-                    <input type="text" name="" required="" v-model="correo">
+                    <input type="text" name="" required="" v-model="nombre">
+                    <label>Nombre Completo</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="sede">
+                    <label>Sede</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Correo">
                     <label>Correo</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="" required="" v-model="contraseña">
+                    <input type="text" name="" required="" v-model="Contraseña">
                     <label>Contraseña</label>
                 </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Telefono">
+                    <label>Telefono</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="estado">
+                    <label>Estado</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Rol">
+                    <label>Rol</label>
+                </div>
                 <center>
-                    <button @click.prevent="loginUsuario()">
+                    <button @click.prevent="registrarUsuario()">
                         registrar
                     </button>
                 </center>
@@ -21,27 +41,6 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { useUsuarioStore } from "../stores/usuarios.js"
-
-let useUsuarios = useUsuarioStore()
-
-let correo = ref('mejiaplata@gmail.com')
-let contraseña = ref('nolefio12')
-
-let r = null
-
-async function loginUsuario() {
-    try {
-        let data = {
-            correo: correo.value,
-            contrasena: contraseña.value
-        }
-        r = await useUsuarios.login(data)
-    } catch (error) {
-        
-    }
-}
 </script>
 <style scoped>
 .app {
@@ -53,38 +52,38 @@ async function loginUsuario() {
 }
 
 .container {
-  /* Basic dimensions and centering */
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    /* Basic dimensions and centering */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  /* Dark mode colors and gradient */
-  background: #121212; /* Fallback for browsers that don't support gradients */
-  background: linear-gradient(
-    135deg,
-    #121212 25%,
-    #1a1a1a 25%,
-    #1a1a1a 50%,
-    #121212 50%,
-    #121212 75%,
-    #1a1a1a 75%,
-    #1a1a1a
-  );
-  background-size: 40px 40px;
+    /* Dark mode colors and gradient */
+    background: #121212;
+    /* Fallback for browsers that don't support gradients */
+    background: linear-gradient(135deg,
+            #121212 25%,
+            #1a1a1a 25%,
+            #1a1a1a 50%,
+            #121212 50%,
+            #121212 75%,
+            #1a1a1a 75%,
+            #1a1a1a);
+    background-size: 40px 40px;
 
-  /* Animation */
-  animation: move 4s linear infinite;
+    /* Animation */
+    animation: move 4s linear infinite;
 }
 
 @keyframes move {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 40px 40px;
-  }
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
 }
 
 .login-box {

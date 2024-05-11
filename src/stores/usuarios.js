@@ -27,7 +27,21 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     }
     
+    let login = async(r)=>{
+        try {
+            let req = await axios.post("http://localhost:3000/usuario/iniciar-sesion",r)
+            console.log(req);
+            if (req.status === 200) {
+                window.location.href = 'http://localhost:5173/#/menu/';
+            }
+            return req.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    }
+
     return{
-        getUsuarios, postUsuario
+        getUsuarios, postUsuario, login
     }
 })
