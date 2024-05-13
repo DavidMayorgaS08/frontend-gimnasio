@@ -13,7 +13,51 @@ export const useUsuarioStore = defineStore("usuario",()=>{
             console.log(error);
             return error
         }
-    }
+    };
+
+    let getUsuario = async(id)=>{
+        try {
+            let res = await axios.get(`http://localhost:3000/usuario/${id}`)
+            console.log(res);
+            return res.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
+
+    let activos = async()=>{
+        try {
+            let res = await axios.get("http://localhost:3000/usuario/listar/activos")
+            console.log(res);
+            return res.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
+
+    let inactivos = async()=>{
+        try {
+            let res = await axios.get("http://localhost:3000/usuario/listar/inactivos")
+            console.log(res);
+            return res.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
+
+    let getRol = async(id)=>{
+        try {
+            let res = await axios.get(`http://localhost:3000/usuario/listar/rol/${id}`)
+            console.log(res);
+            return res.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
 
     let postUsuario = async(r)=>{
         console.log(r);
@@ -25,7 +69,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
             console.log(error);
             return error
         }
-    }
+    };
     
     let login = async(r)=>{
         try {
@@ -39,9 +83,42 @@ export const useUsuarioStore = defineStore("usuario",()=>{
             console.log(error);
             return error
         }
-    }
+    };
+
+    let putUsuario = async(id,r)=>{
+        try {
+            let req = await axios.put(`http://localhost:3000/usuario/${id}`,r)
+            console.log(req);
+            return req.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
+
+    let activar = async(id)=>{
+        try {
+            let req = await axios.put(`http://localhost:3000/usuario/activar/${id}`)
+            console.log(req);
+            return req.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
+
+    let inactivar = async(id)=>{
+        try {
+            let req = await axios.put(`http://localhost:3000/usuario/inactivar/${id}`)
+            console.log(req);
+            return req.data
+        } catch (error) {
+            console.log(error);
+            return error
+        }
+    };
 
     return{
-        getUsuarios, postUsuario, login
+        getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar
     }
 })

@@ -14,7 +14,40 @@ export const useIngresoStore = defineStore("ingreso", () => {
         }
     };
 
+    let getIngreso = async (id) => {
+        try {
+            let res = await axios.get(`http://localhost:3000/ingreso/${id}`);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }; 
+
+    let postIngreso = async (data) => {
+        try {
+            let res = await axios.post("http://localhost:3000/ingreso", data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    };
+
+    let putIngreso = async (id, data) => {
+        try {
+            let res = await axios.put(`http://localhost:3000/ingreso/${id}`, data);
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    };
+
     return {
-        getIngresos,
+        getIngresos, getIngreso, postIngreso, putIngreso
     };
 });

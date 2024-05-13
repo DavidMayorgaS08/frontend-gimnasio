@@ -2,6 +2,12 @@
   <div class="app">
     <div class="container"></div>
     <div class="info">
+      <div class="menu">
+        <buttom class="btn" @click="listarIngesos()">Listar ingresos</buttom>
+        <buttom class="btn" @click="listarPorId()">Listar por id</buttom>
+        <buttom class="btn" @click="crearIngreso()">Crear ingreso</buttom>
+        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+      </div>
       <div class="q-pa-md">
         <q-table title="Ingresos" :rows="rows" :columns="columns" row-key="name">
           <template v-slot:body-cell-opciones="props">
@@ -18,7 +24,6 @@
           </template>
         </q-table>
       </div>
-      <button @click="listarIngesos()">traer datos</button>
     </div>
   </div>
 </template>
@@ -46,6 +51,12 @@ let r = null;
 let listarIngesos = async () => {
   r = await useIngresos.getIngresos();
   rows.value = r;
+  console.log(r);
+};
+
+let listarPorId = async () => {
+  r = await useIngresos.getIngreso("66287156c22b3bf34667855f");
+  rows.value = [r];
   console.log(r);
 };
 </script>
@@ -76,5 +87,55 @@ let listarIngesos = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn:hover::after {
+  transform: scale(4);
+}
+
+.btn:hover {
+  border-color: #666666;
+  background: #292929;
 }
 </style>
