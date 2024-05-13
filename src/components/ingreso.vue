@@ -1,22 +1,25 @@
 <template>
-  <div>
-    <div class="q-pa-md">
-      <q-table title="Ingreso" :rows="rows" :columns="columns" row-key="name">
-        <template v-slot:body-cell-opciones="props">
-          <q-td :props="props">
-            <q-btn flat dense round>📝</q-btn>
-            <q-btn
-              flat
-              dense
-              round
-              icon="delete"
-              @click="eliminarUsuario(props.row)"
-            />
-          </q-td>
-        </template>
-      </q-table>
+  <div class="app">
+    <div class="container"></div>
+    <div class="info">
+      <div class="q-pa-md">
+        <q-table title="Ingresos" :rows="rows" :columns="columns" row-key="name">
+          <template v-slot:body-cell-opciones="props">
+            <q-td :props="props">
+              <q-btn flat dense round>📝</q-btn>
+              <q-btn
+                flat
+                dense
+                round
+                icon="delete"
+                @click="eliminarUsuario(props.row)"
+              />
+            </q-td>
+          </template>
+        </q-table>
+      </div>
+      <button @click="listarIngesos()">traer datos</button>
     </div>
-    <button @click="listarIngesos()">traer datos</button>
   </div>
 </template>
 <script setup>
@@ -46,3 +49,32 @@ let listarIngesos = async () => {
   console.log(r);
 };
 </script>
+<style scoped>
+.app {
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  background: #f1f1f1;
+  background-image: linear-gradient(
+      90deg,
+      transparent 50px,
+      #ffb4b8 50px,
+      #ffb4b8 52px,
+      transparent 52px
+    ),
+    linear-gradient(#e1e1e1 0.1em, transparent 0.1em);
+  background-size: 100% 30px;
+}
+
+.info{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

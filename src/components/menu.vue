@@ -2,7 +2,7 @@
   <div class="container">
     <div class="menu">
       <div class="hamburger" @click="menu()">
-        <input class="checkbox" type="checkbox" />
+        <input class="checkbox" type="checkbox" v-model="isChecked"/>
         <svg fill="none" viewBox="0 0 50 50" height="50" width="50">
           <path
             class="lineTop line"
@@ -51,8 +51,12 @@
 export default {
   data() {
     return {
+      isChecked: false,
       menuOpen: false,
     };
+  },
+  mounted() {
+    this.isChecked = false;
   },
   methods: {
     menu() {
@@ -91,7 +95,7 @@ export default {
 .line {
   transition: 0.5s;
   stroke-width: 6px;
-  stroke: #ffffff;
+  stroke: #000000;
 }
 .lineTop {
   stroke-dasharray: 40 40;
@@ -185,25 +189,16 @@ button:disabled {
 .container {
   width: 100%;
   height: 100%;
-
-  background: #000000;
-  --gap: 5em;
-  --line: 1px;
-  --color: rgba(255, 255, 255, 0.2);
-
+  background: #f1f1f1;
   background-image: linear-gradient(
-      -90deg,
-      transparent calc(var(--gap) - var(--line)),
-      var(--color) calc(var(--gap) - var(--line) + 1px),
-      var(--color) var(--gap)
+      90deg,
+      transparent 50px,
+      #ffb4b8 50px,
+      #ffb4b8 52px,
+      transparent 52px
     ),
-    linear-gradient(
-      0deg,
-      transparent calc(var(--gap) - var(--line)),
-      var(--color) calc(var(--gap) - var(--line) + 1px),
-      var(--color) var(--gap)
-    );
-  background-size: var(--gap) var(--gap);
+    linear-gradient(#e1e1e1 0.1em, transparent 0.1em);
+  background-size: 100% 30px;
 }
 
 .cont_info{
@@ -216,7 +211,7 @@ button:disabled {
 
 .text{
   font-size: 80px;
-  color: #ffffff;
+  color: #000000;
   font-weight: bold;
   text-transform: uppercase;
 }
