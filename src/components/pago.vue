@@ -2,6 +2,18 @@
   <div class="app">
     <div class="container"></div>
     <div class="info">
+      <div class="menu">
+        <button class="btn" @click="listarPagos()">Listar pagos</button>
+        <button class="btn" @click="listarPorId()">Listar por id</button>
+        <button class="btn" @click="activos()">Listar activos</button>
+        <button class="btn" @click="inactivos()">Listar inactivos</button>
+        <button class="btn" @click="listarPorPlan()">Listar por plan</button>
+        <button class="btn" @click="listarPorCliente()">Listar por cliente</button>
+        <button class="btn" @click="crearPago()">Crear pago</button>
+        <button class="btn" @click="activar()">Activar pago</button>
+        <button class="btn" @click="inactivar()">Inactivar pago</button>
+        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+      </div>
       <div class="q-pa-md">
         <q-table title="Pagos" :rows="rows" :columns="columns" row-key="name">
           <template v-slot:body-cell-opciones="props">
@@ -22,7 +34,6 @@
           </template>
         </q-table>
       </div>
-      <button @click="listarPagos()">traer datos</button>
     </div>
   </div>
 </template>
@@ -50,8 +61,38 @@ let columns = ref([
 let r = null;
 
 let listarPagos = async () => {
-  r = await usePagos.getPago();
+  r = await usePagos.getPagos();
   rows.value = r;
+  console.log(r);
+};
+
+let listarPorId = async () => {
+  r = await usePagos.getPago("66287528da950bb275ef6d5c");
+  rows.value = [r];
+  console.log(r);
+};
+
+let activos = async () => {
+  r = await usePagos.activos();
+  rows.value = r;
+  console.log(r);
+};
+
+let inactivos = async () => {
+  r = await usePagos.inactivos();
+  rows.value = r;
+  console.log(r);
+};
+
+let listarPorPlan = async () => {
+  r = await usePagos.getPagosPlan("66286ac3df7e38e581e80726");
+  rows.value = [r];
+  console.log(r);
+};
+
+let listarPorCliente = async () => {
+  r = await usePagos.getPagosCliente("66286f1d482f999f219e9f86");
+  rows.value = [r];
   console.log(r);
 };
 </script>
@@ -82,5 +123,55 @@ let listarPagos = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn:hover::after {
+  transform: scale(4);
+}
+
+.btn:hover {
+  border-color: #666666;
+  background: #292929;
 }
 </style>

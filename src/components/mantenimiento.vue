@@ -2,9 +2,15 @@
   <div class="app">
     <div class="container"></div>
     <div class="info">
+      <div class="menu">
+        <button class="btn" @click="listarMantenimientos()">Listar mantenimeintos</button>
+        <button class="btn" @click="listarPorId()">Listar por id</button>
+        <button class="btn" @click="crearMantenimiento()">Crear mantenimiento</button>
+        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+      </div>
       <div class="q-pa-md">
         <q-table
-          title="Inventarios"
+          title="Mantenimientos"
           :rows="rows"
           :columns="columns"
           row-key="name"
@@ -75,6 +81,12 @@ const listarMantenimientos = async () => {
   rows.value = r;
   console.log(r);
 };
+
+const listarPorId = async () => {
+  let r = await useMantenimientos.getMantenimiento("66287337c22b3bf346678568");
+  rows.value = [r];
+  console.log(r);
+};
 </script>
 <style scoped>
 .app {
@@ -103,5 +115,55 @@ const listarMantenimientos = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn:hover::after {
+  transform: scale(4);
+}
+
+.btn:hover {
+  border-color: #666666;
+  background: #292929;
 }
 </style>

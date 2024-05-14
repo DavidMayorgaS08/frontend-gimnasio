@@ -25,6 +25,17 @@ export const useInventarioStore = defineStore("inventario", () => {
         }
     };
 
+    let getTotal = async () => {
+        try {
+            let res = await axios.get("http://localhost:3000/inventario/total/inventario");
+            console.log(res);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    };
+
     let postInventario = async (data) => {
         try {
             let res = await axios.post("http://localhost:3000/inventario", data);
@@ -48,6 +59,6 @@ export const useInventarioStore = defineStore("inventario", () => {
     }
 
     return {
-        getInventarios, getInventario, postInventario, putInventario
+        getInventarios, getInventario, getTotal, postInventario, putInventario
     };
 });

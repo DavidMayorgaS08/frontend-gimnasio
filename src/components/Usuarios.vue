@@ -2,6 +2,19 @@
   <div class="app">
     <div class="container"></div>
     <div class="info">
+      <div class="menu">
+        <button class="btn" @click="listarUsuarios()">Listar usuarios</button>
+        <button class="btn" @click="listarPorId()">Listar por id</button>
+        <button class="btn" @click="activos()">Listar activos</button>
+        <button class="btn" @click="inactivos()">Listar inactivos</button>
+        <button class="btn" @click="ListarPorRol()">Listar por rol</button>
+        <button class="btn" @click="crearUsuario()">Crear usuario</button>
+        <button class="btn" @click="activar()">Activar Usuario</button>
+        <button class="btn" @click="inactivar()">Inactivar usuario</button>
+        <router-link to="/menu">
+          <button class="btn">Regresar</button></router-link
+        >
+      </div>
       <div class="q-pa-md">
         <q-table
           title="Usuarios"
@@ -37,7 +50,6 @@
           </template>
         </q-table>
       </div>
-      <button @click="listarUsuarios()">traer datos</button>
     </div>
   </div>
 </template>
@@ -63,6 +75,30 @@ async function listarUsuarios() {
   rows.value = r;
   console.log(r);
 }
+
+async function listarPorId() {
+  r = await useUsuarios.getUsuario("662c45ff31b11b425c76c60b");
+  rows.value = [r];
+  console.log(r);
+}
+
+async function activos() {
+  r = await useUsuarios.activos();
+  rows.value = r;
+  console.log(r);
+}
+
+async function inactivos() {
+  r = await useUsuarios.inactivos();
+  rows.value = r;
+  console.log(r);
+}
+
+async function ListarPorRol() {
+  r = await useUsuarios.getRol(1);
+  rows.value = r;
+  console.log(r);
+}
 </script>
 <style scoped>
 .app {
@@ -85,11 +121,61 @@ async function listarUsuarios() {
   background-size: 100% 30px;
 }
 
-.info{
+.info {
   position: absolute;
   z-index: 1;
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+.menu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn:hover::after {
+  transform: scale(4);
+}
+
+.btn:hover {
+  border-color: #666666;
+  background: #292929;
 }
 </style>
