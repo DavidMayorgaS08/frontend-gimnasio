@@ -4,7 +4,7 @@
         <div class="login-box">
             <form>
                 <div class="user-box">
-                    <input type="number" name="" required="" v-model="Codigo">
+                    <input type="text" name="" required="" v-model="Codigo">
                     <label>Codigo</label>
                 </div>
                 <div class="user-box">
@@ -17,11 +17,11 @@
                 </div>
                 <div class="user-box">
                     <input type="date" name="" required="" v-model="Fecha_Ingreso">
-                    <label>Fecha_Ingreso</label>
+                    <label>Fecha de ingreso</label>
                 </div>
                 <div class="user-box">
                     <input type="date" name="" required="" v-model="Fecha_Ultimo_Mantenimiento">
-                    <label>Precio_Mantenimiento</label>
+                    <label>Precio de mantenimiento</label>
                 </div>
                 <div class="user-box">
                     <input type="text" name="" required="" v-model="Estado">

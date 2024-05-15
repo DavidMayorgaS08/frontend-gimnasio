@@ -4,7 +4,7 @@
     <div class="login-box">
       <form>
         <div class="user-box">
-          <input type="number" name="" required="" v-model="Cliente_id" />
+          <input type="text" name="" required="" v-model="Cliente_id" />
           <label>Id del cliente</label>
         </div>
         <div class="user-box">

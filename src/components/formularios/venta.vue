@@ -8,8 +8,8 @@
                     <label>Fecha</label>
                 </div>
                 <div class="user-box">
-                    <input type="number" name="" required="" v-model="Codigo_Producto">
-                    <label>Codigo_Producto</label>
+                    <input type="text" name="" required="" v-model="Codigo_Producto">
+                    <label>Codigo del producto</label>
                 </div>
                 <div class="user-box">
                     <input type="number" name="" required="" v-model="Valor">

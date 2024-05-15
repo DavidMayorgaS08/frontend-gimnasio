@@ -12,7 +12,7 @@
                     <label>Direccion</label>
                 </div>
                 <div class="user-box">
-                    <input type="number" name="" required="" v-model="Codigo">
+                    <input type="text" name="" required="" v-model="Codigo">
                     <label>Codigo</label>
                 </div>
                 <div class="user-box">

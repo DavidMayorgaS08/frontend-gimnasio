@@ -4,12 +4,12 @@
         <div class="login-box">
             <form>
                 <div class="user-box">
-                    <input type="number" name="" required="" v-model="Maquina_id">
-                    <label>Maquina_id</label>
+                    <input type="text" name="" required="" v-model="Maquina_id">
+                    <label>Id de maquina</label>
                 </div>
                 <div class="user-box">
                     <input type="date" name="" required="" v-model="Fecha_Mantenimiento">
-                    <label>Fecha_Mantenimiento</label>
+                    <label>Fecha de mantenimiento</label>
                 </div>
                 <div class="user-box">
                     <input type="text" name="" required="" v-model="Descripcion">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="user-box">
                     <input type="number" name="" required="" v-model="Precio_Mantenimiento">
-                    <label>Precio_Mantenimiento</label>
+                    <label>Precio del mantenimiento</label>
                 </div>
                 <center>
                     <button @click.prevent="Ingreso()">
