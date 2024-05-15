@@ -4,76 +4,26 @@
     <div class="login-box">
       <form>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="nombre" />
-          <label>Nombre Completo</label>
+          <input type="number" name="" required="" v-model="Cliente_id" />
+          <label>Id del cliente</label>
+        </div>
+        <div class="user-box">
+          <input type="date" name="" required="" v-model="fecha" />
+          <label>Fecha</label>
         </div>
         <div class="user-box">
           <input type="text" name="" required="" v-model="sede" />
           <label>Sede</label>
         </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Correo" />
-          <label>Correo</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Contraseña" />
-          <label>Contraseña</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Telefono" />
-          <label>Telefono</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="estado" />
-          <label>Estado</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Rol" />
-          <label>Rol</label>
-        </div>
         <center>
-          <button @click.prevent="registrarUsuario()">registrar</button>
+          <button @click.prevent="Ingreso()">Registrar</button>
         </center>
       </form>
     </div>
-    <div class="cont_btn">
-      <router-link to="/usuarios"><button class="btn">Regresar</button></router-link>
-    </div>
+    
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useUsuarioStore } from "../stores/usuarios.js";
-
-let useUsuarios = useUsuarioStore();
-
-let nombre = ref("juan");
-let sede = ref("66287052c22b3bf34667855b");
-let Correo = ref("juan123@gmail.com");
-let Contraseña = ref("juan123");
-let Telefono = ref("123456789");
-let estado = ref("1");
-let Rol = ref("2");
-
-let r = null;
-
-async function registrarUsuario() {
-  try {
-    let usuario = {
-      nombre: nombre.value,
-      sede: sede.value,
-      correo: Correo.value,
-      contrasena: Contraseña.value,
-      telefono: Telefono.value,
-      estado: parseInt(estado.value),
-      rol: parseInt(Rol.value),
-    };
-
-    r = await useUsuarios.postUsuario(usuario);
-  } catch (error) {
-    error;
-  }
-}
 </script>
 <style scoped>
 .app {
@@ -81,7 +31,7 @@ async function registrarUsuario() {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 
 .container {
@@ -232,51 +182,5 @@ button:after {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
-}
-
-.cont_btn{
-  position: absolute;
-  bottom: 20px;
-  right: 1%;
-}
-
-.btn {
-  padding: 15px 20px;
-  border: 2px solid #2c2c2c;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 30px;
-  transition: all 0.4s ease;
-  outline: none;
-  position: relative;
-  overflow: hidden;
-  font-weight: bold;
-}
-
-.btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  transform: scale(0);
-  transition: transform 0.5s ease;
-}
-
-.btn:hover::after {
-  transform: scale(4);
-}
-
-.btn:hover {
-  border-color: #666666;
-  background: #292929;
 }
 </style>

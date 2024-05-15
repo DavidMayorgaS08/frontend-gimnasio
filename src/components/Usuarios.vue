@@ -8,7 +8,7 @@
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="ListarPorRol()">Listar por rol</button>
-        <button class="btn" @click="crearUsuario()">Crear usuario</button>
+        <router-link to="/registroTrabajadores"><button class="btn">Crear usuario</button></router-link>
         <button class="btn" @click="activar()">Activar Usuario</button>
         <button class="btn" @click="inactivar()">Inactivar usuario</button>
         <router-link to="/menu">

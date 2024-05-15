@@ -9,10 +9,10 @@
         <button class="btn" @click="listarInactivos()">Listar inactivos</button>
         <button class="btn" @click="listarPorPlan()">Listar por plan</button>
         <button class="btn" @click="listarTotal()">Listar total</button>
-        <button class="btn" @click="crearCliente()">Crear cliente</button>
+        <router-link to="/registroClientes"><button class="btn">Crear cliente</button></router-link>
         <button class="btn" @click="activar()">Activar cliente</button>
         <button class="btn" @click="inactivar()">Inactivar cliente</button>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+        <router-link to="/menu"><button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -210,5 +210,4 @@ let listarTotal = async () => {
   border-color: #666666;
   background: #292929;
 }
-
 </style>

@@ -1,12 +1,16 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import axios from "axios"
-import {ref} from "vue"
+import { ref } from "vue"
 
-export const useUsuarioStore = defineStore("usuario",()=>{
-    
-    let getUsuarios = async()=>{
+export const useUsuarioStore = defineStore("usuario", () => {
+    let token = ref("")
+    let getUsuarios = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/")
+            let res = await axios.get("http://localhost:3000/usuario/",{
+                headers:{
+                    "x-token": token.value
+                }
+            })
             console.log(res);
             return res.data
         } catch (error) {
@@ -15,7 +19,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let getUsuario = async(id)=>{
+    let getUsuario = async (id) => {
         try {
             let res = await axios.get(`http://localhost:3000/usuario/${id}`)
             console.log(res);
@@ -26,7 +30,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let activos = async()=>{
+    let activos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/usuario/listar/activos")
             console.log(res);
@@ -37,7 +41,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let inactivos = async()=>{
+    let inactivos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/usuario/listar/inactivos")
             console.log(res);
@@ -48,7 +52,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let getRol = async(id)=>{
+    let getRol = async (id) => {
         try {
             let res = await axios.get(`http://localhost:3000/usuario/listar/rol/${id}`)
             console.log(res);
@@ -59,10 +63,14 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let postUsuario = async(r)=>{
-        console.log(r);
+    let postUsuario = async (r) => {
+        console.log(token.value);
         try {
-            let req = await axios.post("http://localhost:3000/usuario/",r)
+            let req = await axios.post("http://localhost:3000/usuario/", r,{
+                headers: {
+                    "x-token": token.value,
+                }
+            })
             console.log(req);
             return req.data
         } catch (error) {
@@ -70,12 +78,14 @@ export const useUsuarioStore = defineStore("usuario",()=>{
             return error
         }
     };
-    
-    let login = async(r)=>{
+
+    let login = async (r) => {
         try {
-            let req = await axios.post("http://localhost:3000/usuario/iniciar-sesion",r)
+            let req = await axios.post("http://localhost:3000/usuario/iniciar-sesion", r)
             console.log(req);
             if (req.status === 200) {
+                token.value = req.data.token;
+                console.log(token);
                 window.location.href = 'http://localhost:5173/#/menu/';
             }
             return req.data
@@ -85,9 +95,9 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let putUsuario = async(id,r)=>{
+    let putUsuario = async (id, r) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/${id}`,r)
+            let req = await axios.put(`http://localhost:3000/usuario/${id}`, r)
             console.log(req);
             return req.data
         } catch (error) {
@@ -96,7 +106,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let activar = async(id)=>{
+    let activar = async (id) => {
         try {
             let req = await axios.put(`http://localhost:3000/usuario/activar/${id}`)
             console.log(req);
@@ -107,7 +117,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    let inactivar = async(id)=>{
+    let inactivar = async (id) => {
         try {
             let req = await axios.put(`http://localhost:3000/usuario/inactivar/${id}`)
             console.log(req);
@@ -118,7 +128,7 @@ export const useUsuarioStore = defineStore("usuario",()=>{
         }
     };
 
-    return{
+    return {
         getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar
     }
 })

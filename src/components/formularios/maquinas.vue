@@ -4,16 +4,32 @@
         <div class="login-box">
             <form>
                 <div class="user-box">
-                    <input type="text" name="" required="" v-model="correo">
-                    <label>Correo</label>
+                    <input type="number" name="" required="" v-model="Codigo">
+                    <label>Codigo</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="" required="" v-model="contraseña">
-                    <label>Contraseña</label>
+                    <input type="text" name="" required="" v-model="Sede">
+                    <label>Sede</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Descripcion">
+                    <label>Descripcion</label>
+                </div>
+                <div class="user-box">
+                    <input type="date" name="" required="" v-model="Fecha_Ingreso">
+                    <label>Fecha_Ingreso</label>
+                </div>
+                <div class="user-box">
+                    <input type="date" name="" required="" v-model="Fecha_Ultimo_Mantenimiento">
+                    <label>Precio_Mantenimiento</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="" required="" v-model="Estado">
+                    <label>Estado</label>
                 </div>
                 <center>
-                    <button @click.prevent="loginUsuario()">
-                        ingresar
+                    <button @click.prevent="Ingreso()">
+                        Registrar
                     </button>
                 </center>
             </form>
@@ -21,27 +37,6 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { useUsuarioStore } from "../stores/usuarios.js"
-
-let useUsuarios = useUsuarioStore()
-
-let correo = ref('mejiaplata@gmail.com')
-let contraseña = ref('nolefio12')
-
-let r = null
-
-async function loginUsuario() {
-    try {
-        let data = {
-            correo: correo.value,
-            contrasena: contraseña.value
-        }
-        r = await useUsuarios.login(data)
-    } catch (error) {
-        
-    }
-}
 </script>
 <style scoped>
 .app {

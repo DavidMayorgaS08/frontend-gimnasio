@@ -29,8 +29,6 @@
       </div>
     </div>
     <div :class="{ cont_menu: true, 'menu-open': menuOpen }">
-      <router-link to="/registroTrabajadores"><button>Registro trabajador</button></router-link>
-      <router-link to="/registroClientes"><button>Registro cliente</button></router-link>
       <router-link to="/cliente"><button>Clientes</button></router-link>
       <router-link to="/ingreso"><button>Ingresos</button></router-link>
       <router-link to="/inventario"><button>Inventarios</button></router-link>
