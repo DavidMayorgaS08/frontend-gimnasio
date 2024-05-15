@@ -6,8 +6,8 @@
         <button class="btn" @click="listarInventarios()">Listar inventario</button>
         <button class="btn" @click="listarPorId()">Listar por id</button>
         <button class="btn" @click="listarTotal()">Listar total</button>
-        <button class="btn" @click="crearInventario()">Crear inventario</button>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+        <router-link to="/formularioInventario"><button class="btn">Crear inventario</button></router-link>
+        <router-link to="/menu"><button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table

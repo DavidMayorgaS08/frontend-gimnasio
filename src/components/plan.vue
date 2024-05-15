@@ -7,7 +7,7 @@
         <button class="btn" @click="lsitarPorId()">Listar por id</button>
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
-        <button class="btn" @click="crearPlan()">Crear plan</button>
+        <router-link to="/formularioPlan"><button class="btn">Crear plan</button></router-link>
         <button class="btn" @click="activar()">Activar plan</button>
         <button class="btn" @click="inactivar()">Inactivar plan</button>
         <router-link to="/menu"> <button class="btn">Regresar</button></router-link>

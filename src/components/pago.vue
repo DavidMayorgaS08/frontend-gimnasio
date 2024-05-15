@@ -9,7 +9,7 @@
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="listarPorPlan()">Listar por plan</button>
         <button class="btn" @click="listarPorCliente()">Listar por cliente</button>
-        <button class="btn" @click="crearPago()">Crear pago</button>
+        <router-link to="/formularioPago"><button class="btn">Crear pago</button></router-link>
         <button class="btn" @click="activar()">Activar pago</button>
         <button class="btn" @click="inactivar()">Inactivar pago</button>
         <router-link to="/menu"> <button class="btn">Regresar</button></router-link>

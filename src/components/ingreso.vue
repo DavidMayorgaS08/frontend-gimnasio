@@ -5,8 +5,8 @@
       <div class="menu">
         <buttom class="btn" @click="listarIngesos()">Listar ingresos</buttom>
         <buttom class="btn" @click="listarPorId()">Listar por id</buttom>
-        <buttom class="btn" @click="crearIngreso()">Crear ingreso</buttom>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
+        <router-link to="/formularioIngreso"><buttom class="btn">Crear ingreso</buttom></router-link>
+        <router-link to="/menu"><button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table title="Ingresos" :rows="rows" :columns="columns" row-key="name">

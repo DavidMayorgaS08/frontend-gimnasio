@@ -5,7 +5,7 @@
       <div class="menu">
         <button class="btn" @click="listarVentas()">Listar ventas</button>
         <button class="btn" @click="listarPorId()">Listar por id</button>
-        <button class="btn" @click="crearVenta()">Crear venta</button>
+        <router-link to="/formularioVenta"><button class="btn">Crear venta</button></router-link>
         <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">

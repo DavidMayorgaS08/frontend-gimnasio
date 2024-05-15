@@ -7,7 +7,7 @@
         <button class="btn" @click="listarPorId()">Listar por id</button>
         <button class="btn" @click="listarActivas()">Listar activas</button>
         <button class="btn" @click="listarInactivas()">Listar Inactivas</button>
-        <button class="btn" @click="crearMaquina()">Crear maquina</button>
+        <router-link to="/formularioMaquina"><button class="btn">Crear maquina</button></router-link>
         <button class="btn" @click="activar()">Activar maquina</button>
         <button class="btn" @click="inactivar()">Inactivar maquina</button>
         <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
