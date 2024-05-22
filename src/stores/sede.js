@@ -3,9 +3,15 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useSedeStore = defineStore("sede", () =>{
+    let token = ref(localStorage.getItem('token'));
     let getSedes = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/sede");
+            let res = await axios.get("http://localhost:3000/sede",{
+                headers: {
+                    "x-token": token.value
+                }
+            
+            });
             console.log(res);
             return res.data;
         } catch (error) {

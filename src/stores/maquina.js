@@ -3,9 +3,16 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useMaquinaStore = defineStore("maquina", () => {
+    let token = ref(localStorage.getItem('token'));
     let getMaquinas = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina");
+            let res = await axios.get("http://localhost:3000/maquina",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

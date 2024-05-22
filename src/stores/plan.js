@@ -3,9 +3,16 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const usePlanStore = defineStore("plan", () =>{
+    let token = ref(localStorage.getItem('token'));
     let getPlanes = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/plan");
+            let res = await axios.get("http://localhost:3000/plan",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

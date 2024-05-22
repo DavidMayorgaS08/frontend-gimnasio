@@ -3,9 +3,15 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useClienteStore = defineStore("cliente", () => {
+    let token = ref(localStorage.getItem('token'));
     let getClientes = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/cliente");
+            let res = await axios.get("http://localhost:3000/cliente",{
+                headers: {
+                    "x-token": token.value
+                }
+            
+            });
             console.log(res);
             return res.data;
         } catch (error) {

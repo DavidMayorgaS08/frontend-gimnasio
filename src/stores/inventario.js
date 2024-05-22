@@ -3,9 +3,16 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useInventarioStore = defineStore("inventario", () => {
+    let token = ref(localStorage.getItem('token'));
     let getInventarios = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/inventario");
+            let res = await axios.get("http://localhost:3000/inventario", 
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

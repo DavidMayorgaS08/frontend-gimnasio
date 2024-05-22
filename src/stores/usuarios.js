@@ -3,7 +3,7 @@ import axios from "axios"
 import { ref } from "vue"
 
 export const useUsuarioStore = defineStore("usuario", () => {
-    let token = ref("")
+    let token = ref(localStorage.getItem('token'));
     let getUsuarios = async () => {
         try {
             let res = await axios.get("http://localhost:3000/usuario/",{
@@ -85,7 +85,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
             console.log(req);
             if (req.status === 200) {
                 token.value = req.data.token;
-                console.log(token);
+                localStorage.setItem('token', token.value);
                 window.location.href = 'http://localhost:5173/#/menu/';
             }
             return req.data

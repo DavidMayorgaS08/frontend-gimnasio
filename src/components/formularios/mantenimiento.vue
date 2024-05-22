@@ -13,6 +13,7 @@
             name=""
             required=""
             v-model="Fecha_Mantenimiento"
+            :class="{'empty': !fechaD, 'filled': fechaD}"
           />
           <label>Fecha de mantenimiento</label>
         </div>
@@ -39,7 +40,9 @@
       </form>
     </div>
     <div class="cont_btn">
-      <router-link to="/mantenimiento"><button class="btn">Regresar</button></router-link>
+      <router-link to="/mantenimiento"
+        ><button class="btn">Regresar</button></router-link
+      >
     </div>
   </div>
 </template>
@@ -76,7 +79,7 @@
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(24, 20, 20, 0.987);
+  background: #181414fc;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
@@ -86,16 +89,36 @@
   position: relative;
 }
 
+
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
   margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid #fff;
   outline: none;
   background: transparent;
+}
+
+.login-box .user-box input[type="text"] {
+  color: #ffffff;
+}
+
+.empty {
+  color: #181414fc;
+}
+
+.login-box .user-box input[type="date"]:focus {
+  color: #ffffff;
+}
+
+.login-box .user-box input[type="date"]:valid {
+  color: #ffffff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
 }
 
 .login-box .user-box label {

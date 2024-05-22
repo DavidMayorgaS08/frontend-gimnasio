@@ -3,9 +3,14 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useIngresoStore = defineStore("ingreso", () => {
+    let token = ref(localStorage.getItem('token'));
     let getIngresos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/ingreso");
+            let res = await axios.get("http://localhost:3000/ingreso", {
+                headers: {
+                    "x-token": token.value
+                }
+            });
             console.log(res);
             return res.data;
         } catch (error) {
