@@ -3,7 +3,7 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useIngresoStore = defineStore("ingreso", () => {
-    let token = ref(localStorage.getItem('token'));
+    
     let getIngresos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/ingreso", {
@@ -21,7 +21,13 @@ export const useIngresoStore = defineStore("ingreso", () => {
 
     let getIngreso = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/ingreso/${id}`);
+            let res = await axios.get(`http://localhost:3000/ingreso/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -32,7 +38,13 @@ export const useIngresoStore = defineStore("ingreso", () => {
 
     let postIngreso = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/ingreso", data);
+            let res = await axios.post("http://localhost:3000/ingreso", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

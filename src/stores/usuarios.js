@@ -3,11 +3,13 @@ import axios from "axios"
 import { ref } from "vue"
 
 export const useUsuarioStore = defineStore("usuario", () => {
-    let token = ref(localStorage.getItem('token'));
+    let token = ref("");
+    let tk = ref("")
+    let user = ref({});
     let getUsuarios = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/",{
-                headers:{
+            let res = await axios.get("http://localhost:3000/usuario/", {
+                headers: {
                     "x-token": token.value
                 }
             })
@@ -66,7 +68,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
     let postUsuario = async (r) => {
         console.log(token.value);
         try {
-            let req = await axios.post("http://localhost:3000/usuario/", r,{
+            let req = await axios.post("http://localhost:3000/usuario/", r, {
                 headers: {
                     "x-token": token.value,
                 }
@@ -82,12 +84,9 @@ export const useUsuarioStore = defineStore("usuario", () => {
     let login = async (r) => {
         try {
             let req = await axios.post("http://localhost:3000/usuario/iniciar-sesion", r)
-            console.log(req);
-            if (req.status === 200) {
-                token.value = req.data.token;
-                localStorage.setItem('token', token.value);
-                window.location.href = 'http://localhost:5173/#/menu/';
-            }
+            console.log(req.data.token);
+            token.value = req.data.token;
+            user.value = req.data.usuario;
             return req.data
         } catch (error) {
             console.log(error);
@@ -129,6 +128,10 @@ export const useUsuarioStore = defineStore("usuario", () => {
     };
 
     return {
-        getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar
+        getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar, user, token
     }
-})
+},
+{
+    persist: true
+}
+)

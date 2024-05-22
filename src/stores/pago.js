@@ -3,7 +3,7 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const usePagoStore = defineStore("pago", () => {
-    let token = ref(localStorage.getItem('token'));
+    
     let getPagos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/pago",

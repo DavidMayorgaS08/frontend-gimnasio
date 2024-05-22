@@ -11,9 +11,6 @@
         <router-link to="/registroTrabajadores"><button class="btn">Crear usuario</button></router-link>
         <button class="btn" @click="activar()">Activar Usuario</button>
         <button class="btn" @click="inactivar()">Inactivar usuario</button>
-        <router-link to="/menu">
-          <button class="btn">Regresar</button></router-link
-        >
       </div>
       <div class="q-pa-md">
         <q-table
@@ -127,6 +124,7 @@ async function ListarPorRol() {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

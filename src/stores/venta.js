@@ -3,7 +3,7 @@ import axios from "axios";
 import { ref } from "vue";
 
 export const useVentaStore = defineStore("venta", () =>{
-    let token = ref(localStorage.getItem('token'));
+   
     let getVentas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/venta",

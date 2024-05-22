@@ -6,7 +6,6 @@
         <button class="btn" @click="listarVentas()">Listar ventas</button>
         <button class="btn" @click="listarPorId()">Listar por id</button>
         <router-link to="/formularioVenta"><button class="btn">Crear venta</button></router-link>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table title="Treats" :rows="rows" :columns="columns" row-key="name">
@@ -87,6 +86,7 @@ let listarPorId = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

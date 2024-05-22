@@ -6,7 +6,6 @@
         <button class="btn" @click="listarMantenimientos()">Listar mantenimeintos</button>
         <button class="btn" @click="listarPorId()">Listar por id</button>
         <router-link to="/formularioMantenimiento"><button class="btn">Crear mantenimiento</button></router-link>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -115,6 +114,7 @@ const listarPorId = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

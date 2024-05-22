@@ -10,7 +10,6 @@
         <router-link to="/formularioMaquina"><button class="btn">Crear maquina</button></router-link>
         <button class="btn" @click="activar()">Activar maquina</button>
         <button class="btn" @click="inactivar()">Inactivar maquina</button>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -125,6 +124,7 @@ let listarInactivas = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

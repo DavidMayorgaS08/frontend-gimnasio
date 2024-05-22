@@ -12,7 +12,6 @@
         <router-link to="/formularioPago"><button class="btn">Crear pago</button></router-link>
         <button class="btn" @click="activar()">Activar pago</button>
         <button class="btn" @click="inactivar()">Inactivar pago</button>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table title="Pagos" :rows="rows" :columns="columns" row-key="name">
@@ -123,6 +122,7 @@ let listarPorCliente = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

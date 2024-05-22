@@ -23,13 +23,15 @@
 <script setup>
 import { ref } from 'vue';
 import { useUsuarioStore } from "../stores/usuarios.js"
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 let useUsuarios = useUsuarioStore()
 
 let correo = ref('mejiaplata@gmail.com')
 let contraseña = ref('nolefio12')
 
-let r = null
+
 
 async function loginUsuario() {
     try {
@@ -37,9 +39,10 @@ async function loginUsuario() {
             correo: correo.value,
             contrasena: contraseña.value
         }
-        r = await useUsuarios.login(data)
+        let r = await useUsuarios.login(data)
+        router.push("/menu")
     } catch (error) {
-        
+        console.log(error);
     }
 }
 </script>

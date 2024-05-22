@@ -28,9 +28,6 @@
         </center>
       </form>
     </div>
-    <div class="cont_btn">
-      <router-link to="/plan"><button class="btn">Regresar</button></router-link>
-    </div>
   </div>
 </template>
 <script setup>
@@ -192,51 +189,5 @@ button:after {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
-}
-
-.cont_btn{
-  position: absolute;
-  bottom: 20px;
-  right: 1%;
-}
-
-.btn {
-  padding: 15px 20px;
-  border: 2px solid #2c2c2c;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  border-radius: 30px;
-  transition: all 0.4s ease;
-  outline: none;
-  position: relative;
-  overflow: hidden;
-  font-weight: bold;
-}
-
-.btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(255, 255, 255, 0) 70%
-  );
-  transform: scale(0);
-  transition: transform 0.5s ease;
-}
-
-.btn:hover::after {
-  transform: scale(4);
-}
-
-.btn:hover {
-  border-color: #666666;
-  background: #292929;
 }
 </style>

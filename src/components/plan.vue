@@ -10,7 +10,6 @@
         <router-link to="/formularioPlan"><button class="btn">Crear plan</button></router-link>
         <button class="btn" @click="activar()">Activar plan</button>
         <button class="btn" @click="inactivar()">Inactivar plan</button>
-        <router-link to="/menu"> <button class="btn">Regresar</button></router-link>
       </div>
       <div class="q-pa-md">
         <q-table title="Planes" :rows="rows" :columns="columns" row-key="name">
@@ -109,6 +108,7 @@ let inactivos = async () => {
   top: 0;
   width: 100%;
   height: 100%;
+  padding-top: 50px;
 }
 
 .menu {

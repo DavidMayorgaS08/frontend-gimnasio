@@ -41,7 +41,7 @@
       <router-link to="/venta"><button>Ventas</button></router-link>
     </div>
     <div class="cont_info">
-      <p class="text">bienvenido</p>
+      <router-view />
     </div>
   </div>
 </template>
@@ -68,7 +68,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  z-index: 100;
 }
 
 .menu {
@@ -89,6 +88,7 @@ export default {
   height: 100%;
   width: 100%;
   cursor: pointer;
+  z-index: 100;
 }
 .line {
   transition: 0.5s;
@@ -135,6 +135,7 @@ export default {
   align-items: center;
   padding-top: 10px;
   overflow-y: auto;
+  z-index: 100;
 }
 
 .menu-open {
@@ -201,17 +202,9 @@ button:disabled {
 
 .cont_info{
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100%;
-}
-
-.text{
-  font-size: 80px;
-  color: #000000;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 </style>
   
