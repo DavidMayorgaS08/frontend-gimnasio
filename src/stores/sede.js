@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useSedeStore = defineStore("sede", () =>{
-    
+    let token = ref(useUsuarioStore().token);
     let getSedes = async () => {
         try {
             let res = await axios.get("http://localhost:3000/sede",{
@@ -22,7 +23,13 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let getSede = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/sede/${id}`);
+            let res = await axios.get(`http://localhost:3000/sede/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -33,7 +40,13 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let postSede = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/sede", data);
+            let res = await axios.post("http://localhost:3000/sede", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -44,7 +57,13 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let putSede = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/sede/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/sede/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

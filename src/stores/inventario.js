@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useInventarioStore = defineStore("inventario", () => {
-    
+    let token = ref(useUsuarioStore().token);
     let getInventarios = async () => {
         try {
             let res = await axios.get("http://localhost:3000/inventario", 
@@ -23,7 +24,13 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let getInventario = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/inventario/${id}`);
+            let res = await axios.get(`http://localhost:3000/inventario/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -34,7 +41,13 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let getTotal = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/inventario/total/inventario");
+            let res = await axios.get("http://localhost:3000/inventario/total/inventario",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -45,7 +58,13 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let postInventario = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/inventario", data);
+            let res = await axios.post("http://localhost:3000/inventario", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -56,7 +75,13 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let putInventario = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/inventario/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/inventario/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

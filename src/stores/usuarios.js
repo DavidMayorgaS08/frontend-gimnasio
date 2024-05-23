@@ -23,7 +23,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let getUsuario = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/usuario/${id}`)
+            let res = await axios.get(`http://localhost:3000/usuario/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(res);
             return res.data
         } catch (error) {
@@ -34,7 +40,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/listar/activos")
+            let res = await axios.get("http://localhost:3000/usuario/listar/activos",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(res);
             return res.data
         } catch (error) {
@@ -45,7 +57,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/listar/inactivos")
+            let res = await axios.get("http://localhost:3000/usuario/listar/inactivos",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(res);
             return res.data
         } catch (error) {
@@ -56,7 +74,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let getRol = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/usuario/listar/rol/${id}`)
+            let res = await axios.get(`http://localhost:3000/usuario/listar/rol/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(res);
             return res.data
         } catch (error) {
@@ -96,7 +120,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let putUsuario = async (id, r) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/${id}`, r)
+            let req = await axios.put(`http://localhost:3000/usuario/${id}`, r,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(req);
             return req.data
         } catch (error) {
@@ -107,7 +137,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let activar = async (id) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/activar/${id}`)
+            let req = await axios.put(`http://localhost:3000/usuario/activar/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(req);
             return req.data
         } catch (error) {
@@ -118,7 +154,13 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let inactivar = async (id) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/inactivar/${id}`)
+            let req = await axios.put(`http://localhost:3000/usuario/inactivar/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            )
             console.log(req);
             return req.data
         } catch (error) {

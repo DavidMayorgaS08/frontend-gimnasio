@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useMaquinaStore = defineStore("maquina", () => {
-    
+    let token = ref(useUsuarioStore().token);
     let getMaquinas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/maquina",
@@ -23,7 +24,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let getMaquina = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/maquina/${id}`);
+            let res = await axios.get(`http://localhost:3000/maquina/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -34,7 +41,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina/listar/activos");
+            let res = await axios.get("http://localhost:3000/maquina/listar/activos",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -45,7 +58,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina/listar/inactivos");
+            let res = await axios.get("http://localhost:3000/maquina/listar/inactivos",
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -56,7 +75,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let postMaquina = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/maquina", data);
+            let res = await axios.post("http://localhost:3000/maquina", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -67,7 +92,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let putMaquina = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/maquina/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -78,7 +109,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let activarMaquina = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/activar/${id}`);
+            let res = await axios.put(`http://localhost:3000/maquina/activar/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -89,7 +126,13 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let inactivarMaquina = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/inactivar/${id}`);
+            let res = await axios.put(`http://localhost:3000/maquina/inactivar/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

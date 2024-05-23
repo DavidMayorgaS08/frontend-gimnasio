@@ -183,7 +183,7 @@ let listarPorId = async () => {
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   width: 20%;
   height: 200px;
   border-radius: 10px;

@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useIngresoStore = defineStore("ingreso", () => {
-    
+    let token = ref(useUsuarioStore().token);
     let getIngresos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/ingreso", {
@@ -55,7 +56,13 @@ export const useIngresoStore = defineStore("ingreso", () => {
 
     let putIngreso = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/ingreso/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/ingreso/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

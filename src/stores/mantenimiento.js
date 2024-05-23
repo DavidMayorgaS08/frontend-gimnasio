@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useMantenimientoStore = defineStore("mantenimiento", () => {
-    
+    let token = ref(useUsuarioStore().token);
     let getMantenimientos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/mantenimiento",
@@ -23,7 +24,13 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let getMantenimiento = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/mantenimiento/${id}`);
+            let res = await axios.get(`http://localhost:3000/mantenimiento/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -34,7 +41,13 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let postMantenimiento = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/mantenimiento", data);
+            let res = await axios.post("http://localhost:3000/mantenimiento", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -45,7 +58,13 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let putMantenimiento = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/mantenimiento/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/mantenimiento/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {

@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { ref } from "vue";
+import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useVentaStore = defineStore("venta", () =>{
-   
+   let token = ref(useUsuarioStore().token);
     let getVentas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/venta",
@@ -23,7 +24,13 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let getVenta = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/venta/${id}`);
+            let res = await axios.get(`http://localhost:3000/venta/${id}`,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -34,7 +41,13 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let postVenta = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/venta", data);
+            let res = await axios.post("http://localhost:3000/venta", data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
@@ -45,7 +58,13 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let putVenta = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/venta/${id}`, data);
+            let res = await axios.put(`http://localhost:3000/venta/${id}`, data,
+            {
+                headers: {
+                    "x-token": token.value
+                }
+            }
+            );
             console.log(res);
             return res.data;
         } catch (error) {
