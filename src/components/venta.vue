@@ -43,6 +43,7 @@ let columns = ref([
   },
   { name: "valor", label: "Valor", align: "center", field: "valor" },
   { name: "cantidad", label: "Cantidad", align: "center", field: "cantidad" },
+  { name: "opciones", label: "Opciones", align: "center" },
 ]);
 
 let r = null;

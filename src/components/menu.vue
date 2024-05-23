@@ -29,16 +29,16 @@
       </div>
     </div>
     <div :class="{ cont_menu: true, 'menu-open': menuOpen }">
-      <router-link to="/cliente"><button>Clientes</button></router-link>
-      <router-link to="/ingreso"><button>Ingresos</button></router-link>
-      <router-link to="/inventario"><button>Inventarios</button></router-link>
-      <router-link to="/mantenimiento"><button>Mantenimientos</button></router-link>
-      <router-link to="/maquina"><button>Maquinas</button></router-link>
-      <router-link to="/pago"><button>Pagos</button></router-link>
-      <router-link to="/plan"><button>Planes</button></router-link>
-      <router-link to="/sede"><button>Sedes</button></router-link>
-      <router-link to="/usuarios"><button>Usuarios</button></router-link>
-      <router-link to="/venta"><button>Ventas</button></router-link>
+      <router-link to="/cliente"><button class="btn">Clientes</button></router-link>
+      <router-link to="/ingreso"><button class="btn">Ingresos</button></router-link>
+      <router-link to="/inventario"><button class="btn">Inventarios</button></router-link>
+      <router-link to="/mantenimiento"><button class="btn">Mantenimientos</button></router-link>
+      <router-link to="/maquina"><button class="btn">Maquinas</button></router-link>
+      <router-link to="/pago"><button class="btn">Pagos</button></router-link>
+      <router-link to="/plan"><button class="btn">Planes</button></router-link>
+      <router-link to="/sede"><button class="btn">Sedes</button></router-link>
+      <router-link to="/usuarios"><button class="btn">Usuarios</button></router-link>
+      <router-link to="/venta"><button class="btn">Ventas</button></router-link>
     </div>
     <div class="cont_info">
       <router-view />
@@ -155,34 +155,46 @@ export default {
   background-color: #f1f1f1;
 }
 
-button {
-  background-color: #eee;
-  border: none;
-  padding: 1rem;
-  font-size: 1rem;
-  width: 10em;
-  border-radius: 1rem;
-  color: lightcoral;
-  box-shadow: 0 0.4rem #dfd9d9;
+.btn {
+  width: 150px;
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
   cursor: pointer;
-  margin-bottom: 25px;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-button:active {
-  color: white;
-  box-shadow: 0 0.2rem #dfd9d9;
-  transform: translateY(0.2rem);
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
 }
 
-button:hover:not(:disabled) {
-  background: lightcoral;
-  color: white;
-  text-shadow: 0 0.1rem #bcb4b4;
+.btn:hover::after {
+  transform: scale(4);
 }
 
-button:disabled {
-  cursor: auto;
-  color: grey;
+.btn:hover {
+  border-color: #666666;
+  background: #292929;
 }
 
 .container {
