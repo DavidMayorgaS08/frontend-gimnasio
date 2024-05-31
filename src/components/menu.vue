@@ -30,8 +30,8 @@
     </div>
     <div :class="{ cont_menu: true, 'menu-open': menuOpen }">
       <router-link to="/cliente"><button class="btn">Clientes</button></router-link>
-      <router-link to="/ingreso"><button class="btn">Ingresos</button></router-link>
-      <router-link to="/inventario"><button class="btn">Inventarios</button></router-link>
+      <router-link to="/ingreso"><button class="btn" @click="ingreso()">Ingresos</button></router-link>
+      <router-link to="/inventario"><button class="btn" @click="inventario()">Inventarios</button></router-link>
       <router-link to="/mantenimiento"><button class="btn">Mantenimientos</button></router-link>
       <router-link to="/maquina"><button class="btn">Maquinas</button></router-link>
       <router-link to="/pago"><button class="btn">Pagos</button></router-link>
@@ -45,22 +45,39 @@
     </div>
   </div>
 </template>
-  <script>
-export default {
-  data() {
-    return {
-      isChecked: false,
-      menuOpen: false,
-    };
-  },
-  mounted() {
-    this.isChecked = false;
-  },
-  methods: {
-    menu() {
-      this.menuOpen = !this.menuOpen;
-    },
-  },
+<script setup>
+import { is } from "quasar";
+import { useIngresoStore } from "../stores/ingreso.js";
+import { useInventarioStore } from "../stores/inventario.js";
+import { ref } from "vue";
+
+let menuOpen = ref(false);
+let isChecked = ref(false);
+
+const menu = () => {
+  menuOpen.value = !menuOpen.value;
+};
+
+const ingreso = async () => {
+  const ingresoStore = useIngresoStore();
+  try {
+    await ingresoStore.getIngresos();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const inventario = async () => {
+  const inventarioStore = useInventarioStore();
+  try {
+    await inventarioStore.getInventarios();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
   <style scoped>

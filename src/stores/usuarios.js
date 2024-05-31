@@ -4,7 +4,6 @@ import { ref } from "vue"
 
 export const useUsuarioStore = defineStore("usuario", () => {
     let token = ref("");
-    let tk = ref("")
     let user = ref({});
     let getUsuarios = async () => {
         try {
@@ -111,6 +110,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
             console.log(req.data.token);
             token.value = req.data.token;
             user.value = req.data.usuario;
+            console.log(req.data);
             return req.data
         } catch (error) {
             console.log(error);

@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarInventarios()">Listar inventario</button>
-        <button class="btn" @click="listarPorId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por id</button>
         <button class="btn" @click="listarTotal()">Listar total</button>
         <router-link to="/formularioInventario"><button class="btn">Crear inventario</button></router-link>
       </div>
@@ -30,6 +30,18 @@
         </q-table>
       </div>
     </div>
+    <div class="cont_id" v-if="cont_id">
+      <div class="cont_desplegable">
+        <select class="select" v-model="selectedOption">
+          <option value="">Seleccionar opción</option>
+            <option v-for="(inventario, index) in inventarios" :key="inventario.id" :value="index + 1">{{ index + 1 }}</option>
+        </select>
+      </div>
+      <div class="cont_btn">
+        <button class="btn" @click="id()">Enviar</button>
+        <button class="btn" @click="cerrarId()">Cerrar</button>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -37,6 +49,8 @@ import { ref } from "vue";
 import { useInventarioStore } from "../stores/inventario.js";
 
 let useInventarios = useInventarioStore();
+
+let inventarios = ref([]);
 
 let rows = ref([]);
 let columns = ref([
@@ -55,15 +69,30 @@ let columns = ref([
 let r = null;
 
 const listarInventarios = async () => {
-  let r = await useInventarios.getInventarios();
+  r = await useInventarios.getInventarios();
   rows.value = r;
   console.log(r);
 };
 
-const listarPorId = async () => {
-  let r = await useInventarios.getInventario("662871e2c22b3bf346678562");
-  rows.value = [r];
-  console.log(r);
+let cont_id = ref(false);
+
+let abrirId = () => {
+  cont_id.value = true;
+  inventarios.value = useInventarios.inventario;
+  console.log(inventarios.value);
+};
+
+let cerrarId = () => {
+  cont_id.value = false;
+};
+
+let selectedOption = ref("");
+
+let id = async () => {
+  let selectedInventario = inventarios.value[selectedOption.value - 1];
+  r = [await useInventarios.getInventario(selectedInventario._id)];
+  rows.value = r;
+  cont_id.value = false;
 };
 
 const listarTotal = async () => {
@@ -150,5 +179,147 @@ const listarTotal = async () => {
 .btn:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.cont_id {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 20%;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.group {
+  margin-bottom: 20px;
+}
+
+.cont_btn {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  align-items: center;
+}
+
+/* ESTILOS A CAMBIAR */
+
+.group {
+  position: relative;
+}
+
+.input {
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid #515151;
+  background: transparent;
+}
+
+.input:focus {
+  outline: none;
+}
+
+label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.input:focus ~ label,
+.input:valid ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 200px;
+}
+
+.bar:before,
+.bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #5264ae;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%;
+}
+
+.input:focus ~ .bar:before,
+.input:focus ~ .bar:after {
+  width: 50%;
+}
+
+.highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.input:focus ~ .highlight {
+  animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+  from {
+    background: #5264ae;
+  }
+
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+.select {
+  padding: 10px 35px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e6e6e6;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 24px 24px;
+  padding-right: 40px;
+  font-size: 16px;
 }
 </style>

@@ -28,7 +28,6 @@
           </template>
         </q-table>
       </div>
-      <button @click="listarMantenimientos()">traer datos</button>
     </div>
   </div>
 </template>

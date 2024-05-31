@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useInventarioStore = defineStore("inventario", () => {
     let token = ref(useUsuarioStore().token);
+    let inventario = ref(null);
     let getInventarios = async () => {
         try {
             let res = await axios.get("http://localhost:3000/inventario", 
@@ -15,6 +16,7 @@ export const useInventarioStore = defineStore("inventario", () => {
             }
             );
             console.log(res);
+            inventario.value = res.data;
             return res.data;
         } catch (error) {
             console.log(error);
@@ -91,6 +93,6 @@ export const useInventarioStore = defineStore("inventario", () => {
     }
 
     return {
-        getInventarios, getInventario, getTotal, postInventario, putInventario
+        getInventarios, getInventario, getTotal, postInventario, putInventario, inventario
     };
 });

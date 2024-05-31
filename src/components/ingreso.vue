@@ -32,14 +32,14 @@
       </div>
     </div>
     <div class="cont_id" v-if="cont_id">
-      <div class="group">
-        <input required="" type="text" class="input" v-model="id" />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>Name</label>
+      <div class="cont_desplegable">
+        <select class="select" v-model="selectedOption">
+          <option value="">Seleccionar opción</option>
+            <option v-for="(ingreso, index) in ingresos" :key="ingreso.id" :value="index + 1">{{ index + 1 }}</option>
+        </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="listarPorId()">Enviar</button>
+        <button class="btn" @click="id()">Enviar</button>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -50,6 +50,8 @@ import { ref } from "vue";
 import { useIngresoStore } from "../stores/ingreso.js";
 
 let useIngresos = useIngresoStore();
+
+let ingresos = ref([]);
 
 let rows = ref([]);
 let columns = ref([
@@ -76,21 +78,22 @@ let cont_id = ref(false);
 
 let abrirId = () => {
   cont_id.value = true;
+  ingresos.value = useIngresos.ingreso;
 };
 
 let cerrarId = () => {
   cont_id.value = false;
 };
 
-let id = ref("");
+let selectedOption = ref("");
 
-let listarPorId = async () => {
-  r = await useIngresos.getIngreso(id.value);
-  rows.value = [r];
-  console.log(r);
+let id = async () => {
+  let selectedIngreso = ingresos.value[selectedOption.value - 1];
+  r = [await useIngresos.getIngreso(selectedIngreso._id)];
+  rows.value = r;
   cont_id.value = false;
-  id.value = "";
 };
+
 </script>
 <style scoped>
 .app {
@@ -295,5 +298,22 @@ label {
     width: 0;
     background: transparent;
   }
+}
+
+.select {
+  padding: 10px 35px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e6e6e6;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 24px 24px;
+  padding-right: 40px;
+  font-size: 16px;
 }
 </style>
