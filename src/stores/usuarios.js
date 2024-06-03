@@ -5,6 +5,7 @@ import { ref } from "vue"
 export const useUsuarioStore = defineStore("usuario", () => {
     let token = ref("");
     let user = ref({});
+    let usuario = ref(null);
     let getUsuarios = async () => {
         try {
             let res = await axios.get("http://localhost:3000/usuario/", {
@@ -12,6 +13,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
                     "x-token": token.value
                 }
             })
+            usuario.value = res.data;
             console.log(res);
             return res.data
         } catch (error) {
@@ -170,7 +172,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
     };
 
     return {
-        getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar, user, token
+        getUsuarios, getUsuario, activos, inactivos, getRol, postUsuario, login, putUsuario, activar, inactivar, user, token, usuario
     }
 },
 {

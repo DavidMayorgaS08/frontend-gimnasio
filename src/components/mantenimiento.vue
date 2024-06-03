@@ -34,8 +34,16 @@
 <script setup>
 import { ref } from "vue";
 import { useMantenimientoStore } from "../stores/mantenimiento.js";
+import { useMaquinaStore } from "../stores/maquina.js";
+
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
 
 let useMantenimientos = useMantenimientoStore();
+let useMaquinas = useMaquinaStore();
+
+let m = ref([]);
 
 let rows = ref([]);
 let columns = ref([
@@ -43,13 +51,18 @@ let columns = ref([
     name: "maquina_id",
     label: "Máquina",
     align: "center",
-    field: "maquina_id",
+    field: row => {
+      const maquina = m.value.find((maquina) => maquina._id === row.maquina_id);
+      return maquina ? maquina.descripcion : "No encontrado";
+    },
   },
   {
     name: "fecha_mantenimiento",
     label: "Fecha de mantenimiento",
     align: "center",
-    field: "fecha_mantenimiento",
+    field: row => {
+      return new Date(row.fecha_mantenimiento).toISOString().split("T")[0];
+    },
   },
   {
     name: "descripcion",
@@ -67,7 +80,7 @@ let columns = ref([
     name: "precio_mantenimiento",
     label: "Precio de mantenimiento",
     align: "center",
-    field: "precio_mantenimiento",
+    field: row => formatNumber(row.precio_mantenimiento),
   },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
 ]);
@@ -76,8 +89,9 @@ let r = null;
 
 const listarMantenimientos = async () => {
   let r = await useMantenimientos.getMantenimientos();
+  m.value = await useMaquinas.getMaquinas();
   rows.value = r;
-  console.log(r);
+  console.log(m.value);
 };
 
 const listarPorId = async () => {

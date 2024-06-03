@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const usePagoStore = defineStore("pago", () => {
     let token = ref(useUsuarioStore().token);
+    let pago = ref(null);
     let getPagos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/pago",
@@ -14,6 +15,7 @@ export const usePagoStore = defineStore("pago", () => {
                 }
             }
             );
+            pago.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -176,6 +178,6 @@ export const usePagoStore = defineStore("pago", () => {
     };
 
     return {
-        getPagos, getPago, activos, inactivos, getPagosPlan, getPagosCliente, postPago, putPago, activar, inactivar
+        getPagos, getPago, activos, inactivos, getPagosPlan, getPagosCliente, postPago, putPago, activar, inactivar, pago
     };
 });

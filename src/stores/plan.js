@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const usePlanStore = defineStore("plan", () =>{
     let token = ref(useUsuarioStore().token);
+    let plan = ref(null);
     let getPlanes = async () => {
         try {
             let res = await axios.get("http://localhost:3000/plan",
@@ -14,6 +15,7 @@ export const usePlanStore = defineStore("plan", () =>{
                 }
             }
             );
+            plan.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -142,6 +144,6 @@ export const usePlanStore = defineStore("plan", () =>{
     };
 
     return {
-        getPlanes, getPlan, activos, inactivos, postPlan, putPlan, activar, inactivar
+        getPlanes, getPlan, activos, inactivos, postPlan, putPlan, activar, inactivar, plan
     };
 });

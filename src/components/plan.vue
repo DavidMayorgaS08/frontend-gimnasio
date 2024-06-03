@@ -4,10 +4,12 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarPlanes()">Listar planes</button>
-        <button class="btn" @click="lsitarPorId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por id</button>
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
-        <router-link to="/formularioPlan"><button class="btn">Crear plan</button></router-link>
+        <router-link to="/formularioPlan"
+          ><button class="btn">Crear plan</button></router-link
+        >
         <button class="btn" @click="activar()">Activar plan</button>
         <button class="btn" @click="inactivar()">Inactivar plan</button>
       </div>
@@ -32,13 +34,37 @@
         </q-table>
       </div>
     </div>
+    <div class="cont_id" v-if="cont_id">
+      <div class="cont_desplegable">
+        <select class="select" v-model="selectedOption">
+          <option value="">Seleccionar opción</option>
+          <option
+            v-for="(plan, index) in planes"
+            :key="plan.id"
+            :value="index + 1"
+          >
+            {{ index + 1 }}
+          </option>
+        </select>
+      </div>
+      <div class="cont_btn">
+        <button class="btn" @click="id()">Enviar</button>
+        <button class="btn" @click="cerrarId()">Cerrar</button>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { usePlanStore } from "../stores/plan.js";
 
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
 let usePlanes = usePlanStore();
+
+let planes = ref([]);
 
 let rows = ref([]);
 let columns = ref([
@@ -49,7 +75,12 @@ let columns = ref([
     align: "center",
     field: "descripcion",
   },
-  { name: "valor", label: "Valor", align: "center", field: "valor" },
+  {
+    name: "valor",
+    label: "Valor",
+    align: "center",
+    field: (row) => formatNumber(row.valor),
+  },
   { name: "dias", label: "Días", align: "center", field: "dias" },
   { name: "estado", label: "Estado", align: "center", field: "estado" },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
@@ -63,10 +94,24 @@ let listarPlanes = async () => {
   console.log(r);
 };
 
-let lsitarPorId = async () => {
-  r = await usePlanes.getPlan("66286ac3df7e38e581e80726");
-  rows.value = [r];
-  console.log(r);
+let cont_id = ref(false);
+
+let abrirId = () => {
+  cont_id.value = true;
+  planes.value = usePlanes.plan;
+};
+
+let cerrarId = () => {
+  cont_id.value = false;
+};
+
+let selectedOption = ref("");
+
+let id = async () => {
+  let selectPlan = planes.value[selectedOption.value - 1];
+  r = [await usePlanes.getPlan(selectPlan._id)];
+  rows.value = r;
+  cont_id.value = false;
 };
 
 let activos = async () => {
@@ -102,7 +147,7 @@ let inactivos = async () => {
   background-size: 100% 30px;
 }
 
-.info{
+.info {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -159,5 +204,147 @@ let inactivos = async () => {
 .btn:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.cont_id {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 20%;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.group {
+  margin-bottom: 20px;
+}
+
+.cont_btn {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  align-items: center;
+}
+
+/* ESTILOS A CAMBIAR */
+
+.group {
+  position: relative;
+}
+
+.input {
+  font-size: 16px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid #515151;
+  background: transparent;
+}
+
+.input:focus {
+  outline: none;
+}
+
+label {
+  color: #999;
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.input:focus ~ label,
+.input:valid ~ label {
+  top: -20px;
+  font-size: 14px;
+  color: #5264ae;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 200px;
+}
+
+.bar:before,
+.bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #5264ae;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+  left: 50%;
+}
+
+.bar:after {
+  right: 50%;
+}
+
+.input:focus ~ .bar:before,
+.input:focus ~ .bar:after {
+  width: 50%;
+}
+
+.highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.input:focus ~ .highlight {
+  animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+  from {
+    background: #5264ae;
+  }
+
+  to {
+    width: 0;
+    background: transparent;
+  }
+}
+
+.select {
+  padding: 10px 35px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e6e6e6;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 24px 24px;
+  padding-right: 40px;
+  font-size: 16px;
 }
 </style>

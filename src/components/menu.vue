@@ -32,13 +32,13 @@
       <router-link to="/cliente"><button class="btn">Clientes</button></router-link>
       <router-link to="/ingreso"><button class="btn" @click="ingreso()">Ingresos</button></router-link>
       <router-link to="/inventario"><button class="btn" @click="inventario()">Inventarios</button></router-link>
-      <router-link to="/mantenimiento"><button class="btn">Mantenimientos</button></router-link>
-      <router-link to="/maquina"><button class="btn">Maquinas</button></router-link>
-      <router-link to="/pago"><button class="btn">Pagos</button></router-link>
-      <router-link to="/plan"><button class="btn">Planes</button></router-link>
-      <router-link to="/sede"><button class="btn">Sedes</button></router-link>
-      <router-link to="/usuarios"><button class="btn">Usuarios</button></router-link>
-      <router-link to="/venta"><button class="btn">Ventas</button></router-link>
+      <router-link to="/mantenimiento"><button class="btn" @click="mantenimiento()">Mantenimientos</button></router-link>
+      <router-link to="/maquina"><button class="btn" @click="maquina()">Maquinas</button></router-link>
+      <router-link to="/pago"><button class="btn" @click="pago()">Pagos</button></router-link>
+      <router-link to="/plan"><button class="btn" @click="plan()">Planes</button></router-link>
+      <router-link to="/sede"><button class="btn" @click="sede()">Sedes</button></router-link>
+      <router-link to="/usuarios"><button class="btn" @click="usuario()">Usuarios</button></router-link>
+      <router-link to="/venta"><button class="btn" @click="venta()">Ventas</button></router-link>
     </div>
     <div class="cont_info">
       <router-view />
@@ -46,9 +46,15 @@
   </div>
 </template>
 <script setup>
-import { is } from "quasar";
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useInventarioStore } from "../stores/inventario.js";
+import { useMantenimientoStore } from "../stores/mantenimiento.js";
+import { useMaquinaStore } from "../stores/maquina.js";
+import { usePagoStore } from "../stores/pago.js";
+import { usePlanStore } from "../stores/plan.js";
+import { useSedeStore } from "../stores/sede.js";
+import { useUsuarioStore } from "../stores/usuarios.js";
+import { useVentaStore } from "../stores/venta.js";
 import { ref } from "vue";
 
 let menuOpen = ref(false);
@@ -73,6 +79,83 @@ const inventario = async () => {
   const inventarioStore = useInventarioStore();
   try {
     await inventarioStore.getInventarios();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const mantenimiento = async () => {
+  const mantenimientoStore = useMantenimientoStore();
+  try {
+    await mantenimientoStore.getMantenimientos();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const maquina = async () => {
+  const maquinaStore = useMaquinaStore();
+  try {
+    await maquinaStore.getMaquinas();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const pago = async () => {
+  const pagoStore = usePagoStore();
+  try {
+    await pagoStore.getPagos();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const plan = async () => {
+  const planStore = usePlanStore();
+  try {
+    await planStore.getPlanes();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const sede = async () => {
+  const sedeStore = useSedeStore();
+  try {
+    await sedeStore.getSedes();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const usuario = async () => {
+  const usuarioStore = useUsuarioStore();
+  try {
+    await usuarioStore.getUsuarios();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const venta = async () => {
+  const ventaStore = useVentaStore();
+  try {
+    await ventaStore.getVentas();
     isChecked.value = false;
     menu();
   } catch (error) {

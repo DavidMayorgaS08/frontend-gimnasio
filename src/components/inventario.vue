@@ -42,13 +42,23 @@
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
+    <div class="cont_total" v-if="cont_total">
+      <p class="text_titulo_total">total:</p>
+      <p class="text_total">{{ total }}</p>
+    </div>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useInventarioStore } from "../stores/inventario.js";
 
+const formatNumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
 let useInventarios = useInventarioStore();
+
+let total = ref(0);
 
 let inventarios = ref([]);
 
@@ -61,7 +71,7 @@ let columns = ref([
     align: "center",
     field: "descripcion",
   },
-  { name: "valor", label: "Valor", align: "center", field: "valor" },
+  { name: "valor", label: "Valor", align: "center", field: row => formatNumber(row.valor)},
   { name: "cantidad", label: "Cantidad", align: "center", field: "cantidad" },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
 ]);
@@ -95,10 +105,16 @@ let id = async () => {
   cont_id.value = false;
 };
 
+let cont_total = ref(false);
+
 const listarTotal = async () => {
+  cont_total.value = true;
   let r = await useInventarios.getTotal();
-  // rows.value = [r];
-  console.log(r);
+  total.value = formatNumber(r.total);
+  console.log(total);
+  setTimeout(() => {
+    cont_total.value = false;
+  }, 2500);
 };
 </script>
 <style scoped>
@@ -321,5 +337,34 @@ label {
   background-size: 24px 24px;
   padding-right: 40px;
   font-size: 16px;
+}
+
+.cont_total{
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 20%;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.text_titulo_total{
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.text_total{
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 </style>

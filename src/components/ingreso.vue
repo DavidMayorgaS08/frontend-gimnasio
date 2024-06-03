@@ -35,7 +35,13 @@
       <div class="cont_desplegable">
         <select class="select" v-model="selectedOption">
           <option value="">Seleccionar opción</option>
-            <option v-for="(ingreso, index) in ingresos" :key="ingreso.id" :value="index + 1">{{ index + 1 }}</option>
+          <option
+            v-for="(ingreso, index) in ingresos"
+            :key="ingreso.id"
+            :value="index + 1"
+          >
+            {{ index + 1 }}
+          </option>
         </select>
       </div>
       <div class="cont_btn">
@@ -48,30 +54,53 @@
 <script setup>
 import { ref } from "vue";
 import { useIngresoStore } from "../stores/ingreso.js";
+import { useClienteStore } from "../stores/cliente.js";
+import { useSedeStore } from "../stores/sede.js";
 
 let useIngresos = useIngresoStore();
+let useClientes = useClienteStore();
+let useSedes = useSedeStore();
 
 let ingresos = ref([]);
+let r = null;
+let c = ref([]);
+let s = ref([]);
 
 let rows = ref([]);
 let columns = ref([
   {
-    name: "cliente_id",
+    name: "cliente",
     label: "Cliente",
     align: "center",
-    field: "cliente_id",
+    field: (row) => {
+      const cliente = c.value.find((cliente) => cliente._id === row.cliente_id);
+      return cliente ? cliente.nombre : "";
+    },
   },
-  { name: "fecha", label: "Fecha", align: "center", field: "fecha" },
-  { name: "sede", label: "Sede", align: "center", field: "sede" },
+  {
+    name: "fecha",
+    label: "Fecha",
+    align: "center",
+    field: row => row.fecha.split("T")[0]
+  },
+  {
+    name: "sede",
+    label: "Sede",
+    align: "center",
+    field: (row) => {
+      const sede = s.value.find((sede) => sede._id === row.sede);
+      return sede ? sede.nombre : "";
+    },
+  },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
 ]);
 
-let r = null;
-
 let listarIngesos = async () => {
   r = await useIngresos.getIngresos();
+  c.value = await useClientes.getClientes();
+  s.value = await useSedes.getSedes();
   rows.value = r;
-  console.log(r);
+  console.log(s.value);
 };
 
 let cont_id = ref(false);
@@ -90,10 +119,11 @@ let selectedOption = ref("");
 let id = async () => {
   let selectedIngreso = ingresos.value[selectedOption.value - 1];
   r = [await useIngresos.getIngreso(selectedIngreso._id)];
+  c.value = await useClientes.getClientes();
+  s.value = await useSedes.getSedes();
   rows.value = r;
   cont_id.value = false;
 };
-
 </script>
 <style scoped>
 .app {

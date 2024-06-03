@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useSedeStore = defineStore("sede", () =>{
     let token = ref(useUsuarioStore().token);
+    let sede = ref(null);
     let getSedes = async () => {
         try {
             let res = await axios.get("http://localhost:3000/sede",{
@@ -13,6 +14,7 @@ export const useSedeStore = defineStore("sede", () =>{
                 }
             
             });
+            sede.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -73,6 +75,6 @@ export const useSedeStore = defineStore("sede", () =>{
     };
 
     return {
-        getSedes, getSede, postSede, putSede
+        getSedes, getSede, postSede, putSede, sede
     };
 });

@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useMaquinaStore = defineStore("maquina", () => {
     let token = ref(useUsuarioStore().token);
+    let maquina = ref(null);
     let getMaquinas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/maquina",
@@ -14,6 +15,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
                 }
             }
             );
+            maquina.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -142,6 +144,6 @@ export const useMaquinaStore = defineStore("maquina", () => {
     };
 
     return {
-        getMaquinas, getMaquina, activos, inactivos, postMaquina, putMaquina, activarMaquina, inactivarMaquina  
+        getMaquinas, getMaquina, activos, inactivos, postMaquina, putMaquina, activarMaquina, inactivarMaquina, maquina  
     };
 });

@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useVentaStore = defineStore("venta", () =>{
    let token = ref(useUsuarioStore().token);
+   let venta = ref(null);
     let getVentas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/venta",
@@ -14,6 +15,7 @@ export const useVentaStore = defineStore("venta", () =>{
                 }
             }
             );
+            venta.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -74,6 +76,6 @@ export const useVentaStore = defineStore("venta", () =>{
     };
 
     return {
-        getVentas, getVenta, postVenta, putVenta
+        getVentas, getVenta, postVenta, putVenta, venta
     };
 });
