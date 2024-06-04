@@ -4,16 +4,34 @@
     <div class="login-box">
       <form>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="Cliente_id" />
-          <label>Id del cliente</label>
+          <select required v-model="selectedOptionC">
+            <option value="" disabled selected hidden></option>
+            <option
+              v-for="(cliente, index) in clientes"
+              :key="cliente.id"
+              :value="index + 1"
+            >
+              {{ cliente.nombre }}
+            </option>
+          </select>
+          <label>Clientes</label>
         </div>
         <div class="user-box">
           <input type="date" name="" required="" v-model="fecha" />
           <label>Fecha</label>
         </div>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="sede" />
-          <label>Sede</label>
+          <select required v-model="selectedOptionS">
+            <option value="" disabled selected hidden></option>
+            <option
+              v-for="(sede, index) in sedes"
+              :key="sede.id"
+              :value="index + 1"
+            >
+              {{ sede.nombre }}
+            </option>
+          </select>
+          <label>Sedes</label>
         </div>
         <center>
           <button @click.prevent="Ingreso()">Registrar</button>
@@ -92,12 +110,19 @@
 <script setup>
 import { ref } from "vue";
 import { useIngresoStore } from "../../stores/ingreso.js";
+import { useClienteStore } from "../../stores/cliente.js";
+import { useSedeStore } from "../../stores/sede.js";
 
 let useIngresos = useIngresoStore();
+let useClientes = useClienteStore();
+let useSedes = useSedeStore();
 
-let Cliente_id = ref("66286f1d482f999f219e9f86");
+let clientes = ref(useClientes.cliente);
+let sedes = ref(useSedes.sede);
+
+let selectedOptionC = ref("");
 let fecha = ref("");
-let sede = ref("66287052c22b3bf34667855b");
+let selectedOptionS = ref("");
 
 let registroExitoso = ref(false);
 let registroFallido = ref(false);
@@ -114,24 +139,38 @@ const ocultar = () => {
 
 async function Ingreso() {
   try {
+    let cliente = () => {
+      let selectedCliente = clientes.value[selectedOptionC.value - 1];
+      return selectedCliente._id;
+    }
+
+    let sede = () => {
+      let selectedSede = sedes.value[selectedOptionS.value - 1];
+      return selectedSede._id;
+    }
+
+    let cliente_id = cliente();
+    let sede_id = sede();
+    
     let ingreso = {
-      cliente_id: Cliente_id.value,
+      cliente_id: cliente_id,
       fecha: fecha.value,
-      sede: sede.value,
+      sede: sede_id,
     };
-    if (ingreso.cliente_id === ""){
+    console.log(ingreso);
+    if (ingreso.cliente_id === "") {
       text.value = "El campo Id del cliente no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (ingreso.fecha === ""){
+    if (ingreso.fecha === "") {
       text.value = "El campo fecha no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (ingreso.sede === ""){
+    if (ingreso.sede === "") {
       text.value = "El campo Sede no puede estar vacío";
       registroFallido.value = true;
       ocultar();
@@ -141,7 +180,9 @@ async function Ingreso() {
     registroExitoso.value = true;
     ocultar();
   } catch (error) {
-    return error;
+    text.value = "Error al registrar el ingreso";
+    registroFallido.value = true;
+    ocultar();
   }
 }
 
@@ -328,6 +369,33 @@ button:after {
   transition-property: width, left;
 }
 
+.user-box select {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  appearance: none; /* Ocultar la flecha predeterminada en algunos navegadores */
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.user-box select option {
+  background-color: #181414fc;
+  color: white;
+}
+
+.user-box select:focus ~ label,
+.user-box select:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
+}
+
 .cont_btn {
   position: absolute;
   bottom: 10px;
@@ -449,14 +517,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -467,14 +536,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -488,13 +558,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -505,6 +575,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

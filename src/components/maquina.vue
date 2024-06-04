@@ -8,7 +8,7 @@
         <button class="btn" @click="listarActivas()">Listar activas</button>
         <button class="btn" @click="listarInactivas()">Listar Inactivas</button>
         <router-link to="/formularioMaquina"
-          ><button class="btn">Crear maquina</button></router-link
+          ><button class="btn" @click="maquina()">Crear maquina</button></router-link
         >
         <button class="btn" @click="activar()">Activar maquina</button>
         <button class="btn" @click="inactivar()">Inactivar maquina</button>
@@ -63,6 +63,8 @@
 import { ref } from "vue";
 import { useMaquinaStore } from "../stores/maquina.js";
 import { useSedeStore } from "../stores/sede.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 let useMaquinas = useMaquinaStore();
 let useSedes = useSedeStore();
@@ -143,6 +145,11 @@ let listarInactivas = async () => {
   r = await useMaquinas.inactivos();
   rows.value = r;
   console.log(r);
+};
+
+let maquina = async () => {
+  await useSedes.getSedes();
+  router.push("/formularioMaquina");
 };
 </script>
 <style scoped>

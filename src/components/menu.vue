@@ -99,8 +99,10 @@ const mantenimiento = async () => {
 
 const maquina = async () => {
   const maquinaStore = useMaquinaStore();
+  const sedeStore = useSedeStore();
   try {
     await maquinaStore.getMaquinas();
+    await sedeStore.getSedes();
     isChecked.value = false;
     menu();
   } catch (error) {
@@ -143,8 +145,10 @@ const sede = async () => {
 
 const usuario = async () => {
   const usuarioStore = useUsuarioStore();
+  const sedeStore = useSedeStore();
   try {
     await usuarioStore.getUsuarios();
+    await sedeStore.getSedes();
     isChecked.value = false;
     menu();
   } catch (error) {

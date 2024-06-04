@@ -8,7 +8,7 @@
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="ListarPorRol()">Listar por rol</button>
-        <router-link to="/registroTrabajadores"><button class="btn">Crear usuario</button></router-link>
+        <router-link to="/registroTrabajadores"><button class="btn" @click="usuario()">Crear usuario</button></router-link>
         <button class="btn" @click="activar()">Activar Usuario</button>
         <button class="btn" @click="inactivar()">Inactivar usuario</button>
       </div>
@@ -71,8 +71,12 @@
 <script setup>
 import { ref } from "vue";
 import { useUsuarioStore } from "../stores/usuarios.js";
+import { useSedeStore } from "../stores/sede.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 let useUsuarios = useUsuarioStore();
+let useSedes = useSedeStore();
 
 let usuarios = ref([]);
 
@@ -130,6 +134,11 @@ async function ListarPorRol() {
   rows.value = r;
   console.log(r);
 }
+
+let usuario = async () => {
+  await useSedes.getSedes();
+  router.push("/registroTrabajadores");
+};
 </script>
 <style scoped>
 .app {

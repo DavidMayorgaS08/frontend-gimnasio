@@ -5,7 +5,7 @@
       <div class="menu">
         <button class="btn" @click="listarMantenimientos()">Listar mantenimeintos</button>
         <button class="btn" @click="listarPorId()">Listar por id</button>
-        <router-link to="/formularioMantenimiento"><button class="btn">Crear mantenimiento</button></router-link>
+        <button class="btn" @click="mantenimiento()">Crear mantenimiento</button>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -35,6 +35,8 @@
 import { ref } from "vue";
 import { useMantenimientoStore } from "../stores/mantenimiento.js";
 import { useMaquinaStore } from "../stores/maquina.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -98,6 +100,11 @@ const listarPorId = async () => {
   let r = await useMantenimientos.getMantenimiento("66287337c22b3bf346678568");
   rows.value = [r];
   console.log(r);
+};
+
+const mantenimiento = async () => {
+  await useMaquinas.getMaquinas();
+  router.push("/formularioMantenimiento");
 };
 </script>
 <style scoped>

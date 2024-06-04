@@ -11,9 +11,7 @@
         <button class="btn" @click="listarPorCliente()">
           Listar por cliente
         </button>
-        <router-link to="/formularioPago"
-          ><button class="btn">Crear pago</button></router-link
-        >
+        <button class="btn" @click="pago()">Crear pago</button>
         <button class="btn" @click="activar()">Activar pago</button>
         <button class="btn" @click="inactivar()">Inactivar pago</button>
       </div>
@@ -57,6 +55,8 @@ import { ref } from "vue";
 import { usePagoStore } from "../stores/pago.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -156,6 +156,13 @@ let listarPorCliente = async () => {
   rows.value = [r];
   console.log(r);
 };
+
+let pago = async () => {
+  await useClientes.getClientes();
+  await usePlanes.getPlanes();
+  router.push("/formularioPago");
+};
+
 </script>
 <style scoped>
 .app {

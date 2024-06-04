@@ -149,8 +149,9 @@ async function Inventario() {
       ocultar();
       return;
     }
-    r = await useInventarios.addInventario(inventario);
+    r = await useInventarios.postInventario(inventario);
     registroExitoso.value = true;
+    ocultar();
   } catch (error) {
     return error;
   }

@@ -5,9 +5,7 @@
       <div class="menu">
         <buttom class="btn" @click="listarIngesos()">Listar ingresos</buttom>
         <buttom class="btn" @click="abrirId()">Listar por id</buttom>
-        <router-link to="/formularioIngreso"
-          ><buttom class="btn">Crear ingreso</buttom></router-link
-        >
+        <buttom class="btn" @click="ingreso()">Crear ingreso</buttom>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -56,6 +54,8 @@ import { ref } from "vue";
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { useSedeStore } from "../stores/sede.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 let useIngresos = useIngresoStore();
 let useClientes = useClienteStore();
@@ -123,6 +123,12 @@ let id = async () => {
   s.value = await useSedes.getSedes();
   rows.value = r;
   cont_id.value = false;
+};
+
+let ingreso = async () => {
+  await useClientes.getClientes();
+  await useSedes.getSedes();
+  router.push("/formularioIngreso");
 };
 </script>
 <style scoped>

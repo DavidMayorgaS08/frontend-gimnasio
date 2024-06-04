@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useClienteStore = defineStore("cliente", () => {
     let token = ref(useUsuarioStore().token);
+    let cliente = ref(null);
     let getClientes = async () => {
         try {
             let res = await axios.get("http://localhost:3000/cliente",{
@@ -13,6 +14,7 @@ export const useClienteStore = defineStore("cliente", () => {
                 }
             
             });
+            cliente.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -175,6 +177,6 @@ export const useClienteStore = defineStore("cliente", () => {
     };
 
     return {
-        getClientes, getCliente, getActivos, getInactivos, getPorPlan, getTotal, postCliente, putCliente, putActivar, putInactivar
+        getClientes, getCliente, getActivos, getInactivos, getPorPlan, getTotal, postCliente, putCliente, putActivar, putInactivar, cliente
     };
 });
