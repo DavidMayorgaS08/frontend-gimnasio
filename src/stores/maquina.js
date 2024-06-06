@@ -9,11 +9,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let getMaquinas = async () => {
         try {
             let res = await axios.get("http://localhost:3000/maquina",
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             maquina.value = res.data;
             console.log(res);
@@ -27,11 +27,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let getMaquina = async (id) => {
         try {
             let res = await axios.get(`http://localhost:3000/maquina/${id}`,
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -44,11 +44,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let activos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/maquina/listar/activos",
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -61,11 +61,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let inactivos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/maquina/listar/inactivos",
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -78,11 +78,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let postMaquina = async (data) => {
         try {
             let res = await axios.post("http://localhost:3000/maquina", data,
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -95,11 +95,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let putMaquina = async (id, data) => {
         try {
             let res = await axios.put(`http://localhost:3000/maquina/${id}`, data,
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -112,11 +112,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let activarMaquina = async (id) => {
         try {
             let res = await axios.put(`http://localhost:3000/maquina/activar/${id}`,
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -129,11 +129,11 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let inactivarMaquina = async (id) => {
         try {
             let res = await axios.put(`http://localhost:3000/maquina/inactivar/${id}`,
-            {
-                headers: {
-                    "x-token": token.value
+                {
+                    headers: {
+                        "x-token": token.value
+                    }
                 }
-            }
             );
             console.log(res);
             return res.data;
@@ -144,6 +144,6 @@ export const useMaquinaStore = defineStore("maquina", () => {
     };
 
     return {
-        getMaquinas, getMaquina, activos, inactivos, postMaquina, putMaquina, activarMaquina, inactivarMaquina, maquina  
+        getMaquinas, getMaquina, activos, inactivos, postMaquina, putMaquina, activarMaquina, inactivarMaquina, maquina
     };
 });

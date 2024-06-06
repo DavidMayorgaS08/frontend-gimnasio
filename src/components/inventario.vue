@@ -3,10 +3,14 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarInventarios()">Listar inventario</button>
+        <button class="btn" @click="listarInventarios()">
+          Listar inventario
+        </button>
         <button class="btn" @click="abrirId()">Listar por id</button>
         <button class="btn" @click="listarTotal()">Listar total</button>
-        <router-link to="/formularioInventario"><button class="btn">Crear inventario</button></router-link>
+        <router-link to="/formularioInventario"
+          ><button class="btn">Crear inventario</button></router-link
+        >
       </div>
       <div class="q-pa-md">
         <q-table
@@ -17,14 +21,32 @@
         >
           <template v-slot:body-cell-opciones="props">
             <q-td :props="props">
-              <q-btn flat dense round>📝</q-btn>
-              <q-btn
-                flat
-                dense
-                round
-                icon="delete"
-                @click="eliminarUsuario(props.row)"
-              />
+              <q-btn flat dense round>
+                <button
+                  class="button"
+                  :id="'button-' + props.row.id"
+                  @click="ver(props.row)"
+                >
+                  <svg
+                    class="svg-icon"
+                    fill="none"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g stroke="#ffffff" stroke-linecap="round" stroke-width="2">
+                      <path d="m20 20h-16"></path>
+                      <path
+                        clip-rule="evenodd"
+                        d="m14.5858 4.41422c.781-.78105 2.0474-.78105 2.8284 0 .7811.78105.7811 2.04738 0 2.82843l-8.28322 8.28325-3.03046.202.20203-3.0304z"
+                        fill-rule="evenodd"
+                      ></path>
+                    </g>
+                  </svg>
+                  <span class="lable"></span>
+                </button>
+              </q-btn>
             </q-td>
           </template>
         </q-table>
@@ -34,7 +56,13 @@
       <div class="cont_desplegable">
         <select class="select" v-model="selectedOption">
           <option value="">Seleccionar opción</option>
-            <option v-for="(inventario, index) in inventarios" :key="inventario.id" :value="index + 1">{{ index + 1 }}</option>
+          <option
+            v-for="(inventario, index) in inventarios"
+            :key="inventario.id"
+            :value="index + 1"
+          >
+            {{ index + 1 }}
+          </option>
         </select>
       </div>
       <div class="cont_btn">
@@ -71,7 +99,12 @@ let columns = ref([
     align: "center",
     field: "descripcion",
   },
-  { name: "valor", label: "Valor", align: "center", field: row => formatNumber(row.valor)},
+  {
+    name: "valor",
+    label: "Valor",
+    align: "center",
+    field: (row) => formatNumber(row.valor),
+  },
   { name: "cantidad", label: "Cantidad", align: "center", field: "cantidad" },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
 ]);
@@ -115,6 +148,10 @@ const listarTotal = async () => {
   setTimeout(() => {
     cont_total.value = false;
   }, 2500);
+};
+
+let ver = (row) => {
+  console.log(row);
 };
 </script>
 <style scoped>
@@ -195,6 +232,54 @@ const listarTotal = async () => {
 .btn:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 2px;
+  height: 40px;
+  width: 85px;
+  border: none;
+  background: #1a1a1a;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.lable {
+  line-height: 22px;
+  font-size: 19px;
+  color: #000000;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  background: #141414bb;
+}
+
+.button:hover .svg-icon {
+  animation: lr 1s linear infinite;
+}
+
+@keyframes lr {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-1px);
+  }
+
+  75% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .cont_id {
@@ -339,7 +424,7 @@ label {
   font-size: 16px;
 }
 
-.cont_total{
+.cont_total {
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -356,13 +441,13 @@ label {
   border-radius: 10px;
 }
 
-.text_titulo_total{
+.text_titulo_total {
   font-size: 30px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.text_total{
+.text_total {
   font-size: 30px;
   font-weight: bold;
   text-transform: uppercase;

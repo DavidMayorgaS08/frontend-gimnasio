@@ -9,8 +9,8 @@
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="ListarPorRol()">Listar por rol</button>
         <router-link to="/registroTrabajadores"><button class="btn" @click="usuario()">Crear usuario</button></router-link>
-        <button class="btn" @click="activar()">Activar Usuario</button>
-        <button class="btn" @click="inactivar()">Inactivar usuario</button>
+        <button class="btn" @click="cambiarEstados()">Cambiar estado</button>
+        <button class="btn" @click="terminar()" v-if="terminado">Terminado</button>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -19,22 +19,54 @@
           :columns="columns"
           row-key="name"
         >
-          <template v-slot:body-cell-opciones="props">
+        <template v-slot:body-cell-opciones="props">
             <q-td :props="props">
-              <q-btn
-                flat
-                dense
-                round
-                icon="edit"
-                @click="modificarUsuario(props.row)"
-              />
-              <q-btn
-                flat
-                dense
-                round
-                icon="delete"
-                @click="eliminarUsuario(props.row)"
-              />
+              <q-btn flat dense round v-if="editar">
+                <button
+                  class="button"
+                  :id="'button-' + props.row.id"
+                  @click="ver(props.row)"
+                >
+                  <svg
+                    class="svg-icon"
+                    fill="none"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g stroke="#ffffff" stroke-linecap="round" stroke-width="2">
+                      <path d="m20 20h-16"></path>
+                      <path
+                        clip-rule="evenodd"
+                        d="m14.5858 4.41422c.781-.78105 2.0474-.78105 2.8284 0 .7811.78105.7811 2.04738 0 2.82843l-8.28322 8.28325-3.03046.202.20203-3.0304z"
+                        fill-rule="evenodd"
+                      ></path>
+                    </g>
+                  </svg>
+                  <span class="lable"></span>
+                </button>
+              </q-btn>
+              <q-btn flat dense round v-if="estados">
+                <div class="cont_btns">
+                  <button
+                  v-if="props.row.estado == 0"
+                    class="btn_activo"
+                    :id="'button-' + props.row.id"
+                    @click="activar(props.row)"
+                  >
+                    <img class="img_activo" src="/src/img/garrapata.png" alt="activo" />
+                  </button>
+                  <button
+                    v-else
+                    class="btn_inactivo"
+                    :id="'button-' + props.row.id"
+                    @click="inactivar(props.row)"
+                  >
+                    <img class="img_inactivo" src="/src/img/equis.png" alt="inactivo" />
+                  </button>
+                </div>
+              </q-btn>
             </q-td>
           </template>
           <template v-slot:body-cell-estado="props">
@@ -43,7 +75,7 @@
               style="display: flex; justify-content: center; margin-top: 12px"
               >Activo</span
             >
-            <span v-else>Inactivo</span>
+            <span v-else style="display: flex; justify-content: center; margin-top: 12px">Inactivo</span>
           </template>
         </q-table>
       </div>
@@ -139,6 +171,38 @@ let usuario = async () => {
   await useSedes.getSedes();
   router.push("/registroTrabajadores");
 };
+
+let editar = ref(true);
+let estados = ref(false);
+let terminado = ref(false);
+
+let ver = (row) => {
+  console.log(row);
+};
+
+let cambiarEstados = () => {
+  editar.value = false;
+  estados.value = true;
+  terminado.value = true;
+};
+
+let activar = async (row) => {
+  await useUsuarios.activar(row._id);
+  r = await useUsuarios.getUsuarios();
+  rows.value = r;
+};
+
+let inactivar = async (row) => {
+  await useUsuarios.inactivar(row._id);
+  r = await useUsuarios.getUsuarios();
+  rows.value = r;
+};
+
+let terminar = () => {
+  editar.value = true;
+  estados.value = false;
+  terminado.value = false;
+};
 </script>
 <style scoped>
 .app {
@@ -218,6 +282,77 @@ let usuario = async () => {
 .btn:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 2px;
+  height: 40px;
+  width: 85px;
+  border: none;
+  background: #1a1a1a;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.lable {
+  line-height: 22px;
+  font-size: 19px;
+  color: #000000;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  background: #141414bb;
+}
+
+.button:hover .svg-icon {
+  animation: lr 1s linear infinite;
+}
+
+@keyframes lr {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-1px);
+  }
+
+  75% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.cont_btns {
+  display: flex;
+}
+
+.btn_activo, .btn_inactivo {
+  padding: 8px 10px;
+  border: none;
+  background: #1a1a1a;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_activo:hover, .btn_inactivo:hover {
+  background: #141414bb;
+}
+
+.img_activo, .img_inactivo {
+  width: 30px;
 }
 
 .cont_id {
