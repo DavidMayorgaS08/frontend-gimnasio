@@ -68,12 +68,10 @@
             </q-td>
           </template>
           <template v-slot:body-cell-estado="props">
-            <span
-              v-if="props.row.estado == 1"
-              style="display: flex; justify-content: center; margin-top: 12px"
-              >Activo</span
-            >
-            <span v-else style="display: flex; justify-content: center; margin-top: 12px">Inactivo</span>
+            <div class="estados">
+              <span v-if="props.row.estado == 1">Activo</span>
+              <span v-else>Inactivo</span>
+            </div>
           </template>
         </q-table>
       </div>
@@ -589,10 +587,12 @@ let inactivar = async (row) => {
   align-items: center;
 }
 
-/* ESTILOS A CAMBIAR */
-
-.group {
-  position: relative;
+.estados {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 75px;
 }
 
 .input {
