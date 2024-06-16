@@ -33,8 +33,8 @@
             </q-td>
           </template>
           <template v-slot:body-cell-estado="props">
-            <span v-if="props.row.estado == 1">Activo</span>
-            <span v-else>Inactivo</span>
+            <span v-if="props.row.estado == 1" style="display: flex; justify-content: center; margin-top: 12px">Activo</span>
+            <span v-else style="display: flex; justify-content: center; margin-top: 12px">Inactivo</span>
           </template>
         </q-table>
       </div>

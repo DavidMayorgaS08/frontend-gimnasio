@@ -5,6 +5,7 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 
 export const useMantenimientoStore = defineStore("mantenimiento", () => {
     let token = ref(useUsuarioStore().token);
+    let mantenimiento = ref(null);
     let getMantenimientos = async () => {
         try {
             let res = await axios.get("http://localhost:3000/mantenimiento",
@@ -14,6 +15,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
                 }
             }
             );
+            mantenimiento.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -31,6 +33,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
                 }
             }
             );
+            mantenimiento.value = res.data;
             console.log(res);
             return res.data;
         } catch (error) {
@@ -74,6 +77,6 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
     };
 
     return {
-        getMantenimientos, getMantenimiento, postMantenimiento, putMantenimiento
+        getMantenimientos, getMantenimiento, postMantenimiento, putMantenimiento, mantenimiento
     };
 });

@@ -142,16 +142,16 @@ async function Ingreso() {
     let cliente = () => {
       let selectedCliente = clientes.value[selectedOptionC.value - 1];
       return selectedCliente._id;
-    }
+    };
 
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;
-    }
+    };
 
     let cliente_id = cliente();
     let sede_id = sede();
-    
+
     let ingreso = {
       cliente_id: cliente_id,
       fecha: fecha.value,

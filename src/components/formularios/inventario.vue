@@ -125,25 +125,25 @@ async function Inventario() {
       valor: Valor.value,
       cantidad: Cantidad.value,
     };
-    if ( inventario.codigo === ""){
+    if (inventario.codigo === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if ( inventario.descripcion === ""){
+    if (inventario.descripcion === "") {
       text.value = "El campo Descripcion es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if ( inventario.valor === ""){
+    if (inventario.valor === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if ( inventario.cantidad === ""){
+    if (inventario.cantidad === "") {
       text.value = "El campo Cantidad es obligatorio";
       registroFallido.value = true;
       ocultar();
@@ -442,14 +442,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -460,14 +461,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -481,13 +483,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -498,6 +500,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

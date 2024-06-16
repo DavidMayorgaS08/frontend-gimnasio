@@ -46,10 +46,6 @@ const checkAuth = () => {
     return true
 };
 
-
-
-
-
 const routes = [
     {
         path: '/',

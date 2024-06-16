@@ -125,11 +125,14 @@ const listarPorId = async () => {
 };
 
 const mantenimiento = async () => {
+  await useMantenimientos.getMantenimientos();
   await useMaquinas.getMaquinas();
   router.push("/formularioMantenimiento");
 };
 
-let ver = (row) => {
+let ver = async (row) => {
+  r = await useMantenimientos.getMantenimiento(row._id);
+  router.push("/formularioMantenimiento");
   console.log(row);
 };
 </script>

@@ -12,7 +12,6 @@ export const useSedeStore = defineStore("sede", () =>{
                 headers: {
                     "x-token": token.value
                 }
-            
             });
             sede.value = res.data;
             console.log(res);

@@ -124,6 +124,7 @@ import { useMaquinaStore } from "../../stores/maquina.js";
 
 let useMantenimientos = useMantenimientoStore();
 let useMaquinas = useMaquinaStore();
+let mantenimientos = ref(useMantenimientos.mantenimiento);
 
 let maquinas = ref(useMaquinas.maquina);
 
@@ -144,6 +145,8 @@ const ocultar = () => {
     registroFallido.value = false;
   }, 3000);
 };
+
+console.log(mantenimientos.value);
 
 async function Mantenimiento() {
   try {

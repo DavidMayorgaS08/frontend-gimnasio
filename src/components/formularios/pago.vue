@@ -24,7 +24,7 @@
               :key="plan.id"
               :value="index + 1"
             >
-              {{ plan.codigo }}
+              {{ plan.descripcion }}
             </option>
           </select>
           <label>Planes</label>
@@ -172,18 +172,33 @@ async function Pago() {
 
     if(pago.cliente_id === "") {
       text.value = "Seleccione un cliente";
+      registroFallido.value = true;
+      ocultar();
+      return;
     }
     if(pago.plan === "") {
       text.value = "Seleccione un plan";
+      registroFallido.value = true;
+      ocultar();
+      return;
     }
     if(pago.fecha === "") {
       text.value = "Seleccione una fecha";
+      registroFallido.value = true;
+      ocultar();
+      return;
     }
     if(pago.valor === "") {
       text.value = "Ingrese un valor";
+      registroFallido.value = true;
+      ocultar();
+      return;
     }
     if(pago.estado === "") {
       text.value = "Ingrese un estado";
+      registroFallido.value = true;
+      ocultar();
+      return;
     }
 
     r = await usePagos.postPago(pago);
