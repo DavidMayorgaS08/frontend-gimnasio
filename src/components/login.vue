@@ -8,9 +8,15 @@
           <label>Correo</label>
         </div>
         <div class="user-box">
-          <input type="password" name="" required="" v-model="contraseña" />
+          <input
+            :type="passwordFieldType"
+            name=""
+            required=""
+            v-model="contraseña"
+          />
           <label>Contraseña</label>
         </div>
+        <svg class="ojo" @click="togglePasswordVisibility()" viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path></svg>
         <center>
           <button @click.prevent="loginUsuario()">ingresar</button>
         </center>
@@ -66,6 +72,12 @@ const ocultar = () => {
 
 let correo = ref("mejiaplata@gmail.com");
 let contraseña = ref("nolefio12");
+let passwordFieldType = ref("password");
+
+const togglePasswordVisibility = () => {
+  passwordFieldType.value =
+    passwordFieldType.value === "password" ? "text" : "password";
+};
 
 async function loginUsuario() {
   try {
@@ -77,8 +89,8 @@ async function loginUsuario() {
     if (r && r.usuario && r.token) {
       router.push("/menu");
     } else {
-        registroFallido.value = true;
-        ocultar();
+      registroFallido.value = true;
+      ocultar();
     }
   } catch (error) {
     console.log(error);
@@ -244,20 +256,29 @@ button:after {
   transition-property: width, left;
 }
 
+.ojo {
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  fill: #c7c7c7;
+}
 
 .error {
   position: absolute;
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -268,14 +289,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -289,13 +311,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -306,6 +328,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>
