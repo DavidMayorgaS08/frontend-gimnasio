@@ -12,8 +12,6 @@
           Listar por cliente
         </button>
         <button class="btn" @click="pago()">Crear pago</button>
-        <button class="btn" @click="cambiarEstados()">Cambiar estado</button>
-        <button class="btn" @click="terminar()" v-if="terminado">Terminado</button>
       </div>
       <div class="q-pa-md">
         <q-table title="Pagos" :rows="rows" :columns="columns" row-key="name">
@@ -45,7 +43,7 @@
                   <span class="lable"></span>
                 </button>
               </q-btn>
-              <q-btn flat dense round v-if="estados">
+              <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
                   v-if="props.row.estado == 0"
@@ -310,8 +308,6 @@ let pago = async () => {
 }; 
 
 let editar = ref(true);
-let estados = ref(false);
-let terminado = ref(false);
 
 let form = ref(false);
 let registroExitoso = ref(false);
@@ -420,12 +416,6 @@ let modificarPago = async () => {
   }
 }
 
-let cambiarEstados = () => {
-  editar.value = false;
-  estados.value = true;
-  terminado.value = true;
-}
-
 let activar = async (row) => {
   await usePagos.activar(row._id);
   r = await usePagos.getPagos();
@@ -436,12 +426,6 @@ let inactivar = async (row) => {
   await usePagos.inactivar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
-}
-
-let terminar = () => {
-  editar.value = true;
-  estados.value = false;
-  terminado.value = false;
 }
 </script>
 <style scoped>
@@ -575,6 +559,7 @@ let terminar = () => {
 
 .cont_btns {
   display: flex;
+  margin-left: 5px;
 }
 
 .btn_activo, .btn_inactivo {

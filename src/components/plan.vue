@@ -10,8 +10,6 @@
         <router-link to="/formularioPlan"
           ><button class="btn">Crear plan</button></router-link
         >
-        <button class="btn" @click="cambiarEstados()">Cambiar estado</button>
-        <button class="btn" @click="terminar()" v-if="terminado">Terminado</button>
       </div>
       <div class="q-pa-md">
         <q-table title="Planes" :rows="rows" :columns="columns" row-key="name">
@@ -43,7 +41,7 @@
                   <span class="lable"></span>
                 </button>
               </q-btn>
-              <q-btn flat dense round v-if="estados">
+              <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
                   v-if="props.row.estado == 0"
@@ -255,8 +253,6 @@ let inactivos = async () => {
 };
 
 let editar = ref(true);
-let estados = ref(false);
-let terminado = ref(false);
 
 let form = ref(false);
 let registroExitoso = ref(false);
@@ -350,12 +346,6 @@ let modificarPlan = async () => {
   }
 }
 
-let cambiarEstados = () => {
-  editar.value = false;
-  estados.value = true;
-  terminado.value = true;
-};
-
 let activar = async (row) => {
   await usePlanes.activar(row._id);
   r = await usePlanes.getPlanes();
@@ -366,12 +356,6 @@ let inactivar = async (row) => {
   await usePlanes.inactivar(row._id);
   r = await usePlanes.getPlanes();
   rows.value = r;
-};
-
-let terminar = () => {
-  editar.value = true;
-  estados.value = false;
-  terminado.value = false;
 };
 </script>
 <style scoped>
@@ -505,6 +489,7 @@ let terminar = () => {
 
 .cont_btns {
   display: flex;
+  margin-left: 5px;
 }
 
 .btn_activo, .btn_inactivo {

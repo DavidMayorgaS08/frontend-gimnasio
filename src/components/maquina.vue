@@ -12,10 +12,6 @@
             Crear maquina
           </button></router-link
         >
-        <button class="btn" @click="cambiarEstados()">Cambiar estado</button>
-        <button class="btn" @click="terminar()" v-if="terminado">
-          Terminado
-        </button>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -52,7 +48,7 @@
                   <span class="lable"></span>
                 </button>
               </q-btn>
-              <q-btn flat dense round v-if="estados">
+              <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
                     v-if="props.row.estado == 0"
@@ -313,8 +309,6 @@ let maquina = async () => {
 };
 
 let editar = ref(true);
-let estados = ref(false);
-let terminado = ref(false);
 
 let form = ref(false);
 let registroExitoso = ref(false);
@@ -421,12 +415,6 @@ let modificarMaquina = async () => {
   }
 };
 
-let cambiarEstados = () => {
-  editar.value = false;
-  estados.value = true;
-  terminado.value = true;
-};
-
 let activar = async (row) => {
   await useMaquinas.activarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
@@ -437,12 +425,6 @@ let inactivar = async (row) => {
   await useMaquinas.inactivarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
   rows.value = r;
-};
-
-let terminar = () => {
-  editar.value = true;
-  estados.value = false;
-  terminado.value = false;
 };
 
 let ocultar = () => {
@@ -580,6 +562,7 @@ let ocultar = () => {
 
 .cont_btns {
   display: flex;
+  margin-left: 5px;
 }
 
 .btn_activo,

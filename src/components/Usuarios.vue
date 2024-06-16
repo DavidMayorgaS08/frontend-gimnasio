@@ -9,8 +9,6 @@
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="ListarPorRol()">Listar por rol</button>
         <router-link to="/registroTrabajadores"><button class="btn" @click="usuario()">Crear usuario</button></router-link>
-        <button class="btn" @click="cambiarEstados()">Cambiar estado</button>
-        <button class="btn" @click="terminar()" v-if="terminado">Terminado</button>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -47,7 +45,7 @@
                   <span class="lable"></span>
                 </button>
               </q-btn>
-              <q-btn flat dense round v-if="estados">
+              <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
                   v-if="props.row.estado == 0"
@@ -282,8 +280,6 @@ let usuario = async () => {
 };
 
 let editar = ref(true);
-let estados = ref(false);
-let terminado = ref(false);
 
 let form = ref(false)
 let registroExitoso = ref(false)
@@ -400,12 +396,6 @@ let modificarUsuario = async () => {
   }
 }
 
-let cambiarEstados = () => {
-  editar.value = false;
-  estados.value = true;
-  terminado.value = true;
-};
-
 let activar = async (row) => {
   await useUsuarios.activar(row._id);
   r = await useUsuarios.getUsuarios();
@@ -416,12 +406,6 @@ let inactivar = async (row) => {
   await useUsuarios.inactivar(row._id);
   r = await useUsuarios.getUsuarios();
   rows.value = r;
-};
-
-let terminar = () => {
-  editar.value = true;
-  estados.value = false;
-  terminado.value = false;
 };
 </script>
 <style scoped>
@@ -555,6 +539,7 @@ let terminar = () => {
 
 .cont_btns {
   display: flex;
+  margin-left: 5px;
 }
 
 .btn_activo, .btn_inactivo {
