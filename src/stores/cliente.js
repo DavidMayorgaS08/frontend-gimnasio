@@ -144,13 +144,11 @@ export const useClienteStore = defineStore("cliente", () => {
 
     let putActivar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/cliente/activar/${id}`,
-            {
+            let res = await axios.put(`http://localhost:3000/cliente/activar/${id}`, {}, {
                 headers: {
                     "x-token": token.value
                 }
-            }
-            );
+            });
             console.log(res);
             return res.data;
         } catch (error) {
@@ -161,13 +159,11 @@ export const useClienteStore = defineStore("cliente", () => {
 
     let putInactivar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/cliente/inactivar/${id}`,
-            {
+            let res = await axios.put(`http://localhost:3000/cliente/inactivar/${id}`, {}, {
                 headers: {
                     "x-token": token.value
                 }
-            }
-            );
+            });
             console.log(res);
             return res.data;
         } catch (error) {

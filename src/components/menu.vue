@@ -30,7 +30,7 @@
     </div>
     <div :class="{ cont_menu: true, 'menu-open': menuOpen }">
       <router-link to="/cliente"
-        ><button class="btn">Clientes</button></router-link
+        ><button class="btn" @click="cliente()">Clientes</button></router-link
       >
       <router-link to="/ingreso"
         ><button class="btn" @click="ingreso()">Ingresos</button></router-link
@@ -82,6 +82,7 @@
   </div>
 </template>
 <script setup>
+import { useClienteStore } from "../stores/cliente.js";
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useInventarioStore } from "../stores/inventario.js";
 import { useMantenimientoStore } from "../stores/mantenimiento.js";
@@ -98,6 +99,17 @@ let isChecked = ref(false);
 
 const menu = () => {
   menuOpen.value = !menuOpen.value;
+};
+
+const cliente = async () => {
+  const clienteStore = useClienteStore();
+  try {
+    await clienteStore.getClientes();
+    isChecked.value = false;
+    menu();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const ingreso = async () => {
@@ -367,8 +379,8 @@ const cerrarSesion = () => {
 .cont_btn_salir {
   position: absolute;
   z-index: 100;
-  bottom: 10px;
-  right: 10px;
+  top: 10px;
+  right: 90px;
 }
 
 .Btn {

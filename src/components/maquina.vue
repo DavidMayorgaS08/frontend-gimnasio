@@ -7,11 +7,7 @@
         <button class="btn" @click="abrirId()">Listar por id</button>
         <button class="btn" @click="listarActivas()">Listar activas</button>
         <button class="btn" @click="listarInactivas()">Listar Inactivas</button>
-        <router-link to="/formularioMaquina"
-          ><button class="btn" @click="maquina()">
-            Crear maquina
-          </button></router-link
-        >
+        <button class="btn" @click="maquina()">Crear maquina</button>
       </div>
       <div class="q-pa-md">
         <q-table

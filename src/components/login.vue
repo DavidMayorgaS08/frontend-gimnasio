@@ -255,7 +255,7 @@ button:after {
   transition-duration: 400ms;
   transition-property: width, left;
 }
-
+ 
 .ojo {
   position: absolute;
   top: 50%;

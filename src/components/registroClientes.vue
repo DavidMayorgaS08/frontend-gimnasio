@@ -2,48 +2,373 @@
   <div class="app">
     <div class="container"></div>
     <div class="login-box">
-      <form>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="nombre" />
-          <label>Nombre Completo</label>
+      <div class="form">
+        <form>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="nombre" />
+            <label>Nombre Completo</label>
+          </div>
+          <div class="user-box">
+            <input type="Date" name="" required="" v-model="fechaNacimiento" />
+            <label>Fecha de nacimiento</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="edad" />
+            <label>Edad</label>
+          </div>
+          <div class="user-box">
+            <input type="Date" name="" required="" v-model="fechaIngreso" />
+            <label>Fecha de ingreso</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="documento" />
+            <label>Documento</label>
+          </div>
+        </form>
+        <form>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="direccion" />
+            <label>Dirección</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="Telefono" />
+            <label>Telefono</label>
+          </div>
+          <div class="user-box">
+            <input type="text" name="" required="" v-model="limitaciones" />
+            <label>Limitaciones</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="estado" />
+            <label>Estado</label>
+          </div>
+          <div class="user-box">
+            <select required v-model="selectedOptionP">
+            <option value="" disabled selected hidden></option>
+            <option
+              v-for="(plan, index) in planes"
+              :key="plan.id"
+              :value="index + 1"
+            >
+              {{ plan.descripcion }}
+            </option>
+          </select>
+            <label>Plan</label>
+          </div>
+        </form>
+        <div class="titulo_seguimiento">
+          <p class="tex_seguimiento">Seguimiento</p>
         </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="sede" />
-          <label>Sede</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Correo" />
-          <label>Correo</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Contraseña" />
-          <label>Contraseña</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Telefono" />
-          <label>Telefono</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="estado" />
-          <label>Estado</label>
-        </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Rol" />
-          <label>Rol</label>
-        </div>
-        <center>
-          <button @click.prevent="registrarUsuario()">registrar</button>
-        </center>
-      </form>
+        <form>
+          <div class="user-box">
+            <input type="Date" name="" required="" v-model="fecha" />
+            <label>Fecha</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="peso" />
+            <label>Peso</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="Altura" />
+            <label>Altura</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="imc" />
+            <label>IMC</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="medidaBrazo" />
+            <label>Medida del brazo</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="medidaPierna" />
+            <label>Medida de la pierna</label>
+          </div>
+          <div class="user-box">
+            <input type="Number" name="" required="" v-model="medidaCintura" />
+            <label>Medida de la cintura</label>
+          </div>
+        </form>
+      </div>
+      <center>
+        <button @click.prevent="cliente()">registrar</button>
+      </center>
     </div>
     <div class="cont_btn">
-      <router-link to="/usuarios">
+      <router-link to="/cliente">
         <button class="btn">Volver</button>
       </router-link>
+    </div>
+    <div :class="registroExitoso ? 'success1' : 'success'">
+      <div class="success__icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          viewBox="0 0 24 24"
+          height="24"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            fill="#393a37"
+            d="m12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm4.768 9.14c.0878-.1004.1546-.21726.1966-.34383.0419-.12657.0581-.26026.0477-.39319-.0105-.13293-.0475-.26242-.1087-.38085-.0613-.11844-.1456-.22342-.2481-.30879-.1024-.08536-.2209-.14938-.3484-.18828s-.2616-.0519-.3942-.03823c-.1327.01366-.2612.05372-.3782.1178-.1169.06409-.2198.15091-.3027.25537l-4.3 5.159-2.225-2.226c-.1886-.1822-.4412-.283-.7034-.2807s-.51301.1075-.69842.2929-.29058.4362-.29285.6984c-.00228.2622.09851.5148.28067.7034l3 3c.0983.0982.2159.1748.3454.2251.1295.0502.2681.0729.4069.0665.1387-.0063.2747-.0414.3991-.1032.1244-.0617.2347-.1487.3236-.2554z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+      </div>
+      <div class="success__title">Registro Exitoso</div>
+      <div class="success__close" @click="cerrar()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          viewBox="0 0 20 20"
+          height="20"
+        >
+          <path
+            fill="#393a37"
+            d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+    <div :class="registroFallido ? 'error1' : 'error'">
+      <div class="error__icon">
+        <svg
+          fill="none"
+          height="24"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"
+            fill="#393a37"
+          ></path>
+        </svg>
+      </div>
+      <div class="error__title">{{ text }}</div>
+      <div class="error__close" @click="cerrar()">
+        <svg
+          height="20"
+          viewBox="0 0 20 20"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+            fill="#393a37"
+          ></path>
+        </svg>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
+import { ref } from "vue";
+import { useClienteStore } from "../stores/cliente.js";
+import { usePlanStore } from "../stores/plan.js";
+
+let useClientes = useClienteStore();
+let usePlanes = usePlanStore();
+
+let planes = ref(usePlanes.plan);
+
+let nombre = ref("");
+let fechaNacimiento = ref("");
+let edad = ref("");
+let fechaIngreso = ref("");
+let documento = ref("");
+let direccion = ref("");
+let Telefono = ref("");
+let limitaciones = ref("");
+let estado = ref("");
+let selectedOptionP = ref("");
+let fecha = ref("");
+let peso = ref("");
+let Altura = ref("");
+let imc = ref("");
+let medidaBrazo = ref("");
+let medidaPierna = ref("");
+let medidaCintura = ref("");
+
+let registroExitoso = ref(false);
+let registroFallido = ref(false);
+let text = ref("");
+
+let r = null;
+
+const ocultar = () => {
+  setTimeout(() => {
+    registroExitoso.value = false;
+    registroFallido.value = false;
+  }, 3000);
+}
+
+const cerrar = () => {
+  registroExitoso.value = false;
+  registroFallido.value = false;
+}
+
+async function cliente() {
+  try {
+    let plan = () => {
+      let selectedPlan = planes.value[selectedOptionP.value - 1];
+      return selectedPlan._id;
+    }
+
+    let plan_id = plan();
+    
+    let cliente = {
+      nombre: nombre.value,
+      fechaNacimiento: fechaNacimiento.value,
+      edad: edad.value,
+      fechaIngreso: fechaIngreso.value,
+      documento: documento.value,
+      direccion: direccion.value,
+      telefono: Telefono.value,
+      limitaciones: limitaciones.value,
+      estado: estado.value,
+      plan: plan_id,
+      seguimiento: [{
+        fecha: fecha.value,
+        peso: peso.value,
+        altura: Altura.value,
+        imc: imc.value,
+        medidaBrazo: medidaBrazo.value,
+        medidaPierna: medidaPierna.value,
+        medidaCintura: medidaCintura.value,
+      }],
+    };
+
+    if(cliente.nombre === "") {
+      text.value = "El campo nombre es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.fechaNacimiento === "") {
+      text.value = "El campo fecha de nacimiento es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.edad === "") {
+      text.value = "El campo edad es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.fechaIngreso === "") {
+      text.value = "El campo fecha de ingreso es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.documento === "") {
+      text.value = "El campo documento es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.direccion === "") {
+      text.value = "El campo dirección es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.Telefono === "") {
+      text.value = "El campo telefono es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.limitaciones === "") {
+      text.value = "El campo limitaciones es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.estado === "") {
+      text.value = "El campo estado es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.plan === "") {
+      text.value = "El campo plan es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.fecha === "") {
+      text.value = "El campo fecha es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.peso === "") {
+      text.value = "El campo peso es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.Altura === "") {
+      text.value = "El campo altura es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.imc === "") {
+      text.value = "El campo imc es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.medidaBrazo === "") {
+      text.value = "El campo medida del brazo es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.medidaPierna === "") {
+      text.value = "El campo medida de la pierna es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    if(cliente.seguimiento.medidaCintura === "") {
+      text.value = "El campo medida de la cintura es obligatorio";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
+    r = await useClientes.postCliente(cliente);
+    registroExitoso.value = true;
+    ocultar();
+  } catch (error) {
+    text.value = "Error al registrar el cliente";
+    registroFallido.value = true;
+    ocultar();
+    console.log(error);
+  }
+}
 </script>
 <style scoped>
 .app {
@@ -73,7 +398,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 400px;
+  width: 1200px;
   padding: 40px;
   transform: translate(-50%, -50%);
   background: rgba(24, 20, 20, 0.987);
@@ -86,16 +411,54 @@
   position: relative;
 }
 
+.titulo_seguimiento{
+  position: absolute;
+  color: #ffffff;
+  top: 20px;
+  right: 18%;
+  translate: 50%;
+  font-size: 20px;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+}
+
+.login-box form {
+  width: 100%;
+  margin: 10px;
+}
+
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
   margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid #fff;
   outline: none;
   background: transparent;
+}
+
+.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+  color: #ffffff;
+}
+
+.empty {
+  color: #181414fc;
+}
+
+.login-box .user-box input[type="date"]:focus {
+  color: #ffffff;
+}
+
+.login-box .user-box input[type="date"]:valid {
+  color: #ffffff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%);
 }
 
 .login-box .user-box label {
@@ -204,6 +567,33 @@ button:after {
   transition-property: width, left;
 }
 
+.user-box select {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  appearance: none; /* Ocultar la flecha predeterminada en algunos navegadores */
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.user-box select option {
+  background-color: #181414fc;
+  color: white;
+}
+
+.user-box select:focus ~ label,
+.user-box select:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
+}
+
 .cont_btn {
   position: absolute;
   bottom: 10px;
@@ -252,5 +642,137 @@ button:after {
 .btn:hover {
   border-color: #666666;
   background: #292929;
+}
+
+.success {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #84d65a;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  transition: all 0.5s;
+}
+
+.success1 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #84d65a;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  transition: all 0.5s;
+}
+
+.success__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.success__icon path {
+  fill: #393a37;
+}
+
+.success__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #393a37;
+}
+
+.success__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.success__close path {
+  fill: #393a37;
+}
+
+.error {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #fce8db;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  transition: all 0.5s;
+}
+
+.error1 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: 320px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background: #fce8db;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px -3px #111;
+  transition: all 0.5s;
+}
+
+.error__icon {
+  width: 20px;
+  height: 20px;
+  transform: translateY(-2px);
+  margin-right: 8px;
+}
+
+.error__icon path {
+  fill: #ef665b;
+}
+
+.error__title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #71192f;
+}
+
+.error__close {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.error__close path {
+  fill: #71192f;
 }
 </style>
