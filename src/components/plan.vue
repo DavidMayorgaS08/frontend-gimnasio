@@ -114,7 +114,12 @@
           <label>Estado</label>
         </div>
         <center>
-          <button @click.prevent="modificarPlan()">modificar</button>
+          <q-btn @click.prevent="modificarPlan()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -184,6 +189,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { usePlanStore } from "../stores/plan.js";
 
 const formatNumber = (number) => {
@@ -291,6 +297,7 @@ let ocultar = () => {
 };
 
 let modificarPlan = async () => {
+  loading.value = true
   try {
     let plan = {
       codigo: Codigo.value,
@@ -339,6 +346,7 @@ let modificarPlan = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false
     r = await usePlanes.getPlanes();
     rows.value = r;
   } catch (error) {

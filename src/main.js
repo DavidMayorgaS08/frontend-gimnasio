@@ -20,7 +20,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
 const app = createApp(App)
 
-app.use(Quasar) 
+app.use(Quasar)
 app.use(router)
 app.use(pinia)
 

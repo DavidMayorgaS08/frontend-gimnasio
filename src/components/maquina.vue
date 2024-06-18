@@ -143,7 +143,12 @@
           <label>Estado</label>
         </div>
         <center>
-          <button @click.prevent="modificarMaquina()">modificar</button>
+          <q-btn @click.prevent="modificarMaquina()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -213,6 +218,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { useMaquinaStore } from "../stores/maquina.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -343,6 +349,7 @@ const ocultarD = () => {
 };
 
 let modificarMaquina = async () => {
+  loading.value = true
   try {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
@@ -401,6 +408,7 @@ let modificarMaquina = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false;
     r = await useMaquinas.getMaquinas();
     rows.value = r;
   } catch (error) {

@@ -131,7 +131,12 @@
           <label>Rol</label>
         </div>
         <center>
-          <button @click.prevent="modificarUsuario()">modificar</button>
+          <q-btn @click.prevent="modificarUsuario()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -201,6 +206,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { useUsuarioStore } from "../stores/usuarios.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -321,6 +327,7 @@ const ocultarD = () => {
 };
 
 let modificarUsuario = async () => {
+  loading.value = true
   try {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
@@ -385,6 +392,7 @@ let modificarUsuario = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false
     r = await useUsuarios.getUsuarios();
     rows.value = r;
   } catch (error) {

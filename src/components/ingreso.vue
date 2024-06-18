@@ -99,7 +99,12 @@
           <label>Sedes</label>
         </div>
         <center>
-          <button @click.prevent="modificarIngreso()">modificar</button>
+          <q-btn @click.prevent="modificarIngreso()" :loading="loading">
+            modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -169,6 +174,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { useSedeStore } from "../stores/sede.js";
@@ -274,10 +280,11 @@ let ver = async (ingreso) => {
   sedes.value = useSedes.sede;
   form.value = true;
   fecha.value = ingreso.fecha.split("T")[0];
-  selectedOptionC.value = clientes.value.findIndex((cliente) => cliente._id === ingreso.cliente_id) + 1;
-  selectedOptionS.value = sedes.value.findIndex(
-    (sede) => sede._id === ingreso.sede
-  ) + 1;
+  selectedOptionC.value =
+    clientes.value.findIndex((cliente) => cliente._id === ingreso.cliente_id) +
+    1;
+  selectedOptionS.value =
+    sedes.value.findIndex((sede) => sede._id === ingreso.sede) + 1;
   Id.value = ingreso._id;
 };
 
@@ -289,6 +296,7 @@ const ocultarD = () => {
 };
 
 let modificarIngreso = async () => {
+  loading.value = true
   try {
     let cliente = () => {
       let selectedCliente = clientes.value[selectedOptionC.value - 1];
@@ -332,6 +340,7 @@ let modificarIngreso = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false;
     r = await useIngresos.getIngresos();
     rows.value = r;
   } catch (error) {
@@ -340,11 +349,11 @@ let modificarIngreso = async () => {
     ocultarD();
     return;
   }
-}
+};
 
 onMounted(() => {
-  listarIngesos()
-})
+  listarIngesos();
+});
 </script>
 <style scoped>
 .app {

@@ -77,19 +77,26 @@
           </template>
           <template v-slot:body-cell-estado="props">
             <q-td>
-              <span
-                v-if="props.row.estado == 1"
-                >Activo</span
-              >
-              <span
-                v-else
-                >Inactivo</span
-              >
+              <span v-if="props.row.estado == 1">Activo</span>
+              <span v-else>Inactivo</span>
             </q-td>
           </template>
           <template v-slot:body-cell-seguimiento="props">
-            <q-td :props="props" style="display: flex; justify-content: center; align-items: center; height: 81px;">
-              <button class="btn_ver" @click="verSeguimiento(props.row.seguimiento)">ver</button>
+            <q-td
+              :props="props"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 81px;
+              "
+            >
+              <button
+                class="btn_ver"
+                @click="verSeguimiento(props.row.seguimiento)"
+              >
+                ver
+              </button>
             </q-td>
           </template>
         </q-table>
@@ -157,15 +164,15 @@
           </div>
           <div class="user-box">
             <select required v-model="selectedOptionP">
-            <option value="" disabled selected hidden></option>
-            <option
-              v-for="(plan, index) in planes"
-              :key="plan.id"
-              :value="index + 1"
-            >
-              {{ plan.descripcion }}
-            </option>
-          </select>
+              <option value="" disabled selected hidden></option>
+              <option
+                v-for="(plan, index) in planes"
+                :key="plan.id"
+                :value="index + 1"
+              >
+                {{ plan.descripcion }}
+              </option>
+            </select>
             <label>Plan</label>
           </div>
         </form>
@@ -204,7 +211,12 @@
         </form>
       </div>
       <center>
-        <button @click.prevent="modificarcliente()">modificar</button>
+        <q-btn @click.prevent="modificarcliente()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </center>
     </div>
     <div :class="registroExitoso ? 'success1' : 'success'">
@@ -273,6 +285,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
 import { useRouter } from "vue-router";
@@ -366,7 +379,7 @@ let id = async () => {
   p.value = await usePlanes.getPlanes();
   rows.value = r;
   cont_id.value = false;
-}
+};
 
 let lsitarActivos = async () => {
   r = await useClientes.getActivos();
@@ -436,9 +449,8 @@ let ver = async (row) => {
   Telefono.value = row.telefono;
   limitaciones.value = row.limitaciones;
   estado.value = row.estado;
-  selectedOptionP.value = planes.value.findIndex(
-    (plan) => plan._id === row.plan
-  ) + 1;
+  selectedOptionP.value =
+    planes.value.findIndex((plan) => plan._id === row.plan) + 1;
   fecha.value = row.seguimiento[0].fecha.split("T")[0];
   peso.value = row.seguimiento[0].peso;
   Altura.value = row.seguimiento[0].altura;
@@ -457,14 +469,15 @@ const ocultarD = () => {
 };
 
 let modificarcliente = async () => {
+  loading.value = true
   try {
     let plan = () => {
       let selectedPlan = planes.value[selectedOptionP.value - 1];
       return selectedPlan._id;
-    }
+    };
 
     let plan_id = plan();
-    
+
     let cliente = {
       nombre: nombre.value,
       fechaNacimiento: fechaNacimiento.value,
@@ -476,130 +489,132 @@ let modificarcliente = async () => {
       limitaciones: limitaciones.value,
       estado: estado.value,
       plan: plan_id,
-      seguimiento: [{
-        fecha: fecha.value,
-        peso: peso.value,
-        altura: Altura.value,
-        imc: imc.value,
-        medidaBrazo: medidaBrazo.value,
-        medidaPierna: medidaPierna.value,
-        medidaCintura: medidaCintura.value,
-      }],
+      seguimiento: [
+        {
+          fecha: fecha.value,
+          peso: peso.value,
+          altura: Altura.value,
+          imc: imc.value,
+          medidaBrazo: medidaBrazo.value,
+          medidaPierna: medidaPierna.value,
+          medidaCintura: medidaCintura.value,
+        },
+      ],
     };
 
-    if(cliente.nombre === "") {
+    if (cliente.nombre === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.fechaNacimiento === "") {
+    if (cliente.fechaNacimiento === "") {
       text.value = "El campo fecha de nacimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.edad === "") {
+    if (cliente.edad === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.fechaIngreso === "") {
+    if (cliente.fechaIngreso === "") {
       text.value = "El campo fecha de ingreso es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.documento === "") {
+    if (cliente.documento === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.direccion === "") {
+    if (cliente.direccion === "") {
       text.value = "El campo dirección es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.Telefono === "") {
+    if (cliente.Telefono === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.limitaciones === "") {
+    if (cliente.limitaciones === "") {
       text.value = "El campo limitaciones es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.estado === "") {
+    if (cliente.estado === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.plan === "") {
+    if (cliente.plan === "") {
       text.value = "El campo plan es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.fecha === "") {
+    if (cliente.seguimiento.fecha === "") {
       text.value = "El campo fecha es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.peso === "") {
+    if (cliente.seguimiento.peso === "") {
       text.value = "El campo peso es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.Altura === "") {
+    if (cliente.seguimiento.Altura === "") {
       text.value = "El campo altura es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.imc === "") {
+    if (cliente.seguimiento.imc === "") {
       text.value = "El campo imc es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaBrazo === "") {
+    if (cliente.seguimiento.medidaBrazo === "") {
       text.value = "El campo medida del brazo es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaPierna === "") {
+    if (cliente.seguimiento.medidaPierna === "") {
       text.value = "El campo medida de la pierna es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaCintura === "") {
+    if (cliente.seguimiento.medidaCintura === "") {
       text.value = "El campo medida de la cintura es obligatorio";
       registroFallido.value = true;
       ocultar();
@@ -610,6 +625,7 @@ let modificarcliente = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false 
     r = await useClientes.getClientes();
     rows.value = r;
   } catch (error) {
@@ -619,7 +635,7 @@ let modificarcliente = async () => {
     console.log(error);
     return;
   }
-}
+};
 
 let ocultar = () => {
   form.value = false;
@@ -937,7 +953,7 @@ label {
   font-size: 16px;
 }
 
-.btn_ver{
+.btn_ver {
   padding: 8px 10px;
   border: none;
   background-color: #1a1a1a;
@@ -951,10 +967,9 @@ label {
   font-size: 15px;
 }
 
-.btn_ver:hover{
+.btn_ver:hover {
   background: #141414bb;
 }
-
 
 .login-box {
   position: absolute;
@@ -974,7 +989,7 @@ label {
   position: relative;
 }
 
-.titulo_seguimiento{
+.titulo_seguimiento {
   position: absolute;
   color: #ffffff;
   top: 20px;
@@ -1004,7 +1019,8 @@ label {
   background: transparent;
 }
 
-.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+.login-box .user-box input[type="text"],
+.login-box .user-box input[type="number"] {
   color: #ffffff;
 }
 
@@ -1164,7 +1180,6 @@ button:after {
   color: #bdb8b8;
   font-size: 12px;
 }
-
 
 .success {
   position: absolute;

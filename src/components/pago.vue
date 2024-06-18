@@ -128,7 +128,12 @@
           <label>Estado</label>
         </div>
         <center>
-          <button @click.prevent="modificarPago()">modificar</button>
+          <q-btn @click.prevent="modificarPago()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -198,6 +203,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { usePagoStore } from "../stores/pago.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
@@ -352,6 +358,7 @@ const ocultarD = () => {
 };
 
 let modificarPago = async () => {
+  loading.value = true
   try {
     let cliente = () => {
       let selectedCliente = clientes.value[selectedOptionC.value - 1];
@@ -409,6 +416,7 @@ let modificarPago = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false
     r = await usePagos.getPagos();
     rows.value = r;
   } catch (error) {

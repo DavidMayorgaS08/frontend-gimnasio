@@ -88,7 +88,12 @@
           <label>Telefono</label>
         </div>
         <center>
-          <button @click.prevent="modificarSede()">modificar</button>
+          <q-btn @click.prevent="modificarSede()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -158,6 +163,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+let loading = ref(false)
 import { useSedeStore } from "../stores/sede.js";
 
 let useSedes = useSedeStore();
@@ -245,6 +251,7 @@ const ocultarD = () => {
 };
 
 let modificarSede = async () => {
+  loading.value = true
   try {
     let sede = {
       nombre: Nombre.value,
@@ -301,6 +308,7 @@ let modificarSede = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = true
     r = await useSedes.getSedes();
     rows.value = r;
   } catch (error) {
