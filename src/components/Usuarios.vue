@@ -200,7 +200,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useUsuarioStore } from "../stores/usuarios.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -405,6 +405,10 @@ let inactivar = async (row) => {
   r = await useUsuarios.getUsuarios();
   rows.value = r;
 };
+
+onMounted(() => {
+  listarUsuarios()
+})
 </script>
 <style scoped>
 .app {

@@ -168,7 +168,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { useSedeStore } from "../stores/sede.js";
@@ -341,6 +341,10 @@ let modificarIngreso = async () => {
     return;
   }
 }
+
+onMounted(() => {
+  listarIngesos()
+})
 </script>
 <style scoped>
 .app {

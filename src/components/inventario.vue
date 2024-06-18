@@ -161,7 +161,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useInventarioStore } from "../stores/inventario.js";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -319,6 +319,10 @@ let modificarInventario = async () => {
 let ocultar = () => {
   form.value = false;
 };
+
+onMounted(() => {
+  listarInventarios()
+})
 </script>
 <style scoped>
 .app {

@@ -183,7 +183,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { usePlanStore } from "../stores/plan.js";
 
 const formatNumber = (number) => {
@@ -359,6 +359,10 @@ let inactivar = async (row) => {
   r = await usePlanes.getPlanes();
   rows.value = r;
 };
+
+onMounted(() => {
+  listarPlanes()
+})
 </script>
 <style scoped>
 .app {

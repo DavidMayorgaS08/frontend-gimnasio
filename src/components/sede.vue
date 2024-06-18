@@ -157,7 +157,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useSedeStore } from "../stores/sede.js";
 
 let useSedes = useSedeStore();
@@ -310,6 +310,10 @@ let modificarSede = async () => {
     return;
   }
 }
+
+onMounted(() => {
+  listarSedes()
+})
 </script>
 <style scoped>
 .app {

@@ -272,7 +272,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
 import { useRouter } from "vue-router";
@@ -636,6 +636,10 @@ let inactivar = async (row) => {
   r = await useClientes.getClientes();
   rows.value = r;
 };
+
+onMounted(() => {
+  listarClientes();
+});
 </script>
 <style scoped>
 .app {

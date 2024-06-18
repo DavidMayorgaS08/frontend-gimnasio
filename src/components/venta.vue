@@ -151,7 +151,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useVentaStore } from "../stores/venta.js";
 
 const formatNumber = (number) => {
@@ -295,6 +295,10 @@ let modificarVenta = async () => {
     ocultarD();
   }
 }
+
+onMounted(() => {
+  listarVentas()
+})
 </script>
 <style scoped>
 .app {

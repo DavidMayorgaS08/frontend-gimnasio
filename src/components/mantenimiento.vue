@@ -54,7 +54,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useMantenimientoStore } from "../stores/mantenimiento.js";
 import { useMaquinaStore } from "../stores/maquina.js";
 import { useRouter } from "vue-router";
@@ -135,6 +135,10 @@ let ver = async (row) => {
   router.push("/formularioMantenimiento");
   console.log(row);
 };
+
+onMounted(() => {
+  listarMantenimientos()
+})
 </script>
 <style scoped>
 .app {

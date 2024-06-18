@@ -60,37 +60,44 @@ const routes = [
             {
                 path: '/cliente',
                 name: 'cliente',
-                component: cliente
+                component: cliente,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/ingreso',
                 name: 'ingreso',
-                component: ingreso
+                component: ingreso,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/inventario',
                 name: 'inventario',
-                component: inventario
+                component: inventario,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/mantenimiento',
                 name: 'mantenimiento',
-                component: mantenimiento
+                component: mantenimiento,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/maquina',
                 name: 'maquina',
-                component: maquina
+                component: maquina,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/pago',
                 name: 'pago',
-                component: pago
+                component: pago,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/plan',
                 name: 'plan',
-                component: plan
+                component: plan,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/sede',
@@ -101,62 +108,74 @@ const routes = [
             {
                 path: '/usuarios',
                 name: 'Usuarios',
-                component: Usuarios
+                component: Usuarios,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/venta',
                 name: 'venta',
-                component: venta
+                component: venta,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/registroTrabajadores',
                 name: 'registroTrabajadores',
-                component: registroTrabajadores
+                component: registroTrabajadores,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/registroClientes',
                 name: 'registroClientes',
-                component: registroClientes
+                component: registroClientes,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioIngreso',
                 name: 'formularioIngreso',
-                component: formularioIngreso
+                component: formularioIngreso,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioInventario',
                 name: 'formularioInventario',
-                component: formularioInventario
+                component: formularioInventario,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioMantenimiento',
                 name: 'formularioMantenimiento',
-                component: formularioMantenimiento
+                component: formularioMantenimiento,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioMaquina',
                 name: 'formularioMaquina',
-                component: formularioMaquina
+                component: formularioMaquina,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioPago',
                 name: 'formularioPago',
-                component: formularioPago
+                component: formularioPago,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioPlan',
                 name: 'formularioPlan',
-                component: formularioPlan
+                component: formularioPlan,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioSede',
                 name: 'formularioSede',
-                component: formularioSede
+                component: formularioSede,
+                beforeEnter: auth, meta: { rol: [1] }
             },
             {
                 path: '/formularioVenta',
                 name: 'formularioVenta',
-                component: formularioVenta
+                component: formularioVenta,
+                beforeEnter: auth, meta: { rol: [1] }
             }
         ]
     },

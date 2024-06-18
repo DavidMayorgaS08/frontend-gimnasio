@@ -197,7 +197,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { usePagoStore } from "../stores/pago.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
@@ -429,6 +429,10 @@ let inactivar = async (row) => {
   r = await usePagos.getPagos();
   rows.value = r;
 }
+
+onMounted(() => {
+  listarPagos()
+})
 </script>
 <style scoped>
 .app {

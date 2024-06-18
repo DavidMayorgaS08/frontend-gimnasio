@@ -212,7 +212,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useMaquinaStore } from "../stores/maquina.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -426,6 +426,10 @@ let inactivar = async (row) => {
 let ocultar = () => {
   form.value = false;
 };
+
+onMounted(() => {
+  listarMaquinas();
+})
 </script>
 <style scoped>
 .app {
