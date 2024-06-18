@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <buttom class="btn" @click="listarIngesos()">Listar ingresos</buttom>
-        <buttom class="btn" @click="abrirId()">Listar por id</buttom>
+        <buttom class="btn" @click="abrirId()">Listar por fecha</buttom>
         <buttom class="btn" @click="ingreso()">Crear ingreso</buttom>
       </div>
       <div class="q-pa-md">
@@ -56,7 +56,7 @@
             :key="ingreso.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ ingreso.fecha.split("T")[0] }}
           </option>
         </select>
       </div>

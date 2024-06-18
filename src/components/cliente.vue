@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarClientes()">Listar clientes</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por nombre</button>
         <button class="btn" @click="lsitarActivos()">Listar activos</button>
         <button class="btn" @click="listarInactivos()">Listar inactivos</button>
         <button class="btn" @click="listarPorPlan()">Listar por plan</button>
@@ -111,7 +111,7 @@
             :key="cliente.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ cliente.nombre }}
           </option>
         </select>
       </div>
@@ -281,6 +281,37 @@
         </svg>
       </div>
     </div>
+    <div class="cont_seguimiento" v-if="Seguimiento">
+      <img @click="ocultar()" class="img_x" src="/src/img/equis2.png" alt="" />
+      <div class="cont_fecha">
+        <p class="titulo_techa">Fecha:</p>
+        <p class="text_fecha">{{ text_fecha }}</p>
+      </div>
+      <div class="cont_peso">
+        <p class="titulo_peso">Peso:</p>
+        <p class="text_peso">{{ text_peso }}</p>
+      </div>
+      <div class="cont_altura">
+        <p class="titulo_altura">Altura:</p>
+        <p class="text_altura">{{ text_altura }}</p>
+      </div>
+      <div class="cont_imc">
+        <p class="titulo_imc">IMC:</p>
+        <p class="text_imc">{{ text_imc }}</p>
+      </div>
+      <div class="cont_medidaBrazo">
+        <p class="titulo_medidaBrazo">Medida del brazo:</p>
+        <p class="text_medidaBrazo">{{ text_medidaBrazo }}</p>
+      </div>
+      <div class="cont_medidaPierna">
+        <p class="titulo_medidaPierna">Medida de la pierna:</p>
+        <p class="text_medidaPierna">{{ text_medidaPierna }}</p>
+      </div>
+      <div class="cont_medidaCintura">
+        <p class="titulo_medidaCintura">Medida de la cintura:</p>
+        <p class="text_medidaCintura">{{ text_medidaCintura }}</p>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -404,8 +435,25 @@ let cliente = async () => {
   router.push("/registroClientes");
 };
 
+let text_fecha = ref("");
+let text_peso = ref("");
+let text_altura = ref("");
+let text_imc = ref("");
+let text_medidaBrazo = ref("");
+let text_medidaPierna = ref("");
+let text_medidaCintura = ref("");
+
+let Seguimiento = ref(false);
+
 let verSeguimiento = (seguimiento) => {
-  console.log(seguimiento);
+  text_fecha.value = seguimiento[0].fecha.split("T")[0];
+  text_peso.value = seguimiento[0].peso;
+  text_altura.value = seguimiento[0].altura;
+  text_imc.value = seguimiento[0].imc;
+  text_medidaBrazo.value = seguimiento[0].medidaBrazo;
+  text_medidaPierna.value = seguimiento[0].medidaPierna;
+  text_medidaCintura.value = seguimiento[0].medidaCintura;
+  Seguimiento.value = true;
 };
 
 let editar = ref(true);
@@ -639,6 +687,7 @@ let modificarcliente = async () => {
 
 let ocultar = () => {
   form.value = false;
+  Seguimiento.value = false;
 };
 
 let activar = async (row) => {
@@ -658,6 +707,12 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
 .app {
   height: 100vh;
   background-color: #ffffff;
@@ -1311,5 +1366,59 @@ button:after {
 
 .error__close path {
   fill: #71192f;
+}
+
+.cont_seguimiento {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.411);
+  width: 25%;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.cont_fecha,
+.cont_peso,
+.cont_altura,
+.cont_imc,
+.cont_medidaBrazo,
+.cont_medidaPierna,
+.cont_medidaCintura {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  height: 60px;
+}
+
+.titulo_techa,
+.titulo_peso,
+.titulo_altura,
+.titulo_imc,
+.titulo_medidaBrazo,
+.titulo_medidaPierna,
+.titulo_medidaCintura {
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+}
+
+.text_fecha,
+.text_peso,
+.text_altura,
+.text_imc,
+.text_medidaBrazo,
+.text_medidaPierna,
+.text_medidaCintura {
+  font-size: 16px;
+  color: #000000;
 }
 </style>

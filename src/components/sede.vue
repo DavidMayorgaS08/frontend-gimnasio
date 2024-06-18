@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarSedes()">Listar sedes</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por sede</button>
         <router-link to="/formularioSede"><button class="btn">Crear sede</button></router-link>
       </div>
       <div class="q-pa-md">
@@ -51,7 +51,7 @@
             :key="sede.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ sede.nombre }}
           </option>
         </select>
       </div>

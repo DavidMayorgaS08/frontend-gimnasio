@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarVentas()">Listar ventas</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por fecha</button>
         <router-link to="/formularioVenta"
           ><button class="btn">Crear venta</button></router-link
         >
@@ -53,7 +53,7 @@
             :key="venta.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ venta.fecha.split("T")[0] }}
           </option>
         </select>
       </div>

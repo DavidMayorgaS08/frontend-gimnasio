@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarMaquinas()">Listar maquinas</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por nombre</button>
         <button class="btn" @click="listarActivas()">Listar activas</button>
         <button class="btn" @click="listarInactivas()">Listar Inactivas</button>
         <button class="btn" @click="maquina()">Crear maquina</button>
@@ -92,7 +92,7 @@
             :key="maquina.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ maquina.codigo }} - {{ maquina.descripcion }}
           </option>
         </select>
       </div>

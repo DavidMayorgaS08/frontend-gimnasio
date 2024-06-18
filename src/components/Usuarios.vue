@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarUsuarios()">Listar usuarios</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por usuario</button>
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="ListarPorRol()">Listar por rol</button>
@@ -85,7 +85,7 @@
             :key="usuario.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ index + 1 }} - {{ usuario.nombre }}
           </option>
         </select>
       </div>
@@ -409,9 +409,16 @@ let activar = async (row) => {
 };
 
 let inactivar = async (row) => {
-  await useUsuarios.inactivar(row._id);
-  r = await useUsuarios.getUsuarios();
-  rows.value = r;
+  if(row._id === "662c45ff31b11b425c76c60b"){
+    text.value = "No se puede inactivar este usuario";
+    registroFallido.value = true;
+    ocultarD();
+    return;
+  } else {
+    await useUsuarios.inactivar(row._id);
+    r = await useUsuarios.getUsuarios();
+    rows.value = r;
+  }
 };
 
 onMounted(() => {

@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarPlanes()">Listar planes</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por plan</button>
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <router-link to="/formularioPlan"
@@ -81,7 +81,7 @@
             :key="plan.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ plan.descripcion }}
           </option>
         </select>
       </div>

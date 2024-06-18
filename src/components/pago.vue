@@ -4,7 +4,7 @@
     <div class="info">
       <div class="menu">
         <button class="btn" @click="listarPagos()">Listar pagos</button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por fecha</button>
         <button class="btn" @click="activos()">Listar activos</button>
         <button class="btn" @click="inactivos()">Listar inactivos</button>
         <button class="btn" @click="listarPorPlan()">Listar por plan</button>
@@ -46,12 +46,16 @@
               <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
-                  v-if="props.row.estado == 0"
+                    v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
                     @click="activar(props.row)"
                   >
-                    <img class="img_activo" src="/src/img/garrapata.png" alt="activo" />
+                    <img
+                      class="img_activo"
+                      src="/src/img/garrapata.png"
+                      alt="activo"
+                    />
                   </button>
                   <button
                     v-else
@@ -59,7 +63,11 @@
                     :id="'button-' + props.row.id"
                     @click="inactivar(props.row)"
                   >
-                    <img class="img_inactivo" src="/src/img/equis.png" alt="inactivo" />
+                    <img
+                      class="img_inactivo"
+                      src="/src/img/equis.png"
+                      alt="inactivo"
+                    />
                   </button>
                 </div>
               </q-btn>
@@ -78,7 +86,13 @@
       <div class="cont_desplegable">
         <select class="select" v-model="selectedOption">
           <option value="">Seleccionar opción</option>
-            <option v-for="(pago, index) in pagos" :key="pago.id" :value="index + 1">{{ index + 1 }}</option>
+          <option
+            v-for="(pago, index) in pagos"
+            :key="pago.id"
+            :value="index + 1"
+          >
+            {{ pago.fecha.split("T")[0] }}
+          </option>
         </select>
       </div>
       <div class="cont_btn">
@@ -129,11 +143,11 @@
         </div>
         <center>
           <q-btn @click.prevent="modificarPago()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            Modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -203,7 +217,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { usePagoStore } from "../stores/pago.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
@@ -249,7 +263,12 @@ let columns = ref([
     align: "center",
     field: (row) => row.fecha.split("T")[0],
   },
-  { name: "valor", label: "Valor", align: "center", field: (row) => formatNumber(row.valor)},
+  {
+    name: "valor",
+    label: "Valor",
+    align: "center",
+    field: (row) => formatNumber(row.valor),
+  },
   { name: "estado", label: "Estado", align: "center", field: "estado" },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
 ]);
@@ -266,7 +285,7 @@ let cont_id = ref(false);
 
 let abrirId = () => {
   cont_id.value = true;
-  pagos.value = usePagos.pago
+  pagos.value = usePagos.pago;
 };
 
 let cerrarId = () => {
@@ -283,7 +302,6 @@ let id = async () => {
   rows.value = r;
   cont_id.value = false;
 };
-
 
 let activos = async () => {
   r = await usePagos.activos();
@@ -313,7 +331,7 @@ let pago = async () => {
   await useClientes.getClientes();
   await usePlanes.getPlanes();
   router.push("/formularioPago");
-}; 
+};
 
 let editar = ref(true);
 
@@ -338,17 +356,19 @@ let ver = async (row) => {
   await usePlanes.getPlanes();
   planes.value = usePlanes.plan;
   form.value = true;
-  selectedOptionC.value = clientes.value.findIndex((cliente) => cliente._id == row.cliente_id) + 1;
-  selectedOptionP.value = planes.value.findIndex((plan) => plan._id == row.plan) + 1;
+  selectedOptionC.value =
+    clientes.value.findIndex((cliente) => cliente._id == row.cliente_id) + 1;
+  selectedOptionP.value =
+    planes.value.findIndex((plan) => plan._id == row.plan) + 1;
   Fecha.value = row.fecha.split("T")[0];
   Valor.value = row.valor;
   Estado.value = row.estado;
   Id.value = row._id;
-}
+};
 
 let ocultar = () => {
   form.value = false;
-}
+};
 
 const ocultarD = () => {
   setTimeout(() => {
@@ -358,17 +378,17 @@ const ocultarD = () => {
 };
 
 let modificarPago = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let cliente = () => {
       let selectedCliente = clientes.value[selectedOptionC.value - 1];
       return selectedCliente._id;
-    }
+    };
 
     let plan = () => {
       let selectedPlan = planes.value[selectedOptionP.value - 1];
       return selectedPlan._id;
-    }
+    };
 
     let cliente_id = cliente();
     let plan_id = plan();
@@ -381,31 +401,31 @@ let modificarPago = async () => {
       estado: Estado.value,
     };
 
-    if(pago.cliente_id === "") {
+    if (pago.cliente_id === "") {
       text.value = "Seleccione un cliente";
       registroFallido.value = true;
       ocultarD();
       return;
     }
-    if(pago.plan === "") {
+    if (pago.plan === "") {
       text.value = "Seleccione un plan";
       registroFallido.value = true;
       ocultarD();
       return;
     }
-    if(pago.fecha === "") {
+    if (pago.fecha === "") {
       text.value = "Seleccione una fecha";
       registroFallido.value = true;
       ocultarD();
       return;
     }
-    if(pago.valor === "") {
+    if (pago.valor === "") {
       text.value = "Ingrese un valor";
       registroFallido.value = true;
       ocultarD();
       return;
     }
-    if(pago.estado === "") {
+    if (pago.estado === "") {
       text.value = "Ingrese un estado";
       registroFallido.value = true;
       ocultarD();
@@ -416,7 +436,7 @@ let modificarPago = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = false
+    loading.value = false;
     r = await usePagos.getPagos();
     rows.value = r;
   } catch (error) {
@@ -424,23 +444,23 @@ let modificarPago = async () => {
     registroFallido.value = true;
     ocultarD();
   }
-}
+};
 
 let activar = async (row) => {
   await usePagos.activar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
-}
+};
 
 let inactivar = async (row) => {
   await usePagos.inactivar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
-}
+};
 
 onMounted(() => {
-  listarPagos()
-})
+  listarPagos();
+});
 </script>
 <style scoped>
 .app {
@@ -576,7 +596,8 @@ onMounted(() => {
   margin-left: 5px;
 }
 
-.btn_activo, .btn_inactivo {
+.btn_activo,
+.btn_inactivo {
   padding: 8px 10px;
   border: none;
   background: #1a1a1a;
@@ -587,11 +608,13 @@ onMounted(() => {
   align-items: center;
 }
 
-.btn_activo:hover, .btn_inactivo:hover {
+.btn_activo:hover,
+.btn_inactivo:hover {
   background: #141414bb;
 }
 
-.img_activo, .img_inactivo {
+.img_activo,
+.img_inactivo {
   width: 30px;
 }
 
@@ -739,7 +762,6 @@ label {
   font-size: 16px;
 }
 
-
 .login-box {
   position: absolute;
   z-index: 1;
@@ -758,7 +780,6 @@ label {
   position: relative;
 }
 
-
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
@@ -770,7 +791,8 @@ label {
   background: transparent;
 }
 
-.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+.login-box .user-box input[type="text"],
+.login-box .user-box input[type="number"] {
   color: #ffffff;
 }
 

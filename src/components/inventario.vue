@@ -6,7 +6,7 @@
         <button class="btn" @click="listarInventarios()">
           Listar inventario
         </button>
-        <button class="btn" @click="abrirId()">Listar por id</button>
+        <button class="btn" @click="abrirId()">Listar por nombre</button>
         <button class="btn" @click="listarTotal()">Listar total</button>
         <button class="btn" @click="inventario()">Crear inventario</button>
       </div>
@@ -59,7 +59,7 @@
             :key="inventario.id"
             :value="index + 1"
           >
-            {{ index + 1 }}
+            {{ inventario.descripcion }}
           </option>
         </select>
       </div>
