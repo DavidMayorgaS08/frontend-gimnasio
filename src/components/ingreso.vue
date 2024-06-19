@@ -3,9 +3,24 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <buttom class="btn" @click="listarIngesos()">Listar ingresos</buttom>
-        <buttom class="btn" @click="abrirId()">Listar por fecha</buttom>
-        <buttom class="btn" @click="ingreso()">Crear ingreso</buttom>
+        <q-btn class="btn" @click.prevent="listarIngesos()" :loading="loading">
+          Listar ingresos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por fecha
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="ingreso()" :loading="loading">
+          Crear ingreso
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -174,7 +189,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useIngresoStore } from "../stores/ingreso.js";
 import { useClienteStore } from "../stores/cliente.js";
 import { useSedeStore } from "../stores/sede.js";
@@ -220,17 +235,25 @@ let columns = ref([
 ]);
 
 let listarIngesos = async () => {
+  loading.value = true
   r = await useIngresos.getIngresos();
   c.value = await useClientes.getClientes();
   s.value = await useSedes.getSedes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(s.value);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   ingresos.value = useIngresos.ingreso;
 };
 
@@ -296,7 +319,7 @@ const ocultarD = () => {
 };
 
 let modificarIngreso = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let cliente = () => {
       let selectedCliente = clientes.value[selectedOptionC.value - 1];
@@ -408,6 +431,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   font-weight: bold;
+  text-transform: none;
 }
 
 .btn::after {

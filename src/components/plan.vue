@@ -3,10 +3,30 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarPlanes()">Listar planes</button>
-        <button class="btn" @click="abrirId()">Listar por plan</button>
-        <button class="btn" @click="activos()">Listar activos</button>
-        <button class="btn" @click="inactivos()">Listar inactivos</button>
+        <q-btn class="btn" @click.prevent="listarPlanes()" :loading="loading">
+          Listar planes
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por plan
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="activos()" :loading="loading">
+          Listar activos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="inactivos()" :loading="loading">
+          Listar inactivos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <router-link to="/formularioPlan"
           ><button class="btn">Crear plan</button></router-link
         >
@@ -223,15 +243,23 @@ let columns = ref([
 let r = null;
 
 let listarPlanes = async () => {
+  loading.value = true
   r = await usePlanes.getPlanes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   planes.value = usePlanes.plan;
 };
 
@@ -249,14 +277,22 @@ let id = async () => {
 };
 
 let activos = async () => {
+  loading.value = true
   r = await usePlanes.activos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let inactivos = async () => {
+  loading.value = true
   r = await usePlanes.inactivos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 

@@ -3,12 +3,30 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarInventarios()">
+        <q-btn class="btn" @click.prevent="listarInventarios()" :loading="loading">
           Listar inventario
-        </button>
-        <button class="btn" @click="abrirId()">Listar por nombre</button>
-        <button class="btn" @click="listarTotal()">Listar total</button>
-        <button class="btn" @click="inventario()">Crear inventario</button>
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por nombre
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="listarTotal()" :loading="loading">
+          Listar total
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="inventario()" :loading="loading">
+          Crear inventario
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -204,15 +222,23 @@ let columns = ref([
 let r = null;
 
 const listarInventarios = async () => {
+  loading.value = true
   r = await useInventarios.getInventarios();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   inventarios.value = useInventarios.inventario;
   console.log(inventarios.value);
 };
@@ -233,7 +259,11 @@ let id = async () => {
 let cont_total = ref(false);
 
 const listarTotal = async () => {
-  cont_total.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_total.value = true;
+    loading.value = false
+  }, 500)
   let r = await useInventarios.getTotal();
   total.value = formatNumber(r.total);
   console.log(total);

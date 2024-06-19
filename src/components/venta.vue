@@ -3,8 +3,18 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarVentas()">Listar ventas</button>
-        <button class="btn" @click="abrirId()">Listar por fecha</button>
+        <q-btn class="btn" @click.prevent="listarVentas()" :loading="loading">
+          Listar ventas
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por fecha
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <router-link to="/formularioVenta"
           ><button class="btn">Crear venta</button></router-link
         >
@@ -153,7 +163,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useVentaStore } from "../stores/venta.js";
-
+let loading = ref(false);
 const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
@@ -189,15 +199,23 @@ let columns = ref([
 let r = null;
 
 let listarVentas = async () => {
+  loading.value = true 
   r = await useVentas.getVentas();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   ventas.value = useVentas.venta;
 };
 
@@ -247,6 +265,7 @@ const ocultarD = () => {
 };
 
 let modificarVenta = async () => {
+  loading.value = true
   try {
     let venta = {
       fecha: Fecha.value,
@@ -287,6 +306,7 @@ let modificarVenta = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
+    loading.value = false
     r = await useVentas.getVentas();
     rows.value = r;
   } catch (error) {

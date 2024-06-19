@@ -3,12 +3,35 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarUsuarios()">Listar usuarios</button>
-        <button class="btn" @click="abrirId()">Listar por usuario</button>
-        <button class="btn" @click="activos()">Listar activos</button>
-        <button class="btn" @click="inactivos()">Listar inactivos</button>
-        <button class="btn" @click="ListarPorRol()">Listar por rol</button>
-        <router-link to="/registroTrabajadores"><button class="btn" @click="usuario()">Crear usuario</button></router-link>
+        <q-btn class="btn" @click.prevent="listarUsuarios()" :loading="loading">
+          Listar usuarios
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por usuario
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="activos()" :loading="loading">
+          Listar activos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="inactivos()" :loading="loading">
+          Listar inactivos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <router-link to="/registroTrabajadores"
+          ><button class="btn" @click="usuario()">
+            Crear usuario
+          </button></router-link
+        >
       </div>
       <div class="q-pa-md">
         <q-table
@@ -17,7 +40,7 @@
           :columns="columns"
           row-key="name"
         >
-        <template v-slot:body-cell-opciones="props">
+          <template v-slot:body-cell-opciones="props">
             <q-td :props="props">
               <q-btn flat dense round v-if="editar">
                 <button
@@ -48,12 +71,16 @@
               <q-btn flat dense round>
                 <div class="cont_btns">
                   <button
-                  v-if="props.row.estado == 0"
+                    v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
                     @click="activar(props.row)"
                   >
-                    <img class="img_activo" src="/src/img/garrapata.png" alt="activo" />
+                    <img
+                      class="img_activo"
+                      src="/src/img/garrapata.png"
+                      alt="activo"
+                    />
                   </button>
                   <button
                     v-else
@@ -61,7 +88,11 @@
                     :id="'button-' + props.row.id"
                     @click="inactivar(props.row)"
                   >
-                    <img class="img_inactivo" src="/src/img/equis.png" alt="inactivo" />
+                    <img
+                      class="img_inactivo"
+                      src="/src/img/equis.png"
+                      alt="inactivo"
+                    />
                   </button>
                 </div>
               </q-btn>
@@ -132,11 +163,11 @@
         </div>
         <center>
           <q-btn @click.prevent="modificarUsuario()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            Modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -206,7 +237,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useUsuarioStore } from "../stores/usuarios.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -222,10 +253,15 @@ let rows = ref([]);
 let columns = ref([
   { name: "nombre", label: "Nombre Usuario", align: "center", field: "nombre" },
   { name: "correo", label: "Correo", align: "center", field: "correo" },
-  { name: "sede", label: "sede", align: "center", field: (row) => {
-    const sede = s.value.find((sede) => sede._id === row.sede);
-    return sede ? sede.nombre : "No asignado";
-  }},
+  {
+    name: "sede",
+    label: "sede",
+    align: "center",
+    field: (row) => {
+      const sede = s.value.find((sede) => sede._id === row.sede);
+      return sede ? sede.nombre : "No asignado";
+    },
+  },
   { name: "telefono", label: "Telefono", align: "center", field: "telefono" },
   { name: "estado", label: "Estado", align: "center", field: "estado" },
   { name: "opciones", label: "Opciones", align: "center", field: "opciones" },
@@ -234,16 +270,24 @@ let columns = ref([
 let r = null;
 
 async function listarUsuarios() {
+  loading.value = true
   r = await useUsuarios.getUsuarios();
   s.value = await useSedes.getSedes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 }
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   usuarios.value = useUsuarios.usuario;
 };
 
@@ -258,17 +302,25 @@ let id = async () => {
   r = [await useUsuarios.getUsuario(selectedUsuario._id)];
   rows.value = r;
   cont_id.value = false;
-}
+};
 
 async function activos() {
+  loading.value = true
   r = await useUsuarios.activos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 }
 
 async function inactivos() {
+  loading.value = true
   r = await useUsuarios.inactivos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 }
 
@@ -285,21 +337,21 @@ let usuario = async () => {
 
 let editar = ref(true);
 
-let form = ref(false)
-let registroExitoso = ref(false)
-let registroFallido = ref(false)
-let text = ref('')
+let form = ref(false);
+let registroExitoso = ref(false);
+let registroFallido = ref(false);
+let text = ref("");
 
-let nombre = ref('')
-let Correo = ref('')
-let Contraseña = ref('')
-let Telefono = ref('')
-let estado = ref('')
-let Rol = ref('')
-let selectedOptionS = ref('')
+let nombre = ref("");
+let Correo = ref("");
+let Contraseña = ref("");
+let Telefono = ref("");
+let estado = ref("");
+let Rol = ref("");
+let selectedOptionS = ref("");
 
-let sedes = ref(null)
-let Id = ref('')
+let sedes = ref(null);
+let Id = ref("");
 
 let ver = async (row) => {
   await useSedes.getSedes();
@@ -311,7 +363,8 @@ let ver = async (row) => {
   Telefono.value = row.telefono;
   estado.value = row.estado;
   Rol.value = row.rol;
-  selectedOptionS.value = sedes.value.findIndex((sede) => sede._id === row.sede) + 1;
+  selectedOptionS.value =
+    sedes.value.findIndex((sede) => sede._id === row.sede) + 1;
   Id.value = row._id;
 };
 
@@ -327,12 +380,12 @@ const ocultarD = () => {
 };
 
 let modificarUsuario = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;
-    }
+    };
 
     let sede_id = sede();
 
@@ -346,42 +399,42 @@ let modificarUsuario = async () => {
       rol: parseInt(Rol.value),
     };
 
-    if(usuario.nombre === "") {
+    if (usuario.nombre === "") {
       text.value = "El campo nombre no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(usuario.sede === "") {
+    if (usuario.sede === "") {
       text.value = "El campo sede no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(usuario.correo === "") {
+    if (usuario.correo === "") {
       text.value = "El campo correo no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(usuario.telefono === "") {
+    if (usuario.telefono === "") {
       text.value = "El campo telefono no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(usuario.estado === "") {
+    if (usuario.estado === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(usuario.rol === "") {
+    if (usuario.rol === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
@@ -392,7 +445,7 @@ let modificarUsuario = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = false
+    loading.value = false;
     r = await useUsuarios.getUsuarios();
     rows.value = r;
   } catch (error) {
@@ -400,16 +453,15 @@ let modificarUsuario = async () => {
     registroFallido.value = true;
     ocultarD();
   }
-}
+};
 
 let activar = async (row) => {
   await useUsuarios.activar(row._id);
   r = await useUsuarios.getUsuarios();
-  rows.value = r;
 };
 
 let inactivar = async (row) => {
-  if(row._id === "662c45ff31b11b425c76c60b"){
+  if (row._id === "662c45ff31b11b425c76c60b") {
     text.value = "No se puede inactivar este usuario";
     registroFallido.value = true;
     ocultarD();
@@ -422,8 +474,8 @@ let inactivar = async (row) => {
 };
 
 onMounted(() => {
-  listarUsuarios()
-})
+  listarUsuarios();
+});
 </script>
 <style scoped>
 .app {
@@ -559,7 +611,8 @@ onMounted(() => {
   margin-left: 5px;
 }
 
-.btn_activo, .btn_inactivo {
+.btn_activo,
+.btn_inactivo {
   padding: 8px 10px;
   border: none;
   background: #1a1a1a;
@@ -570,11 +623,13 @@ onMounted(() => {
   align-items: center;
 }
 
-.btn_activo:hover, .btn_inactivo:hover {
+.btn_activo:hover,
+.btn_inactivo:hover {
   background: #141414bb;
 }
 
-.img_activo, .img_inactivo {
+.img_activo,
+.img_inactivo {
   width: 30px;
 }
 
@@ -721,7 +776,6 @@ label {
   padding-right: 40px;
   font-size: 16px;
 }
-
 
 .login-box {
   position: absolute;

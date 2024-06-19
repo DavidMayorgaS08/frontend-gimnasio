@@ -3,8 +3,18 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarSedes()">Listar sedes</button>
-        <button class="btn" @click="abrirId()">Listar por sede</button>
+        <q-btn class="btn" @click.prevent="listarSedes()" :loading="loading">
+          Listar sedes
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por sede
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <router-link to="/formularioSede"><button class="btn">Crear sede</button></router-link>
       </div>
       <div class="q-pa-md">
@@ -189,15 +199,23 @@ let columns = ref([
 let r = null;
 
 let listarSedes = async () => {
+  loading.value = true
   r = await useSedes.getSedes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   sedes.value = useSedes.sede;
 };
 

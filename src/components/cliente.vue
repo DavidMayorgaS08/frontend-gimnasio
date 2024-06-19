@@ -3,12 +3,42 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarClientes()">Listar clientes</button>
-        <button class="btn" @click="abrirId()">Listar por nombre</button>
-        <button class="btn" @click="lsitarActivos()">Listar activos</button>
-        <button class="btn" @click="listarInactivos()">Listar inactivos</button>
-        <button class="btn" @click="listarPorPlan()">Listar por plan</button>
-        <button class="btn" @click="cliente()">Crear cliente</button>
+        <q-btn class="btn" @click.prevent="listarClientes()" :loading="loading">
+          Listar clientes
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por nombre
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="lsitarActivos()" :loading="loading">
+          Listar activos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="listarInactivos()" :loading="loading">
+          Listar inactivos
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <!-- <q-btn class="btn" @click.prevent="listarPorPlan()" :loading="loading">
+          Listar por plan
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn> -->
+        <q-btn class="btn" @click.prevent="cliente()" :loading="loading">
+          Crear cliente
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -384,16 +414,24 @@ let columns = ref([
 ]);
 
 let listarClientes = async () => {
+  loading.value = true
   r = await useClientes.getClientes();
   p.value = await usePlanes.getPlanes();
-  rows.value = r;
   console.log(r);
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   clientes.value = useClientes.cliente;
 };
 
@@ -413,14 +451,22 @@ let id = async () => {
 };
 
 let lsitarActivos = async () => {
+  loading.value = true
   r = await useClientes.getActivos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let listarInactivos = async () => {
+  loading.value = true
   r = await useClientes.getInactivos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 

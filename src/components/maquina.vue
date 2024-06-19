@@ -3,11 +3,36 @@
     <div class="container"></div>
     <div class="info">
       <div class="menu">
-        <button class="btn" @click="listarMaquinas()">Listar maquinas</button>
-        <button class="btn" @click="abrirId()">Listar por nombre</button>
-        <button class="btn" @click="listarActivas()">Listar activas</button>
-        <button class="btn" @click="listarInactivas()">Listar Inactivas</button>
-        <button class="btn" @click="maquina()">Crear maquina</button>
+        <q-btn class="btn" @click.prevent="listarMaquinas()" :loading="loading">
+          Listar maquinas
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="abrirId()" :loading="loading">
+          Listar por nombre
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="listarActivas()" :loading="loading">
+          Listar activas
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="listarInactivas()" :loading="loading">
+          Listar Inactivas
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+        <q-btn class="btn" @click.prevent="maquina()" :loading="loading">
+          Crear maquina
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -266,16 +291,24 @@ let columns = ref([
 ]);
 
 let listarMaquinas = async () => {
+  loading.value = true
   r = await useMaquinas.getMaquinas();
   s.value = await useSedes.getSedes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  cont_id.value = true;
+  loading.value = true
+  setTimeout(() => {
+    cont_id.value = true;
+    loading.value = false
+  }, 500)
   maquinas.value = useMaquinas.maquina;
 };
 
@@ -294,14 +327,22 @@ let id = async () => {
 };
 
 let listarActivas = async () => {
+  loading.value = true
   r = await useMaquinas.activos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
 let listarInactivas = async () => {
+  loading.value = true
   r = await useMaquinas.inactivos();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
   console.log(r);
 };
 
