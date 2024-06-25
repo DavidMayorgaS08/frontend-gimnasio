@@ -8,7 +8,7 @@ export const useInventarioStore = defineStore("inventario", () => {
     let inventario = ref(null);
     let getInventarios = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/inventario", 
+            let res = await axios.get("/inventario", 
             {
                 headers: {
                     "x-token": token.value
@@ -26,7 +26,7 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let getInventario = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/inventario/${id}`,
+            let res = await axios.get(`/inventario/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -43,7 +43,7 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let getTotal = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/inventario/total/inventario",
+            let res = await axios.get("/inventario/total/inventario",
             {
                 headers: {
                     "x-token": token.value
@@ -60,7 +60,7 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let postInventario = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/inventario", data,
+            let res = await axios.post("/inventario", data,
             {
                 headers: {
                     "x-token": token.value
@@ -77,7 +77,7 @@ export const useInventarioStore = defineStore("inventario", () => {
 
     let putInventario = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/inventario/${id}`, data,
+            let res = await axios.put(`/inventario/${id}`, data,
             {
                 headers: {
                     "x-token": token.value

@@ -42,7 +42,12 @@
           <label>Estado</label>
         </div>
         <center>
-          <button @click.prevent="Pago()">Registrar</button>
+          <q-btn @click.prevent="Pago()" :loading="loading">
+            Registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -117,6 +122,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { usePagoStore } from "../../stores/pago.js";
 import { useClienteStore } from "../../stores/cliente.js";
 import { usePlanStore } from "../../stores/plan.js";
@@ -200,9 +206,10 @@ async function Pago() {
       ocultar();
       return;
     }
-
+    loading.value = true
     r = await usePagos.postPago(pago);
     registroExitoso.value = true;
+    loading.value = false
     ocultar();
   } catch (error) {
     text.value = "Error al registrar el pago";

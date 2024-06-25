@@ -8,7 +8,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
     let mantenimiento = ref(null);
     let getMantenimientos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/mantenimiento",
+            let res = await axios.get("/mantenimiento",
             {
                 headers: {
                     "x-token": token.value
@@ -26,7 +26,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let getMantenimiento = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/mantenimiento/${id}`,
+            let res = await axios.get(`/mantenimiento/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -44,7 +44,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let postMantenimiento = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/mantenimiento", data,
+            let res = await axios.post("/mantenimiento", data,
             {
                 headers: {
                     "x-token": token.value
@@ -61,7 +61,7 @@ export const useMantenimientoStore = defineStore("mantenimiento", () => {
 
     let putMantenimiento = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/mantenimiento/${id}`, data,
+            let res = await axios.put(`/mantenimiento/${id}`, data,
             {
                 headers: {
                     "x-token": token.value

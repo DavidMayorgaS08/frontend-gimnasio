@@ -8,7 +8,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
     let maquina = ref(null);
     let getMaquinas = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina",
+            let res = await axios.get("/maquina",
                 {
                     headers: {
                         "x-token": token.value
@@ -26,7 +26,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let getMaquina = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/maquina/${id}`,
+            let res = await axios.get(`/maquina/${id}`,
                 {
                     headers: {
                         "x-token": token.value
@@ -43,7 +43,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina/listar/activos",
+            let res = await axios.get("/maquina/listar/activos",
                 {
                     headers: {
                         "x-token": token.value
@@ -60,7 +60,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/maquina/listar/inactivos",
+            let res = await axios.get("/maquina/listar/inactivos",
                 {
                     headers: {
                         "x-token": token.value
@@ -77,7 +77,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let postMaquina = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/maquina", data,
+            let res = await axios.post("/maquina", data,
                 {
                     headers: {
                         "x-token": token.value
@@ -94,7 +94,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let putMaquina = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/${id}`, data,
+            let res = await axios.put(`/maquina/${id}`, data,
                 {
                     headers: {
                         "x-token": token.value
@@ -111,7 +111,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let activarMaquina = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/activar/${id}`,
+            let res = await axios.put(`/maquina/activar/${id}`,
                 {
                     headers: {
                         "x-token": token.value
@@ -128,7 +128,7 @@ export const useMaquinaStore = defineStore("maquina", () => {
 
     let inactivarMaquina = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/maquina/inactivar/${id}`,
+            let res = await axios.put(`/maquina/inactivar/${id}`,
                 {
                     headers: {
                         "x-token": token.value

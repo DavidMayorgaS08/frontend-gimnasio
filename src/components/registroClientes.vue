@@ -91,7 +91,12 @@
         </form>
       </div>
       <center>
-        <button @click.prevent="cliente()">registrar</button>
+        <q-btn @click.prevent="cliente()" :loading="loading">
+          registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </center>
     </div>
     <div class="cont_btn">
@@ -165,6 +170,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
 
@@ -358,9 +364,10 @@ async function cliente() {
       ocultar();
       return;
     }
-
+    loading.value = true;
     r = await useClientes.postCliente(cliente);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Error al registrar el cliente";

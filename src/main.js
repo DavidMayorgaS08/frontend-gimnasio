@@ -14,7 +14,9 @@ import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 
 import App from './App.vue'
-// axios.defaults.baseURL="https://backend-gimnasio-ftwx.onrender.com"
+
+axios.defaults.baseURL = 'https://backend-gym-lwcf.onrender.com'
+//axios.defaults.baseURL = 'http://localhost:3000'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)

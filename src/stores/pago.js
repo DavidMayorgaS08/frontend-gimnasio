@@ -8,7 +8,7 @@ export const usePagoStore = defineStore("pago", () => {
     let pago = ref(null);
     let getPagos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/pago",
+            let res = await axios.get("/pago",
             {
                 headers: {
                     "x-token": token.value
@@ -26,7 +26,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let getPago = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/pago/${id}`,
+            let res = await axios.get(`/pago/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -43,7 +43,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/pago/listar/activos",
+            let res = await axios.get("/pago/listar/activos",
             {
                 headers: {
                     "x-token": token.value
@@ -60,7 +60,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/pago/listar/inactivos",
+            let res = await axios.get("/pago/listar/inactivos",
             {
                 headers: {
                     "x-token": token.value
@@ -77,7 +77,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let getPagosPlan = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/pago//total-pagos-plan/${id}`,
+            let res = await axios.get(`/pago//total-pagos-plan/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -94,7 +94,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let getPagosCliente = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/pago//total-pagos-cliente/${id}`,
+            let res = await axios.get(`/pago//total-pagos-cliente/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -111,7 +111,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let postPago = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/pago", data,
+            let res = await axios.post("/pago", data,
             {
                 headers: {
                     "x-token": token.value
@@ -128,7 +128,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let putPago = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/pago/${id}`, data,
+            let res = await axios.put(`/pago/${id}`, data,
             {
                 headers: {
                     "x-token": token.value
@@ -145,7 +145,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let activar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/pago/activar/${id}`,
+            let res = await axios.put(`/pago/activar/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -162,7 +162,7 @@ export const usePagoStore = defineStore("pago", () => {
 
     let inactivar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/pago/inactivar/${id}`,
+            let res = await axios.put(`/pago/inactivar/${id}`,
             {
                 headers: {
                     "x-token": token.value

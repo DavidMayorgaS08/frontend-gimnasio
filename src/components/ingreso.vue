@@ -76,7 +76,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -264,19 +269,23 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true;
   let selectedIngreso = ingresos.value[selectedOption.value - 1];
   r = [await useIngresos.getIngreso(selectedIngreso._id)];
   c.value = await useClientes.getClientes();
   s.value = await useSedes.getSedes();
+  loading.value = false;
   rows.value = r;
   cont_id.value = false;
 };
 
 let ingreso = async () => {
+  loading.value = true;
   await useClientes.getClientes();
   await useSedes.getSedes();
   await useIngresos.getIngresos();
   router.push("/formularioIngreso");
+  loading.value = false;
 };
 
 let form = ref(false);

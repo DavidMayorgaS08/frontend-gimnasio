@@ -20,7 +20,12 @@
           <label>Cantidad</label>
         </div>
         <center>
-          <button @click.prevent="Venta()">Registrar</button>
+          <q-btn @click.prevent="Venta()" :loading="loading">
+            Registrar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -95,6 +100,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useVentaStore } from "../../stores/venta.js";
 
 let useVentas = useVentaStore();
@@ -126,36 +132,37 @@ async function Venta() {
       cantidad: Cantidad.value,
     };
 
-    if(venta.fecha === "") {
+    if (venta.fecha === "") {
       text.value = "El campo fecha no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(venta.codigo_producto === "") {
+    if (venta.codigo_producto === "") {
       text.value = "El campo codigo del producto no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(venta.valor === "") {
+    if (venta.valor === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(venta.cantidad === "") {
+    if (venta.cantidad === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-
+    loading.value = true;
     r = await useVentas.postVenta(venta);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Error al registrar la venta";
@@ -210,7 +217,6 @@ function cerrar() {
   position: relative;
 }
 
-
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
@@ -222,7 +228,8 @@ function cerrar() {
   background: transparent;
 }
 
-.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+.login-box .user-box input[type="text"],
+.login-box .user-box input[type="number"] {
   color: #ffffff;
 }
 
@@ -469,14 +476,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -487,14 +495,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -508,13 +517,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -525,6 +534,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

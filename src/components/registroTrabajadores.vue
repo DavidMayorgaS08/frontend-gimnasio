@@ -41,7 +41,15 @@
           <label>Rol</label>
         </div>
         <center>
-          <button @click.prevent="registrarUsuario()">registrar</button>
+          <q-btn
+            @click.prevent="registrarUsuario()"
+            :loading="loading"
+          >
+            registrar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -116,6 +124,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useUsuarioStore } from "../stores/usuarios.js";
 import { useSedeStore } from "../stores/sede.js";
 
@@ -133,7 +142,6 @@ let Contraseña = ref("");
 let Telefono = ref("");
 let estado = ref("");
 let Rol = ref("");
-
 
 let registroExitoso = ref(false);
 let registroFallido = ref(false);
@@ -153,7 +161,7 @@ async function registrarUsuario() {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;
-    }
+    };
 
     let sede_id = sede();
 
@@ -167,57 +175,58 @@ async function registrarUsuario() {
       rol: parseInt(Rol.value),
     };
 
-    if(usuario.nombre === "") {
+    if (usuario.nombre === "") {
       text.value = "El campo nombre no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.sede === "") {
+    if (usuario.sede === "") {
       text.value = "El campo sede no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.correo === "") {
+    if (usuario.correo === "") {
       text.value = "El campo correo no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.contrasena === "") {
+    if (usuario.contrasena === "") {
       text.value = "El campo contraseña no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.telefono === "") {
+    if (usuario.telefono === "") {
       text.value = "El campo telefono no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.estado === "") {
+    if (usuario.estado === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(usuario.rol === "") {
+    if (usuario.rol === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-
+    loading.value = true;
     r = await useUsuarios.postUsuario(usuario);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Error al registrar el usuario";

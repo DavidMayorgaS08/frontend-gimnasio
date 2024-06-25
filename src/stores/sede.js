@@ -8,7 +8,7 @@ export const useSedeStore = defineStore("sede", () =>{
     let sede = ref(null);
     let getSedes = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/sede",{
+            let res = await axios.get("/sede",{
                 headers: {
                     "x-token": token.value
                 }
@@ -24,7 +24,7 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let getSede = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/sede/${id}`,
+            let res = await axios.get(`/sede/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -41,7 +41,7 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let postSede = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/sede", data,
+            let res = await axios.post("/sede", data,
             {
                 headers: {
                     "x-token": token.value
@@ -58,7 +58,7 @@ export const useSedeStore = defineStore("sede", () =>{
 
     let putSede = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/sede/${id}`, data,
+            let res = await axios.put(`/sede/${id}`, data,
             {
                 headers: {
                     "x-token": token.value

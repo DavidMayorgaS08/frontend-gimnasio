@@ -78,30 +78,38 @@
               </q-btn>
               <q-btn flat dense round>
                 <div class="cont_btns">
-                  <button
+                  <q-btn
                     v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
-                    @click="activar(props.row)"
+                    @click.prevent="activar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_activo"
                       src="/src/img/garrapata.png"
                       alt="activo"
                     />
-                  </button>
-                  <button
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
+                  <q-btn
                     v-else
                     class="btn_inactivo"
                     :id="'button-' + props.row.id"
-                    @click="inactivar(props.row)"
+                    @click.prevent="inactivar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_inactivo"
                       src="/src/img/equis.png"
                       alt="inactivo"
                     />
-                  </button>
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
                 </div>
               </q-btn>
             </q-td>
@@ -129,7 +137,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -336,12 +349,14 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true
   let selectedPago = pagos.value[selectedOption.value - 1];
   r = [await usePagos.getPago(selectedPago._id)];
   c.value = await useClientes.getClientes();
   p.value = await usePlanes.getPlanes();
   rows.value = r;
   cont_id.value = false;
+  loading.value = false
 };
 
 let activos = async () => {
@@ -377,9 +392,11 @@ let listarPorCliente = async () => {
 };
 
 let pago = async () => {
+  loading.value = true
   await useClientes.getClientes();
   await usePlanes.getPlanes();
   router.push("/formularioPago");
+  loading.value = false
 };
 
 let editar = ref(true);
@@ -496,15 +513,19 @@ let modificarPago = async () => {
 };
 
 let activar = async (row) => {
+  loading.value = true
   await usePagos.activar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
+  loading.value = false
 };
 
 let inactivar = async (row) => {
+  loading.value = true
   await usePagos.inactivar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
+  loading.value = false
 };
 
 onMounted(() => {

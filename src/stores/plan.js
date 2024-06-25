@@ -8,7 +8,7 @@ export const usePlanStore = defineStore("plan", () =>{
     let plan = ref(null);
     let getPlanes = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/plan",
+            let res = await axios.get("/plan",
             {
                 headers: {
                     "x-token": token.value
@@ -26,7 +26,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let getPlan = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/plan/${id}`,
+            let res = await axios.get(`/plan/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -43,7 +43,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/plan/listar/activas",
+            let res = await axios.get("/plan/listar/activas",
             {
                 headers: {
                     "x-token": token.value
@@ -60,7 +60,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/plan/listar/inactivas",
+            let res = await axios.get("/plan/listar/inactivas",
             {
                 headers: {
                     "x-token": token.value
@@ -77,7 +77,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let postPlan = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/plan", data,
+            let res = await axios.post("/plan", data,
             {
                 headers: {
                     "x-token": token.value
@@ -94,7 +94,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let putPlan = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/plan/${id}`, data,
+            let res = await axios.put(`/plan/${id}`, data,
             {
                 headers: {
                     "x-token": token.value
@@ -111,7 +111,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let activar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/plan/activar/${id}`,
+            let res = await axios.put(`/plan/activar/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -128,7 +128,7 @@ export const usePlanStore = defineStore("plan", () =>{
 
     let inactivar = async (id) => {
         try {
-            let res = await axios.put(`http://localhost:3000/plan/inactivar/${id}`,
+            let res = await axios.put(`/plan/inactivar/${id}`,
             {
                 headers: {
                     "x-token": token.value

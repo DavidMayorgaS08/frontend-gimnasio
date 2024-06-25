@@ -28,7 +28,12 @@
           <label>Telefono</label>
         </div>
         <center>
-          <button @click.prevent="Sede()">Registrar</button>
+          <q-btn @click.prevent="Sede()" :loading="loading">
+            Registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -103,6 +108,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useSedeStore } from "../../stores/sede.js";
 
 let useSedes = useSedeStore();
@@ -179,9 +185,10 @@ async function Sede() {
       ocultar();
       return;
     }
-
+    loading.value = true;
     r = await useSedes.postSede(sede);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Error al registrar la sede";

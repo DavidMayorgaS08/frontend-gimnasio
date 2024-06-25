@@ -34,7 +34,12 @@
           <label>Sedes</label>
         </div>
         <center>
-          <button @click.prevent="Ingreso()">Registrar</button>
+          <q-btn @click.prevent="Ingreso()" :loading="loading">
+            Registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -109,6 +114,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useIngresoStore } from "../../stores/ingreso.js";
 import { useClienteStore } from "../../stores/cliente.js";
 import { useSedeStore } from "../../stores/sede.js";
@@ -176,8 +182,10 @@ async function Ingreso() {
       ocultar();
       return;
     }
+    loading.value = true;
     r = await useIngresos.postIngreso(ingreso);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Error al registrar el ingreso";

@@ -15,9 +15,12 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <router-link to="/formularioVenta"
-          ><button class="btn">Crear venta</button></router-link
-        >
+        <q-btn class="btn" @click.prevent="Ventas()" :loading="loading">
+          Crear venta
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table title="Ventas" :rows="rows" :columns="columns" row-key="name">
@@ -68,7 +71,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -92,7 +100,12 @@
           <label>Cantidad</label>
         </div>
         <center>
-          <button @click.prevent="modificarVenta()">modificar</button>
+          <q-btn @click.prevent="modificarVenta()" :loading="loading">
+            modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -164,6 +177,9 @@
 import { ref, onMounted } from "vue";
 import { useVentaStore } from "../stores/venta.js";
 let loading = ref(false);
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 };
@@ -199,23 +215,23 @@ let columns = ref([
 let r = null;
 
 let listarVentas = async () => {
-  loading.value = true 
+  loading.value = true;
   r = await useVentas.getVentas();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   ventas.value = useVentas.venta;
 };
 
@@ -226,10 +242,12 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true;
   let selectedVenta = ventas.value[selectedOption.value - 1];
   r = [await useVentas.getVenta(selectedVenta._id)];
   rows.value = r;
   cont_id.value = false;
+  loading.value = false;
 };
 
 let form = ref(false);
@@ -265,7 +283,7 @@ const ocultarD = () => {
 };
 
 let modificarVenta = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let venta = {
       fecha: Fecha.value,
@@ -274,28 +292,28 @@ let modificarVenta = async () => {
       cantidad: Cantidad.value,
     };
 
-    if(venta.fecha === "") {
+    if (venta.fecha === "") {
       text.value = "El campo fecha no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(venta.codigo_producto === "") {
+    if (venta.codigo_producto === "") {
       text.value = "El campo codigo del producto no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(venta.valor === "") {
+    if (venta.valor === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(venta.cantidad === "") {
+    if (venta.cantidad === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
       ocultarD();
@@ -306,7 +324,7 @@ let modificarVenta = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = false
+    loading.value = false;
     r = await useVentas.getVentas();
     rows.value = r;
   } catch (error) {
@@ -314,11 +332,17 @@ let modificarVenta = async () => {
     registroFallido.value = true;
     ocultarD();
   }
-}
+};
+
+let Ventas = () => {
+  loading.value = true;
+  router.push("/formularioVenta");
+  loading.value = false;
+};
 
 onMounted(() => {
-  listarVentas()
-})
+  listarVentas();
+});
 </script>
 <style scoped>
 .app {
@@ -591,7 +615,6 @@ label {
   font-size: 16px;
 }
 
-
 .login-box {
   position: absolute;
   z-index: 1;
@@ -610,7 +633,6 @@ label {
   position: relative;
 }
 
-
 .login-box .user-box input {
   width: 100%;
   padding: 10px 0;
@@ -622,7 +644,8 @@ label {
   background: transparent;
 }
 
-.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+.login-box .user-box input[type="text"],
+.login-box .user-box input[type="number"] {
   color: #ffffff;
 }
 
@@ -756,7 +779,6 @@ button:after {
   transition-property: width, left;
 }
 
-
 .success {
   position: absolute;
   top: -100px;
@@ -828,14 +850,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -846,14 +869,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -867,13 +891,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -884,6 +908,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

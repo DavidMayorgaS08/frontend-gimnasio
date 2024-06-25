@@ -8,7 +8,7 @@ export const useVentaStore = defineStore("venta", () =>{
    let venta = ref(null);
     let getVentas = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/venta",
+            let res = await axios.get("/venta",
             {
                 headers: {
                     "x-token": token.value
@@ -26,7 +26,7 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let getVenta = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/venta/${id}`,
+            let res = await axios.get(`/venta/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -43,7 +43,7 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let postVenta = async (data) => {
         try {
-            let res = await axios.post("http://localhost:3000/venta", data,
+            let res = await axios.post("/venta", data,
             {
                 headers: {
                     "x-token": token.value
@@ -60,7 +60,7 @@ export const useVentaStore = defineStore("venta", () =>{
 
     let putVenta = async (id, data) => {
         try {
-            let res = await axios.put(`http://localhost:3000/venta/${id}`, data,
+            let res = await axios.put(`/venta/${id}`, data,
             {
                 headers: {
                     "x-token": token.value

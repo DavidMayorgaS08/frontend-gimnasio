@@ -21,7 +21,11 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <q-btn class="btn" @click.prevent="listarInactivos()" :loading="loading">
+        <q-btn
+          class="btn"
+          @click.prevent="listarInactivos()"
+          :loading="loading"
+        >
           Listar inactivos
           <template v-slot:loading>
             <q-spinner color="primary" size="1em" />
@@ -77,30 +81,38 @@
               </q-btn>
               <q-btn flat dense round>
                 <div class="cont_btns">
-                  <button
+                  <q-btn
                     v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
-                    @click="activar(props.row)"
+                    @click.prevent="activar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_activo"
                       src="/src/img/garrapata.png"
                       alt="activo"
                     />
-                  </button>
-                  <button
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
+                  <q-btn
                     v-else
                     class="btn_inactivo"
                     :id="'button-' + props.row.id"
-                    @click="inactivar(props.row)"
+                    @click.prevent="inactivar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_inactivo"
                       src="/src/img/equis.png"
                       alt="inactivo"
                     />
-                  </button>
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
                 </div>
               </q-btn>
             </q-td>
@@ -146,7 +158,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -346,7 +363,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useClienteStore } from "../stores/cliente.js";
 import { usePlanStore } from "../stores/plan.js";
 import { useRouter } from "vue-router";
@@ -414,24 +431,24 @@ let columns = ref([
 ]);
 
 let listarClientes = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useClientes.getClientes();
   p.value = await usePlanes.getPlanes();
   console.log(r);
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
+    loading.value = false;
   }, 500);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   clientes.value = useClientes.cliente;
 };
 
@@ -442,31 +459,35 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true;
   let selectedCliente = clientes.value[selectedOption.value - 1];
   console.log(selectedCliente);
   r = [await useClientes.getCliente(selectedCliente._id)];
   p.value = await usePlanes.getPlanes();
-  rows.value = r;
-  cont_id.value = false;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false;
+    cont_id.value = false;
+  }, 500);
 };
 
 let lsitarActivos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useClientes.getActivos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let listarInactivos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useClientes.getInactivos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
@@ -477,8 +498,10 @@ let listarPorPlan = async () => {
 };
 
 let cliente = async () => {
+  loading.value = true;
   await usePlanes.getPlanes();
   router.push("/registroClientes");
+  loading.value = false;
 };
 
 let text_fecha = ref("");
@@ -563,7 +586,7 @@ const ocultarD = () => {
 };
 
 let modificarcliente = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let plan = () => {
       let selectedPlan = planes.value[selectedOptionP.value - 1];
@@ -719,7 +742,7 @@ let modificarcliente = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = false 
+    loading.value = false;
     r = await useClientes.getClientes();
     rows.value = r;
   } catch (error) {
@@ -737,15 +760,23 @@ let ocultar = () => {
 };
 
 let activar = async (row) => {
+loading.value = true
   await useClientes.putActivar(row._id);
   r = await useClientes.getClientes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
 };
 
 let inactivar = async (row) => {
+  loading.value = true
   await useClientes.putInactivar(row._id);
   r = await useClientes.getClientes();
-  rows.value = r;
+  setTimeout(() => {
+    rows.value = r;
+    loading.value = false
+  }, 500)
 };
 
 onMounted(() => {
@@ -753,11 +784,10 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 .app {
   height: 100vh;
@@ -1423,7 +1453,7 @@ button:after {
   background-color: #ffffff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.411);
   width: 25%;
-  height: 420px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;

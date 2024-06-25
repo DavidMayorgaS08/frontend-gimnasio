@@ -8,7 +8,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
     let usuario = ref(null);
     let getUsuarios = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/", {
+            let res = await axios.get("/usuario/", {
                 headers: {
                     "x-token": token.value
                 }
@@ -24,7 +24,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let getUsuario = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/usuario/${id}`,
+            let res = await axios.get(`/usuario/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -41,7 +41,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let activos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/listar/activos",
+            let res = await axios.get("/usuario/listar/activos",
             {
                 headers: {
                     "x-token": token.value
@@ -58,7 +58,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let inactivos = async () => {
         try {
-            let res = await axios.get("http://localhost:3000/usuario/listar/inactivos",
+            let res = await axios.get("/usuario/listar/inactivos",
             {
                 headers: {
                     "x-token": token.value
@@ -75,7 +75,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let getRol = async (id) => {
         try {
-            let res = await axios.get(`http://localhost:3000/usuario/listar/rol/${id}`,
+            let res = await axios.get(`/usuario/listar/rol/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -93,7 +93,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
     let postUsuario = async (r) => {
         console.log(token.value);
         try {
-            let req = await axios.post("http://localhost:3000/usuario/", r, {
+            let req = await axios.post("/usuario/", r, {
                 headers: {
                     "x-token": token.value,
                 }
@@ -108,7 +108,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let login = async (r) => {
         try {
-            let req = await axios.post("http://localhost:3000/usuario/iniciar-sesion", r)
+            let req = await axios.post("/usuario/iniciar-sesion", r)
             console.log(req.data.token);
             token.value = req.data.token;
             user.value = req.data.usuario;
@@ -122,7 +122,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let putUsuario = async (id, r) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/${id}`, r,
+            let req = await axios.put(`/usuario/${id}`, r,
             {
                 headers: {
                     "x-token": token.value
@@ -139,7 +139,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let activar = async (id) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/activar/${id}`,
+            let req = await axios.put(`/usuario/activar/${id}`,
             {
                 headers: {
                     "x-token": token.value
@@ -156,7 +156,7 @@ export const useUsuarioStore = defineStore("usuario", () => {
 
     let inactivar = async (id) => {
         try {
-            let req = await axios.put(`http://localhost:3000/usuario/inactivar/${id}`,
+            let req = await axios.put(`/usuario/inactivar/${id}`,
             {
                 headers: {
                     "x-token": token.value

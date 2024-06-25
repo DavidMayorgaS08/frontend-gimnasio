@@ -20,7 +20,12 @@
           <label>Cantidad</label>
         </div>
         <center>
-          <button @click.prevent="Inventario()">Registrar</button>
+          <q-btn @click.prevent="Inventario()" :loading="loading">
+            Registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -95,6 +100,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false);
 import { useInventarioStore } from "../../stores/inventario.js";
 
 let useInventarios = useInventarioStore();
@@ -149,8 +155,10 @@ async function Inventario() {
       ocultar();
       return;
     }
+    loading.value = true;
     r = await useInventarios.postInventario(inventario);
     registroExitoso.value = true;
+    loading.value = false;
     ocultar();
   } catch (error) {
     return error;

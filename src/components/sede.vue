@@ -15,7 +15,12 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <router-link to="/formularioSede"><button class="btn">Crear sede</button></router-link>
+        <q-btn class="btn" @click.prevent="Sedes()" :loading="loading">
+          Crear sede
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table title="Sedes" :rows="rows" :columns="columns" row-key="name">
@@ -66,7 +71,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -99,11 +109,11 @@
         </div>
         <center>
           <q-btn @click.prevent="modificarSede()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            Modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -173,8 +183,10 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useSedeStore } from "../stores/sede.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 let useSedes = useSedeStore();
 
@@ -199,23 +211,23 @@ let columns = ref([
 let r = null;
 
 let listarSedes = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useSedes.getSedes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   sedes.value = useSedes.sede;
 };
 
@@ -226,10 +238,18 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true
   let selectSede = sedes.value[selectedOption.value - 1];
   r = [await useSedes.getSede(selectSede._id)];
   rows.value = r;
   cont_id.value = false;
+  loading.value = false
+};
+
+let Sedes = () => {
+  loading.value = true
+  router.push("/formularioSede")
+  loading.value = false
 }
 
 let form = ref(false);
@@ -269,7 +289,7 @@ const ocultarD = () => {
 };
 
 let modificarSede = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let sede = {
       nombre: Nombre.value,
@@ -280,42 +300,42 @@ let modificarSede = async () => {
       telefono: Telefono.value,
     };
 
-    if(sede.nombre === "") {
+    if (sede.nombre === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(sede.direccion === "") {
+    if (sede.direccion === "") {
       text.value = "El campo direccion es obligatorio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(sede.codigo === "") {
+    if (sede.codigo === "") {
       text.value = "El campo codigo es obligatorio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(sede.horario === "") {
+    if (sede.horario === "") {
       text.value = "El campo horario es obligatorio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(sede.ciudad === "") {
+    if (sede.ciudad === "") {
       text.value = "El campo ciudad es obligatorio";
       registroFallido.value = true;
       ocultarD();
       return;
     }
 
-    if(sede.telefono === "") {
+    if (sede.telefono === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultarD();
@@ -326,7 +346,7 @@ let modificarSede = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = true
+    loading.value = true;
     r = await useSedes.getSedes();
     rows.value = r;
   } catch (error) {
@@ -335,11 +355,11 @@ let modificarSede = async () => {
     ocultarD();
     return;
   }
-}
+};
 
 onMounted(() => {
-  listarSedes()
-})
+  listarSedes();
+});
 </script>
 <style scoped>
 .app {
@@ -362,7 +382,7 @@ onMounted(() => {
   background-size: 100% 30px;
 }
 
-.info{
+.info {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -612,7 +632,6 @@ label {
   font-size: 16px;
 }
 
-
 .login-box {
   position: absolute;
   z-index: 1;
@@ -757,7 +776,6 @@ button:after {
   transition-property: width, left;
 }
 
-
 .success {
   position: absolute;
   top: -100px;
@@ -829,14 +847,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -847,14 +866,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -868,13 +888,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -885,6 +905,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

@@ -27,11 +27,12 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <router-link to="/registroTrabajadores"
-          ><button class="btn" @click="usuario()">
-            Crear usuario
-          </button></router-link
-        >
+        <q-btn class="btn" @click.prevent="usuario()" :loading="loading">
+          Crear usuario
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table
@@ -121,7 +122,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -298,10 +304,12 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true
   let selectedUsuario = usuarios.value[selectedOption.value - 1];
   r = [await useUsuarios.getUsuario(selectedUsuario._id)];
   rows.value = r;
   cont_id.value = false;
+  loading.value = false
 };
 
 async function activos() {
@@ -331,8 +339,10 @@ async function ListarPorRol() {
 }
 
 let usuario = async () => {
+  loading.value = true
   await useSedes.getSedes();
   router.push("/registroTrabajadores");
+  loading.value = false
 };
 
 let editar = ref(true);
@@ -461,7 +471,7 @@ let activar = async (row) => {
 };
 
 let inactivar = async (row) => {
-  if (row._id === "662c45ff31b11b425c76c60b") {
+  if (row._id === "6679e4beff44c5b6107b6a9b") {
     text.value = "No se puede inactivar este usuario";
     registroFallido.value = true;
     ocultarD();

@@ -27,9 +27,12 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <router-link to="/formularioPlan"
-          ><button class="btn">Crear plan</button></router-link
-        >
+        <q-btn class="btn" @click.prevent="Planes()" :loading="loading">
+          Crear plan
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
       </div>
       <div class="q-pa-md">
         <q-table title="Planes" :rows="rows" :columns="columns" row-key="name">
@@ -63,22 +66,38 @@
               </q-btn>
               <q-btn flat dense round>
                 <div class="cont_btns">
-                  <button
-                  v-if="props.row.estado == 0"
+                  <q-btn
+                    v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
-                    @click="activar(props.row)"
+                    @click.prevent="activar(props.row)"
+                    :loading="loading"
                   >
-                    <img class="img_activo" src="/src/img/garrapata.png" alt="activo" />
-                  </button>
-                  <button
+                    <img
+                      class="img_activo"
+                      src="/src/img/garrapata.png"
+                      alt="activo"
+                    />
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
+                  <q-btn
                     v-else
                     class="btn_inactivo"
                     :id="'button-' + props.row.id"
-                    @click="inactivar(props.row)"
+                    @click.prevent="inactivar(props.row)"
+                    :loading="loading"
                   >
-                    <img class="img_inactivo" src="/src/img/equis.png" alt="inactivo" />
-                  </button>
+                    <img
+                      class="img_inactivo"
+                      src="/src/img/equis.png"
+                      alt="inactivo"
+                    />
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
                 </div>
               </q-btn>
             </q-td>
@@ -106,7 +125,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -211,6 +235,8 @@
 import { ref, onMounted } from "vue";
 let loading = ref(false)
 import { usePlanStore } from "../stores/plan.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const formatNumber = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -270,10 +296,12 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true
   let selectPlan = planes.value[selectedOption.value - 1];
   r = [await usePlanes.getPlan(selectPlan._id)];
   rows.value = r;
   cont_id.value = false;
+  loading.value = false
 };
 
 let activos = async () => {
@@ -295,6 +323,12 @@ let inactivos = async () => {
   }, 500)
   console.log(r);
 };
+
+let Planes = async () => {
+  loading.value = true
+  router.push("/formularioPlan")
+  loading.value = false
+}
 
 let editar = ref(true);
 
@@ -393,15 +427,19 @@ let modificarPlan = async () => {
 }
 
 let activar = async (row) => {
+  loading.value = true
   await usePlanes.activar(row._id);
   r = await usePlanes.getPlanes();
   rows.value = r;
+  loading.value = false
 };
 
 let inactivar = async (row) => {
+  loading.value = true
   await usePlanes.inactivar(row._id);
   r = await usePlanes.getPlanes();
   rows.value = r;
+  loading.value = false
 };
 
 onMounted(() => {

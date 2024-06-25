@@ -42,7 +42,12 @@
           <label>Estado</label>
         </div>
         <center>
-          <button @click.prevent="Maquina()">Registrar</button>
+          <q-btn @click.prevent="Maquina()" :loading="loading">
+          Listar clientes
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         </center>
       </form>
     </div>
@@ -117,6 +122,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+let loading = ref(false)
 import { useMaquinaStore } from "../../stores/maquina.js";
 import { useSedeStore } from "../../stores/sede.js";
 
@@ -197,9 +203,10 @@ async function Maquina() {
       ocultar();
       return;
     }
-
+    loading.value = true
     r = await useMaquinas.postMaquina(maquina);
     registroExitoso.value = true;
+    loading.value = false
     ocultar();
   } catch (error) {
     text.value = "Ha ocurrido un error";

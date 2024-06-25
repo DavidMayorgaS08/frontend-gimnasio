@@ -71,30 +71,38 @@
               </q-btn>
               <q-btn flat dense round>
                 <div class="cont_btns">
-                  <button
+                  <q-btn
                     v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
-                    @click="activar(props.row)"
+                    @click.prevent="activar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_activo"
                       src="/src/img/garrapata.png"
                       alt="activo"
                     />
-                  </button>
-                  <button
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
+                  <q-btn
                     v-else
                     class="btn_inactivo"
                     :id="'button-' + props.row.id"
-                    @click="inactivar(props.row)"
+                    @click.prevent="inactivar(props.row)"
+                    :loading="loading"
                   >
                     <img
                       class="img_inactivo"
                       src="/src/img/equis.png"
                       alt="inactivo"
                     />
-                  </button>
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
                 </div>
               </q-btn>
             </q-td>
@@ -122,7 +130,12 @@
         </select>
       </div>
       <div class="cont_btn">
-        <button class="btn" @click="id()">Enviar</button>
+        <q-btn class="btn" @click.prevent="id()" :loading="loading">
+          Enviar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
         <button class="btn" @click="cerrarId()">Cerrar</button>
       </div>
     </div>
@@ -319,11 +332,13 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
+  loading.value = true
   let selectedMaquina = maquinas.value[selectedOption.value - 1];
   r = [await useMaquinas.getMaquina(selectedMaquina._id)];
   s.value = await useSedes.getSedes();
   rows.value = r;
   cont_id.value = false;
+  loading.value = false
 };
 
 let listarActivas = async () => {
@@ -347,8 +362,10 @@ let listarInactivas = async () => {
 };
 
 let maquina = async () => {
+  loading.value = true
   await useSedes.getSedes();
   router.push("/formularioMaquina");
+  loading.value = false
 };
 
 let editar = ref(true);
@@ -461,15 +478,19 @@ let modificarMaquina = async () => {
 };
 
 let activar = async (row) => {
+  loading.value = true
   await useMaquinas.activarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
   rows.value = r;
+  loading.value = false
 };
 
 let inactivar = async (row) => {
+  loading.value = true
   await useMaquinas.inactivarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
   rows.value = r;
+  loading.value = false
 };
 
 let ocultar = () => {
