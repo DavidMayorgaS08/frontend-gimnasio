@@ -201,7 +201,7 @@
           <input type="number" name="" required="" v-model="Valor" />
           <label>Valor</label>
         </div>
-        <div class="user-box">
+        <div class="user-box" v-if="est">
           <input type="text" name="" required="" v-model="Estado" />
           <label>Estado</label>
         </div>

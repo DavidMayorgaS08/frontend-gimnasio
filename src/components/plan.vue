@@ -171,7 +171,7 @@
           <input type="Number" name="" required="" v-model="Dias" />
           <label>Dias</label>
         </div>
-        <div class="user-box">
+        <div class="user-box" v-if="est">
           <input type="text" name="" required="" v-model="Estado" />
           <label>Estado</label>
         </div>

@@ -223,7 +223,7 @@
             <input type="text" name="" required="" v-model="limitaciones" />
             <label>Limitaciones</label>
           </div>
-          <div class="user-box">
+          <div class="user-box" v-if="est">
             <input type="Number" name="" required="" v-model="estado" />
             <label>Estado</label>
           </div>

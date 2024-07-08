@@ -185,7 +185,7 @@
           <input type="text" name="" required="" v-model="Telefono" />
           <label>Telefono</label>
         </div>
-        <div class="user-box">
+        <div class="user-box" v-if="est">
           <input type="text" name="" required="" v-model="estado" />
           <label>Estado</label>
         </div>
