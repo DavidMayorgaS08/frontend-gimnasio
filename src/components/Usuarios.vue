@@ -190,7 +190,12 @@
           <label>Estado</label>
         </div>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="Rol" />
+          <select required v-model="Rol">
+            <option value="" disabled selected hidden></option>
+            <option value="1">Administrador</option>
+            <option value="2">Recepcionista</option>
+            <option value="3">Entrenador</option>
+          </select>
           <label>Rol</label>
         </div>
         <center>
