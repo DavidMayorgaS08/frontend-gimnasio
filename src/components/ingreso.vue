@@ -352,18 +352,21 @@ let modificarIngreso = async () => {
     if (ingreso.cliente_id === "") {
       text.value = "El campo Id del cliente no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (ingreso.fecha === "") {
       text.value = "El campo fecha no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (ingreso.sede === "") {
       text.value = "El campo Sede no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -378,6 +381,7 @@ let modificarIngreso = async () => {
   } catch (error) {
     text.value = "Error al modificar el ingreso";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
     return;
   }

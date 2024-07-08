@@ -21,7 +21,11 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <q-btn class="btn" @click.prevent="listarInactivas()" :loading="loading">
+        <q-btn
+          class="btn"
+          @click.prevent="listarInactivas()"
+          :loading="loading"
+        >
           Listar Inactivas
           <template v-slot:loading>
             <q-spinner color="primary" size="1em" />
@@ -78,11 +82,20 @@
                     @click.prevent="activar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_activo"
-                      src="/src/img/garrapata.png"
-                      alt="activo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 12l4 4l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -94,11 +107,20 @@
                     @click.prevent="inactivar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_inactivo"
-                      src="/src/img/equis.png"
-                      alt="inactivo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 8l8 8M8 16l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -182,11 +204,11 @@
         </div>
         <center>
           <q-btn @click.prevent="modificarMaquina()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            Modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -256,7 +278,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useMaquinaStore } from "../stores/maquina.js";
 import { useSedeStore } from "../stores/sede.js";
 import { useRouter } from "vue-router";
@@ -304,24 +326,24 @@ let columns = ref([
 ]);
 
 let listarMaquinas = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useMaquinas.getMaquinas();
   s.value = await useSedes.getSedes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   maquinas.value = useMaquinas.maquina;
 };
 
@@ -332,40 +354,40 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
-  loading.value = true
+  loading.value = true;
   let selectedMaquina = maquinas.value[selectedOption.value - 1];
   r = [await useMaquinas.getMaquina(selectedMaquina._id)];
   s.value = await useSedes.getSedes();
   rows.value = r;
   cont_id.value = false;
-  loading.value = false
+  loading.value = false;
 };
 
 let listarActivas = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useMaquinas.activos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let listarInactivas = async () => {
-  loading.value = true
+  loading.value = true;
   r = await useMaquinas.inactivos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let maquina = async () => {
-  loading.value = true
+  loading.value = true;
   await useSedes.getSedes();
   router.push("/formularioMaquina");
-  loading.value = false
+  loading.value = false;
 };
 
 let editar = ref(true);
@@ -407,7 +429,7 @@ const ocultarD = () => {
 };
 
 let modificarMaquina = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
@@ -428,6 +450,7 @@ let modificarMaquina = async () => {
     if (maquina.codigo === "") {
       text.value = "El campo Codigo no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -435,6 +458,7 @@ let modificarMaquina = async () => {
     if (maquina.descripcion === "") {
       text.value = "El campo Descripcion no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -442,14 +466,15 @@ let modificarMaquina = async () => {
     if (maquina.fechaIngreso === "") {
       text.value = "El campo Fecha de ingreso no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
 
     if (maquina.fechaUltimoMantenimiento === "") {
-      text.value =
-        "El campo Fecha de último mantenimiento no puede estar vacío";
+      text.value = "El campo Fecha de último mantenimiento no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -457,6 +482,7 @@ let modificarMaquina = async () => {
     if (maquina.estado === "") {
       text.value = "El campo Estado no puede estar vacío";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -472,25 +498,26 @@ let modificarMaquina = async () => {
   } catch (error) {
     text.value = "Error al modificar la maquina";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
     return;
   }
 };
 
 let activar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await useMaquinas.activarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 let inactivar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await useMaquinas.inactivarMaquina(row._id);
   r = await useMaquinas.getMaquinas();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 let ocultar = () => {
@@ -499,7 +526,7 @@ let ocultar = () => {
 
 onMounted(() => {
   listarMaquinas();
-})
+});
 </script>
 <style scoped>
 .app {

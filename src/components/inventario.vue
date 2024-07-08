@@ -327,24 +327,28 @@ let modificarInventario = async () => {
     if (inventario.codigo === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (inventario.descripcion === "") {
       text.value = "El campo Descripcion es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (inventario.valor === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (inventario.cantidad === "") {
       text.value = "El campo Cantidad es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -359,6 +363,7 @@ let modificarInventario = async () => {
   } catch (error) {
     text.value = "Error al modificar el inventario";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
   }
 }

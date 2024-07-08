@@ -37,17 +37,13 @@
           />
           <label>Ultimo mantenimiento</label>
         </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Estado" />
-          <label>Estado</label>
-        </div>
         <center>
           <q-btn @click.prevent="Maquina()" :loading="loading">
-          Listar clientes
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            registrar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -122,7 +118,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { useMaquinaStore } from "../../stores/maquina.js";
 import { useSedeStore } from "../../stores/sede.js";
 
@@ -136,7 +132,7 @@ let selectedOptionS = ref("");
 let Descripcion = ref("");
 let Fecha_Ingreso = ref("");
 let Fecha_Ultimo_Mantenimiento = ref("");
-let Estado = ref("");
+let Estado = ref("1");
 
 let registroExitoso = ref(false);
 let registroFallido = ref(false);
@@ -149,14 +145,14 @@ const ocultar = () => {
     registroExitoso.value = false;
     registroFallido.value = false;
   }, 3000);
-}
+};
 
 async function Maquina() {
   try {
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;
-    }
+    };
 
     let sede_id = sede();
 
@@ -169,44 +165,45 @@ async function Maquina() {
       estado: Estado.value,
     };
 
-    if(maquina.codigo === "") {
+    if (maquina.codigo === "") {
       text.value = "El campo Codigo no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(maquina.descripcion === "") {
+    if (maquina.descripcion === "") {
       text.value = "El campo Descripcion no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(maquina.fechaIngreso === "") {
+    if (maquina.fechaIngreso === "") {
       text.value = "El campo Fecha de ingreso no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(maquina.fechaUltimoMantenimiento === "") {
-      text.value = "El campo Fecha de último mantenimiento no puede estar vacío";
+    if (maquina.fechaUltimoMantenimiento === "") {
+      text.value =
+        "El campo Fecha de último mantenimiento no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(maquina.estado === "") {
+    if (maquina.estado === "") {
       text.value = "El campo Estado no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    loading.value = true
+    loading.value = true;
     r = await useMaquinas.postMaquina(maquina);
     registroExitoso.value = true;
-    loading.value = false
+    loading.value = false;
     ocultar();
   } catch (error) {
     text.value = "Ha ocurrido un error";
@@ -260,7 +257,6 @@ function cerrar() {
 .login-box .user-box {
   position: relative;
 }
-
 
 .login-box .user-box input {
   width: 100%;

@@ -39,10 +39,6 @@
             <label>Limitaciones</label>
           </div>
           <div class="user-box">
-            <input type="Number" name="" required="" v-model="estado" />
-            <label>Estado</label>
-          </div>
-          <div class="user-box">
             <select required v-model="selectedOptionP">
             <option value="" disabled selected hidden></option>
             <option
@@ -187,7 +183,7 @@ let documento = ref("");
 let direccion = ref("");
 let Telefono = ref("");
 let limitaciones = ref("");
-let estado = ref("");
+let estado = ref("1");
 let selectedOptionP = ref("");
 let fecha = ref("");
 let peso = ref("");

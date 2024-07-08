@@ -85,11 +85,20 @@
                     @click.prevent="activar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_activo"
-                      src="/src/img/garrapata.png"
-                      alt="activo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 12l4 4l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -101,11 +110,20 @@
                     @click.prevent="inactivar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_inactivo"
-                      src="/src/img/equis.png"
-                      alt="inactivo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 8l8 8M8 16l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -320,25 +338,25 @@ let columns = ref([
 ]);
 
 let listarPagos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePagos.getPagos();
   c.value = await useClientes.getClientes();
   p.value = await usePlanes.getPlanes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   pagos.value = usePagos.pago;
 };
 
@@ -349,33 +367,33 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
-  loading.value = true
+  loading.value = true;
   let selectedPago = pagos.value[selectedOption.value - 1];
   r = [await usePagos.getPago(selectedPago._id)];
   c.value = await useClientes.getClientes();
   p.value = await usePlanes.getPlanes();
   rows.value = r;
   cont_id.value = false;
-  loading.value = false
+  loading.value = false;
 };
 
 let activos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePagos.activos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let inactivos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePagos.inactivos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
@@ -392,11 +410,11 @@ let listarPorCliente = async () => {
 };
 
 let pago = async () => {
-  loading.value = true
+  loading.value = true;
   await useClientes.getClientes();
   await usePlanes.getPlanes();
   router.push("/formularioPago");
-  loading.value = false
+  loading.value = false;
 };
 
 let editar = ref(true);
@@ -470,30 +488,35 @@ let modificarPago = async () => {
     if (pago.cliente_id === "") {
       text.value = "Seleccione un cliente";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (pago.plan === "") {
       text.value = "Seleccione un plan";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (pago.fecha === "") {
       text.value = "Seleccione una fecha";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (pago.valor === "") {
       text.value = "Ingrese un valor";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
     if (pago.estado === "") {
       text.value = "Ingrese un estado";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -508,24 +531,25 @@ let modificarPago = async () => {
   } catch (error) {
     text.value = "Error al modificar el pago";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
   }
 };
 
 let activar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await usePagos.activar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 let inactivar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await usePagos.inactivar(row._id);
   r = await usePagos.getPagos();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 onMounted(() => {

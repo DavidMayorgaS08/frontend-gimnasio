@@ -73,11 +73,20 @@
                     @click.prevent="activar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_activo"
-                      src="/src/img/garrapata.png"
-                      alt="activo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 12l4 4l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -89,11 +98,20 @@
                     @click.prevent="inactivar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_inactivo"
-                      src="/src/img/equis.png"
-                      alt="inactivo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 8l8 8M8 16l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -159,11 +177,11 @@
         </div>
         <center>
           <q-btn @click.prevent="modificarPlan()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
+            Modificar
+            <template v-slot:loading>
+              <q-spinner color="primary" size="1em" />
+            </template>
+          </q-btn>
         </center>
       </form>
     </div>
@@ -233,7 +251,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-let loading = ref(false)
+let loading = ref(false);
 import { usePlanStore } from "../stores/plan.js";
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -269,23 +287,23 @@ let columns = ref([
 let r = null;
 
 let listarPlanes = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePlanes.getPlanes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let cont_id = ref(false);
 
 let abrirId = () => {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
     cont_id.value = true;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   planes.value = usePlanes.plan;
 };
 
@@ -296,39 +314,39 @@ let cerrarId = () => {
 let selectedOption = ref("");
 
 let id = async () => {
-  loading.value = true
+  loading.value = true;
   let selectPlan = planes.value[selectedOption.value - 1];
   r = [await usePlanes.getPlan(selectPlan._id)];
   rows.value = r;
   cont_id.value = false;
-  loading.value = false
+  loading.value = false;
 };
 
 let activos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePlanes.activos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let inactivos = async () => {
-  loading.value = true
+  loading.value = true;
   r = await usePlanes.inactivos();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
   console.log(r);
 };
 
 let Planes = async () => {
-  loading.value = true
-  router.push("/formularioPlan")
-  loading.value = false
-}
+  loading.value = true;
+  router.push("/formularioPlan");
+  loading.value = false;
+};
 
 let editar = ref(true);
 
@@ -367,7 +385,7 @@ let ocultar = () => {
 };
 
 let modificarPlan = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     let plan = {
       codigo: Codigo.value,
@@ -377,37 +395,42 @@ let modificarPlan = async () => {
       estado: Estado.value,
     };
 
-    if(plan.codigo === "") {
+    if (plan.codigo === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
 
-    if(plan.descripcion === "") {
+    if (plan.descripcion === "") {
       text.value = "El campo Descripcion es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
 
-    if(plan.valor === "") {
+    if (plan.valor === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
 
-    if(plan.dias === "") {
+    if (plan.dias === "") {
       text.value = "El campo Dias es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
 
-    if(plan.estado === "") {
+    if (plan.estado === "") {
       text.value = "El campo Estado es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -416,35 +439,36 @@ let modificarPlan = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = false
+    loading.value = false;
     r = await usePlanes.getPlanes();
     rows.value = r;
   } catch (error) {
     text.value = "Error al modificar el plan";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
   }
-}
+};
 
 let activar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await usePlanes.activar(row._id);
   r = await usePlanes.getPlanes();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 let inactivar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await usePlanes.inactivar(row._id);
   r = await usePlanes.getPlanes();
   rows.value = r;
-  loading.value = false
+  loading.value = false;
 };
 
 onMounted(() => {
-  listarPlanes()
-})
+  listarPlanes();
+});
 </script>
 <style scoped>
 .app {
@@ -580,7 +604,8 @@ onMounted(() => {
   margin-left: 5px;
 }
 
-.btn_activo, .btn_inactivo {
+.btn_activo,
+.btn_inactivo {
   padding: 8px 10px;
   border: none;
   background: #1a1a1a;
@@ -591,11 +616,13 @@ onMounted(() => {
   align-items: center;
 }
 
-.btn_activo:hover, .btn_inactivo:hover {
+.btn_activo:hover,
+.btn_inactivo:hover {
   background: #141414bb;
 }
 
-.img_activo, .img_inactivo {
+.img_activo,
+.img_inactivo {
   width: 30px;
 }
 
@@ -887,7 +914,6 @@ button:after {
   transition-property: width, left;
 }
 
-
 .success {
   position: absolute;
   top: -100px;
@@ -959,14 +985,15 @@ button:after {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -977,14 +1004,15 @@ button:after {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   width: 320px;
   padding: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #FCE8DB;
+  background: #fce8db;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
   transition: all 0.5s;
@@ -998,13 +1026,13 @@ button:after {
 }
 
 .error__icon path {
-  fill: #EF665B;
+  fill: #ef665b;
 }
 
 .error__title {
   font-weight: 500;
   font-size: 14px;
-  color: #71192F;
+  color: #71192f;
 }
 
 .error__close {
@@ -1015,6 +1043,6 @@ button:after {
 }
 
 .error__close path {
-  fill: #71192F;
+  fill: #71192f;
 }
 </style>

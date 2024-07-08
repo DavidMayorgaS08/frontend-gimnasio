@@ -303,6 +303,7 @@ let modificarSede = async () => {
     if (sede.nombre === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -310,6 +311,7 @@ let modificarSede = async () => {
     if (sede.direccion === "") {
       text.value = "El campo direccion es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -317,6 +319,7 @@ let modificarSede = async () => {
     if (sede.codigo === "") {
       text.value = "El campo codigo es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -324,6 +327,7 @@ let modificarSede = async () => {
     if (sede.horario === "") {
       text.value = "El campo horario es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -331,6 +335,7 @@ let modificarSede = async () => {
     if (sede.ciudad === "") {
       text.value = "El campo ciudad es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -338,6 +343,7 @@ let modificarSede = async () => {
     if (sede.telefono === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -352,6 +358,7 @@ let modificarSede = async () => {
   } catch (error) {
     text.value = "Ha ocurrido un error";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
     return;
   }

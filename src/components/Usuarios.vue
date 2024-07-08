@@ -71,30 +71,56 @@
               </q-btn>
               <q-btn flat dense round>
                 <div class="cont_btns">
-                  <button
+                  <q-btn
                     v-if="props.row.estado == 0"
                     class="btn_activo"
                     :id="'button-' + props.row.id"
-                    @click="activar(props.row)"
+                    @click.prevent="activar(props.row)"
+                    :loading="loading"
                   >
-                    <img
-                      class="img_activo"
-                      src="/src/img/garrapata.png"
-                      alt="activo"
-                    />
-                  </button>
-                  <button
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 12l4 4l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
+                  <q-btn
                     v-else
                     class="btn_inactivo"
                     :id="'button-' + props.row.id"
-                    @click="inactivar(props.row)"
+                    @click.prevent="inactivar(props.row)"
+                    :loading="loading"
                   >
-                    <img
-                      class="img_inactivo"
-                      src="/src/img/equis.png"
-                      alt="inactivo"
-                    />
-                  </button>
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 8l8 8M8 16l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
+                    <template v-slot:loading>
+                      <q-spinner color="primary" size="1em" />
+                    </template>
+                  </q-btn>
                 </div>
               </q-btn>
             </q-td>
@@ -412,6 +438,7 @@ let modificarUsuario = async () => {
     if (usuario.nombre === "") {
       text.value = "El campo nombre no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -419,6 +446,7 @@ let modificarUsuario = async () => {
     if (usuario.sede === "") {
       text.value = "El campo sede no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -426,6 +454,7 @@ let modificarUsuario = async () => {
     if (usuario.correo === "") {
       text.value = "El campo correo no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -433,6 +462,7 @@ let modificarUsuario = async () => {
     if (usuario.telefono === "") {
       text.value = "El campo telefono no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -440,6 +470,7 @@ let modificarUsuario = async () => {
     if (usuario.estado === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -447,6 +478,7 @@ let modificarUsuario = async () => {
     if (usuario.rol === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -461,25 +493,31 @@ let modificarUsuario = async () => {
   } catch (error) {
     text.value = "Error al modificar el usuario";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
   }
 };
 
 let activar = async (row) => {
+  loading.value = true;
   await useUsuarios.activar(row._id);
   r = await useUsuarios.getUsuarios();
+  loading.value = false;
 };
 
 let inactivar = async (row) => {
+  loading.value = true;
   if (row._id === "6679e4beff44c5b6107b6a9b") {
     text.value = "No se puede inactivar este usuario";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
     return;
   } else {
     await useUsuarios.inactivar(row._id);
     r = await useUsuarios.getUsuarios();
     rows.value = r;
+    loading.value = false;
   }
 };
 

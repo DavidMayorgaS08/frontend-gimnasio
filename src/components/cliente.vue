@@ -88,11 +88,20 @@
                     @click.prevent="activar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_activo"
-                      src="/src/img/garrapata.png"
-                      alt="activo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 12l4 4l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -104,11 +113,20 @@
                     @click.prevent="inactivar(props.row)"
                     :loading="loading"
                   >
-                    <img
-                      class="img_inactivo"
-                      src="/src/img/equis.png"
-                      alt="inactivo"
-                    />
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 8l8 8M8 16l8 -8"
+                        stroke="white"
+                        stroke-width="2"
+                        fill="none"
+                      />
+                    </svg>
                     <template v-slot:loading>
                       <q-spinner color="primary" size="1em" />
                     </template>
@@ -329,7 +347,22 @@
       </div>
     </div>
     <div class="cont_seguimiento" v-if="Seguimiento">
-      <img @click="ocultar()" class="img_x" src="/src/img/equis2.png" alt="" />
+      <svg
+        @click="ocultar()"
+        class="img_x"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M8 8l8 8M8 16l8 -8"
+          stroke="black"
+          stroke-width="2"
+          fill="none"
+        />
+      </svg>
       <div class="cont_fecha">
         <p class="titulo_techa">Fecha:</p>
         <p class="text_fecha">{{ text_fecha }}</p>
@@ -622,6 +655,7 @@ let modificarcliente = async () => {
     if (cliente.nombre === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -629,6 +663,7 @@ let modificarcliente = async () => {
     if (cliente.fechaNacimiento === "") {
       text.value = "El campo fecha de nacimiento es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -636,6 +671,7 @@ let modificarcliente = async () => {
     if (cliente.edad === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -643,6 +679,7 @@ let modificarcliente = async () => {
     if (cliente.fechaIngreso === "") {
       text.value = "El campo fecha de ingreso es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -650,6 +687,7 @@ let modificarcliente = async () => {
     if (cliente.documento === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -657,6 +695,7 @@ let modificarcliente = async () => {
     if (cliente.direccion === "") {
       text.value = "El campo dirección es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -664,6 +703,7 @@ let modificarcliente = async () => {
     if (cliente.Telefono === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -671,6 +711,7 @@ let modificarcliente = async () => {
     if (cliente.limitaciones === "") {
       text.value = "El campo limitaciones es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -678,6 +719,7 @@ let modificarcliente = async () => {
     if (cliente.estado === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -685,6 +727,7 @@ let modificarcliente = async () => {
     if (cliente.plan === "") {
       text.value = "El campo plan es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -692,6 +735,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.fecha === "") {
       text.value = "El campo fecha es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -699,6 +743,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.peso === "") {
       text.value = "El campo peso es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -706,6 +751,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.Altura === "") {
       text.value = "El campo altura es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -713,6 +759,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.imc === "") {
       text.value = "El campo imc es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -720,6 +767,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.medidaBrazo === "") {
       text.value = "El campo medida del brazo es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -727,6 +775,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.medidaPierna === "") {
       text.value = "El campo medida de la pierna es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -734,6 +783,7 @@ let modificarcliente = async () => {
     if (cliente.seguimiento.medidaCintura === "") {
       text.value = "El campo medida de la cintura es obligatorio";
       registroFallido.value = true;
+      loading.value = false;
       ocultar();
       return;
     }
@@ -748,6 +798,7 @@ let modificarcliente = async () => {
   } catch (error) {
     text.value = "Error al modificar el cliente";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
     console.log(error);
     return;
@@ -760,23 +811,23 @@ let ocultar = () => {
 };
 
 let activar = async (row) => {
-loading.value = true
+  loading.value = true;
   await useClientes.putActivar(row._id);
   r = await useClientes.getClientes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
 };
 
 let inactivar = async (row) => {
-  loading.value = true
+  loading.value = true;
   await useClientes.putInactivar(row._id);
   r = await useClientes.getClientes();
   setTimeout(() => {
     rows.value = r;
-    loading.value = false
-  }, 500)
+    loading.value = false;
+  }, 500);
 };
 
 onMounted(() => {
@@ -1243,6 +1294,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   right: 10px;
   width: 30px;
   cursor: pointer;
+  color: #000000;
 }
 
 button {

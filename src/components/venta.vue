@@ -295,6 +295,7 @@ let modificarVenta = async () => {
     if (venta.fecha === "") {
       text.value = "El campo fecha no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -302,6 +303,7 @@ let modificarVenta = async () => {
     if (venta.codigo_producto === "") {
       text.value = "El campo codigo del producto no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -309,6 +311,7 @@ let modificarVenta = async () => {
     if (venta.valor === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -316,6 +319,7 @@ let modificarVenta = async () => {
     if (venta.cantidad === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
+      loading.value = false;
       ocultarD();
       return;
     }
@@ -330,6 +334,7 @@ let modificarVenta = async () => {
   } catch (error) {
     text.value = "Error al modificar la venta";
     registroFallido.value = true;
+    loading.value = false;
     ocultarD();
   }
 };

@@ -33,10 +33,6 @@
           <label>Telefono</label>
         </div>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="estado" />
-          <label>Estado</label>
-        </div>
-        <div class="user-box">
           <input type="text" name="" required="" v-model="Rol" />
           <label>Rol</label>
         </div>
@@ -140,7 +136,7 @@ let selectedOptionS = ref("");
 let Correo = ref("");
 let Contraseña = ref("");
 let Telefono = ref("");
-let estado = ref("");
+let estado = ref("1");
 let Rol = ref("");
 
 let registroExitoso = ref(false);

@@ -37,10 +37,6 @@
           <input type="number" name="" required="" v-model="Valor" />
           <label>Valor</label>
         </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Estado" />
-          <label>Estado</label>
-        </div>
         <center>
           <q-btn @click.prevent="Pago()" :loading="loading">
             Registrar
@@ -138,7 +134,7 @@ let selectedOptionC = ref("");
 let selectedOptionP = ref("");
 let Fecha = ref("");
 let Valor = ref("");
-let Estado = ref("");
+let Estado = ref("1");
 
 let registroExitoso = ref(false);
 let registroFallido = ref(false);

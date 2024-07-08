@@ -19,10 +19,6 @@
           <input type="Number" name="" required="" v-model="Dias" />
           <label>Dias</label>
         </div>
-        <div class="user-box">
-          <input type="text" name="" required="" v-model="Estado" />
-          <label>Estado</label>
-        </div>
         <center>
           <q-btn @click.prevent="Plan()" :loading="loading">
             Registrar
@@ -113,7 +109,7 @@ let Codigo = ref("");
 let Descripcion = ref("");
 let Valor = ref("");
 let Dias = ref("");
-let Estado = ref("");
+let Estado = ref("1");
 
 let registroExitoso = ref(false);
 let registroFallido = ref(false);
