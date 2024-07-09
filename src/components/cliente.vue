@@ -272,7 +272,7 @@
             <input type="Number" name="" required="" v-model="Altura" />
             <label>Altura</label>
           </div>
-          <div class="user-box">
+          <div class="user-box" v-if="imc_cont">
             <input type="Number" name="" required="" v-model="imc" />
             <label>IMC</label>
           </div>
@@ -633,6 +633,14 @@ const ocultarD = () => {
   }, 3000);
 };
 
+let calcularIMC = () => {
+  let Peso = parseFloat(peso.value);
+  let altura = parseFloat(Altura.value);
+  altura = altura / 100;
+  imc = Peso / (altura * altura);
+  return imc;
+}
+
 let modificarcliente = async () => {
   loading.value = true;
   try {
@@ -659,7 +667,7 @@ let modificarcliente = async () => {
           fecha: fecha.value,
           peso: peso.value,
           altura: Altura.value,
-          imc: imc.value,
+          imc: calcularIMC(),
           medidaBrazo: medidaBrazo.value,
           medidaPierna: medidaPierna.value,
           medidaCintura: medidaCintura.value,

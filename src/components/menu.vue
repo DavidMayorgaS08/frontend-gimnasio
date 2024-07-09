@@ -77,6 +77,10 @@
       </button>
     </div>
     <div class="cont_info">
+      <div class="cont_bienvenida" v-if="bienvenida">
+        <p class="text_bienvenida">bienvenido</p>
+        <p class="text_user">{{ user }}</p>
+      </div>
       <router-view />
     </div>
   </div>
@@ -94,6 +98,14 @@ import { useUsuarioStore } from "../stores/usuarios.js";
 import { useVentaStore } from "../stores/venta.js";
 import { ref } from "vue";
 
+let bienvenida = ref(true);
+let user = ref("");
+let user1 = localStorage.getItem("usuario");
+if (user1) {
+  const userObj = JSON.parse(user1);
+  user.value = userObj.user.nombre;
+}
+
 let menuOpen = ref(false);
 let isChecked = ref(false);
 
@@ -102,6 +114,7 @@ const menu = () => {
 };
 
 const cliente = async () => {
+  bienvenida.value = false;
   const clienteStore = useClienteStore();
   try {
     await clienteStore.getClientes();
@@ -113,6 +126,7 @@ const cliente = async () => {
 };
 
 const ingreso = async () => {
+  bienvenida.value = false;
   const ingresoStore = useIngresoStore();
   try {
     await ingresoStore.getIngresos();
@@ -124,6 +138,7 @@ const ingreso = async () => {
 };
 
 const inventario = async () => {
+  bienvenida.value = false;
   const inventarioStore = useInventarioStore();
   try {
     await inventarioStore.getInventarios();
@@ -135,6 +150,7 @@ const inventario = async () => {
 };
 
 const mantenimiento = async () => {
+  bienvenida.value = false;
   const mantenimientoStore = useMantenimientoStore();
   try {
     await mantenimientoStore.getMantenimientos();
@@ -146,6 +162,7 @@ const mantenimiento = async () => {
 };
 
 const maquina = async () => {
+  bienvenida.value = false;
   const maquinaStore = useMaquinaStore();
   const sedeStore = useSedeStore();
   try {
@@ -159,6 +176,7 @@ const maquina = async () => {
 };
 
 const pago = async () => {
+  bienvenida.value = false;
   const pagoStore = usePagoStore();
   try {
     await pagoStore.getPagos();
@@ -170,6 +188,7 @@ const pago = async () => {
 };
 
 const plan = async () => {
+  bienvenida.value = false;
   const planStore = usePlanStore();
   try {
     await planStore.getPlanes();
@@ -181,6 +200,7 @@ const plan = async () => {
 };
 
 const sede = async () => {
+  bienvenida.value = false;
   const sedeStore = useSedeStore();
   try {
     await sedeStore.getSedes();
@@ -192,6 +212,7 @@ const sede = async () => {
 };
 
 const usuario = async () => {
+  bienvenida.value = false;
   const usuarioStore = useUsuarioStore();
   const sedeStore = useSedeStore();
   try {
@@ -205,6 +226,7 @@ const usuario = async () => {
 };
 
 const venta = async () => {
+  bienvenida.value = false;
   const ventaStore = useVentaStore();
   try {
     await ventaStore.getVentas();
@@ -448,6 +470,29 @@ const cerrarSesion = () => {
 /* button click effect*/
 .Btn:active {
   transform: translate(2px ,2px);
+}
+
+.cont_bienvenida {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.text_bienvenida {
+  font-size: 80px;
+  font-weight: bold;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.text_user {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000000;
 }
 </style>
   

@@ -69,10 +69,6 @@
             <label>Altura</label>
           </div>
           <div class="user-box">
-            <input type="Number" name="" required="" v-model="imc" />
-            <label>IMC</label>
-          </div>
-          <div class="user-box">
             <input type="Number" name="" required="" v-model="medidaBrazo" />
             <label>Medida del brazo</label>
           </div>
@@ -211,6 +207,14 @@ const cerrar = () => {
   registroFallido.value = false;
 }
 
+let calcularIMC = () => {
+  let Peso = parseFloat(peso.value);
+  let altura = parseFloat(Altura.value);
+  altura = altura / 100;
+  imc = Peso / (altura * altura);
+  return imc;
+}
+
 async function cliente() {
   try {
     let plan = () => {
@@ -235,7 +239,7 @@ async function cliente() {
         fecha: fecha.value,
         peso: peso.value,
         altura: Altura.value,
-        imc: imc.value,
+        imc: calcularIMC(),
         medidaBrazo: medidaBrazo.value,
         medidaPierna: medidaPierna.value,
         medidaCintura: medidaCintura.value,
