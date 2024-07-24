@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <div class="container"></div>
-    <div class="login-box">
+    <div class="login-box" v-if="login">
       <div class="form">
         <form>
           <div class="user-box">
@@ -40,20 +40,53 @@
           </div>
           <div class="user-box">
             <select required v-model="selectedOptionP">
-            <option value="" disabled selected hidden></option>
-            <option
-              v-for="(plan, index) in planes"
-              :key="plan.id"
-              :value="index + 1"
-            >
-              {{ plan.descripcion }}
-            </option>
-          </select>
+              <option value="" disabled selected hidden></option>
+              <option
+                v-for="(plan, index) in planes"
+                :key="plan.id"
+                :value="index + 1"
+              >
+                {{ plan.descripcion }}
+              </option>
+            </select>
             <label>Plan</label>
           </div>
+          <div class="cont_btn_Seguimiento">
+            <button class="btn_seguimiento" @click="añadirSeguimiento()">
+              añadir seguimiento
+            </button>
+          </div>
         </form>
+      </div>
+      <center>
+        <q-btn @click.prevent="cliente()" :loading="loading">
+          registrar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+      </center>
+    </div>
+    <div class="login-box cont_seguimiento" v-if="seguimiento">
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="img_x"
+        @click="ocultarX()"
+      >
+        <path
+          d="M8 8l8 8M8 16l8 -8"
+          stroke="white"
+          stroke-width="2"
+          fill="none"
+        />
+      </svg>
+      <div class="form">
         <div class="titulo_seguimiento">
-          <p class="tex_seguimiento">Seguimiento</p>
+          <p class="text_seguimiento">Seguimiento</p>
         </div>
         <form>
           <div class="user-box">
@@ -82,14 +115,6 @@
           </div>
         </form>
       </div>
-      <center>
-        <q-btn @click.prevent="cliente()" :loading="loading">
-          registrar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
-      </center>
     </div>
     <div class="cont_btn">
       <router-link to="/cliente">
@@ -195,17 +220,30 @@ let text = ref("");
 
 let r = null;
 
+let login = ref(true);
+let seguimiento = ref(false);
+
+const añadirSeguimiento = () => {
+  login.value = false;
+  seguimiento.value = true;
+};
+
+const ocultarX = () => {
+  seguimiento.value = false;
+  login.value = true;
+};
+
 const ocultar = () => {
   setTimeout(() => {
     registroExitoso.value = false;
     registroFallido.value = false;
   }, 3000);
-}
+};
 
 const cerrar = () => {
   registroExitoso.value = false;
   registroFallido.value = false;
-}
+};
 
 let calcularIMC = () => {
   let Peso = parseFloat(peso.value);
@@ -213,17 +251,17 @@ let calcularIMC = () => {
   altura = altura / 100;
   imc = Peso / (altura * altura);
   return imc;
-}
+};
 
 async function cliente() {
   try {
     let plan = () => {
       let selectedPlan = planes.value[selectedOptionP.value - 1];
       return selectedPlan._id;
-    }
+    };
 
     let plan_id = plan();
-    
+
     let cliente = {
       nombre: nombre.value,
       fechaNacimiento: fechaNacimiento.value,
@@ -235,131 +273,133 @@ async function cliente() {
       limitaciones: limitaciones.value,
       estado: estado.value,
       plan: plan_id,
-      seguimiento: [{
-        fecha: fecha.value,
-        peso: peso.value,
-        altura: Altura.value,
-        imc: calcularIMC(),
-        medidaBrazo: medidaBrazo.value,
-        medidaPierna: medidaPierna.value,
-        medidaCintura: medidaCintura.value,
-      }],
+      seguimiento: [
+        {
+          fecha: fecha.value,
+          peso: peso.value,
+          altura: Altura.value,
+          imc: calcularIMC(),
+          medidaBrazo: medidaBrazo.value,
+          medidaPierna: medidaPierna.value,
+          medidaCintura: medidaCintura.value,
+        },
+      ],
     };
 
-    if(cliente.nombre === "") {
+    if (cliente.nombre === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.fechaNacimiento === "") {
+    if (cliente.fechaNacimiento === "") {
       text.value = "El campo fecha de nacimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.edad === "") {
+    if (cliente.edad === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.fechaIngreso === "") {
+    if (cliente.fechaIngreso === "") {
       text.value = "El campo fecha de ingreso es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.documento === "") {
+    if (cliente.documento === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.direccion === "") {
+    if (cliente.direccion === "") {
       text.value = "El campo dirección es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.Telefono === "") {
+    if (cliente.Telefono === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.limitaciones === "") {
+    if (cliente.limitaciones === "") {
       text.value = "El campo limitaciones es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.estado === "") {
+    if (cliente.estado === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.plan === "") {
+    if (cliente.plan === "") {
       text.value = "El campo plan es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.fecha === "") {
-      text.value = "El campo fecha es obligatorio";
+    if (fecha.value === "") {
+      text.value = "El campo fecha del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.peso === "") {
-      text.value = "El campo peso es obligatorio";
+    if (peso.value === "") {
+      text.value = "El campo peso del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.Altura === "") {
-      text.value = "El campo altura es obligatorio";
+    if (Altura.value === "") {
+      text.value = "El campo altura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.imc === "") {
-      text.value = "El campo imc es obligatorio";
+    if (imc.value === "") {
+      text.value = "El campo imc del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaBrazo === "") {
-      text.value = "El campo medida del brazo es obligatorio";
+    if (medidaBrazo.value === "") {
+      text.value = "El campo medida del brazo del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaPierna === "") {
-      text.value = "El campo medida de la pierna es obligatorio";
+    if (medidaPierna.value === "") {
+      text.value = "El campo medida de la pierna del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if(cliente.seguimiento.medidaCintura === "") {
-      text.value = "El campo medida de la cintura es obligatorio";
+    if (medidaCintura.value === "") {
+      text.value = "El campo medida de la cintura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
@@ -418,15 +458,6 @@ async function cliente() {
   position: relative;
 }
 
-.titulo_seguimiento{
-  position: absolute;
-  color: #ffffff;
-  top: 20px;
-  right: 18%;
-  translate: 50%;
-  font-size: 20px;
-}
-
 .form {
   display: flex;
   align-items: center;
@@ -448,7 +479,8 @@ async function cliente() {
   background: transparent;
 }
 
-.login-box .user-box input[type="text"], .login-box .user-box input[type="number"] {
+.login-box .user-box input[type="text"],
+.login-box .user-box input[type="number"] {
   color: #ffffff;
 }
 
@@ -781,5 +813,76 @@ button:after {
 
 .error__close path {
   fill: #71192f;
+}
+
+.cont_btn_Seguimiento {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_seguimiento {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn_seguimiento::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn_seguimiento:hover::after {
+  transform: scale(4);
+}
+
+.btn_seguimiento:hover {
+  border-color: #666666;
+  background: #292929;
+}
+
+.cont_seguimiento {
+  box-shadow: 0 0px 25px rgba(255, 255, 255, 0.6);
+  width: 25%;
+  padding: 0px 2%;
+  padding-top: 45px;
+}
+
+.titulo_seguimiento {
+  color: #ffffff;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+.img_x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  cursor: pointer;
+  color: #000000;
 }
 </style>

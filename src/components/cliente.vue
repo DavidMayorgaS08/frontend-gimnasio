@@ -31,12 +31,6 @@
             <q-spinner color="primary" size="1em" />
           </template>
         </q-btn>
-        <!-- <q-btn class="btn" @click.prevent="listarPorPlan()" :loading="loading">
-          Listar por plan
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn> -->
         <q-btn class="btn" @click.prevent="cliente()" :loading="loading">
           Crear cliente
           <template v-slot:loading>
@@ -151,10 +145,7 @@
                 height: 81px;
               "
             >
-              <button
-                class="btn_ver"
-                @click="verSeguimiento(props.row.seguimiento)"
-              >
+              <button class="btn_ver" @click="verSeguimiento(props.row)">
                 ver
               </button>
             </q-td>
@@ -255,9 +246,45 @@
             </select>
             <label>Plan</label>
           </div>
+          <div class="cont_btn_Seguimiento">
+            <button
+              class="btn_seguimiento"
+              @click.prevent="modificarSeguimiento()"
+            >
+              modificar seguimiento
+            </button>
+          </div>
         </form>
+      </div>
+      <center>
+        <q-btn @click.prevent="modificarcliente()" :loading="loading">
+          Modificar
+          <template v-slot:loading>
+            <q-spinner color="primary" size="1em" />
+          </template>
+        </q-btn>
+      </center>
+    </div>
+    <div class="login-box cont_seguimiento2" v-if="seguimientoEditar">
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="img_x"
+        @click="ocultarX()"
+      >
+        <path
+          d="M8 8l8 8M8 16l8 -8"
+          stroke="white"
+          stroke-width="2"
+          fill="none"
+        />
+      </svg>
+      <div class="form">
         <div class="titulo_seguimiento">
-          <p class="tex_seguimiento">Seguimiento</p>
+          <p class="text_seguimiento">Seguimiento</p>
         </div>
         <form>
           <div class="user-box">
@@ -271,10 +298,6 @@
           <div class="user-box">
             <input type="Number" name="" required="" v-model="Altura" />
             <label>Altura</label>
-          </div>
-          <div class="user-box" v-if="imc_cont">
-            <input type="Number" name="" required="" v-model="imc" />
-            <label>IMC</label>
           </div>
           <div class="user-box">
             <input type="Number" name="" required="" v-model="medidaBrazo" />
@@ -290,14 +313,6 @@
           </div>
         </form>
       </div>
-      <center>
-        <q-btn @click.prevent="modificarcliente()" :loading="loading">
-          Modificar
-          <template v-slot:loading>
-            <q-spinner color="primary" size="1em" />
-          </template>
-        </q-btn>
-      </center>
     </div>
     <div :class="registroExitoso ? 'success1' : 'success'">
       <div class="success__icon">
@@ -378,6 +393,9 @@
           fill="none"
         />
       </svg>
+      <div class="info_imc" :style="{ backgroundColor: imc_color }">
+        <p class="text_tooltip">Estado {{ text_tooltip }}</p>
+      </div>
       <div class="cont_fecha">
         <p class="titulo_techa">Fecha:</p>
         <p class="text_fecha">{{ text_fecha }}</p>
@@ -405,6 +423,11 @@
       <div class="cont_medidaCintura">
         <p class="titulo_medidaCintura">Medida de la cintura:</p>
         <p class="text_medidaCintura">{{ text_medidaCintura }}</p>
+      </div>
+      <div class="cont_btn_seguimiento">
+        <button class="btn_seguimiento" @click="modificarSeguimiento2()">
+          editar
+        </button>
       </div>
     </div>
   </div>
@@ -539,12 +562,6 @@ let listarInactivos = async () => {
   console.log(r);
 };
 
-let listarPorPlan = async () => {
-  r = await useClientes.getPorPlan("66286ac3df7e38e581e80726");
-  rows.value = [r];
-  console.log(r);
-};
-
 let cliente = async () => {
   loading.value = true;
   await usePlanes.getPlanes();
@@ -561,16 +578,41 @@ let text_medidaPierna = ref("");
 let text_medidaCintura = ref("");
 
 let Seguimiento = ref(false);
+let imc_color = ref("");
+let text_tooltip = ref("");
 
-let verSeguimiento = (seguimiento) => {
+let clienteModificar = ref(null);
+
+let verSeguimiento = (row) => {
+  let seguimiento = row.seguimiento;
   text_fecha.value = seguimiento[0].fecha.split("T")[0];
   text_peso.value = seguimiento[0].peso;
   text_altura.value = seguimiento[0].altura;
-  text_imc.value = seguimiento[0].imc;
+  text_imc.value = parseFloat(seguimiento[0].imc).toFixed(2);
+  if (seguimiento[0].imc < 18.5) {
+    imc_color.value = "#00D1FF";
+    text_tooltip.value = "Bajo peso";
+  } else if (seguimiento[0].imc >= 18.5 && seguimiento[0].imc <= 24.9) {
+    imc_color.value = "#23E500";
+    text_tooltip.value = "Normal";
+  } else if (seguimiento[0].imc >= 25 && seguimiento[0].imc <= 29.9) {
+    imc_color.value = "#FFF700";
+    text_tooltip.value = "Sobrepeso";
+  } else if (seguimiento[0].imc >= 30 && seguimiento[0].imc <= 34.9) {
+    imc_color.value = "#FFC900";
+    text_tooltip.value = "Obesidad I";
+  } else if (seguimiento[0].imc >= 35 && seguimiento[0].imc <= 39.9) {
+    imc_color.value = "#FF7C00";
+    text_tooltip.value = "Obesidad II";
+  } else {
+    imc_color.value = "#FF0000";
+    text_tooltip.value = "Obesidad III";
+  }
   text_medidaBrazo.value = seguimiento[0].medidaBrazo;
   text_medidaPierna.value = seguimiento[0].medidaPierna;
   text_medidaCintura.value = seguimiento[0].medidaCintura;
   Seguimiento.value = true;
+  clienteModificar.value = row;
 };
 
 let editar = ref(true);
@@ -626,6 +668,12 @@ let ver = async (row) => {
   Id.value = row._id;
 };
 
+let modificarSeguimiento2 = () => {
+  Seguimiento.value = false;
+  ver(clienteModificar.value);
+  seguimientoEditar.value = true;
+};
+
 const ocultarD = () => {
   setTimeout(() => {
     registroExitoso.value = false;
@@ -639,7 +687,17 @@ let calcularIMC = () => {
   altura = altura / 100;
   imc = Peso / (altura * altura);
   return imc;
-}
+};
+
+let seguimientoEditar = ref(false);
+
+let modificarSeguimiento = () => {
+  seguimientoEditar.value = true;
+};
+
+let ocultarX = () => {
+  seguimientoEditar.value = false;
+};
 
 let modificarcliente = async () => {
   loading.value = true;
@@ -675,149 +733,100 @@ let modificarcliente = async () => {
       ],
     };
 
-    if (cliente.nombre === "") {
+    if (cliente.nombre === "" || cliente.nombre.trim() === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.fechaNacimiento === "") {
+      ocultarD();
+    } else if (cliente.fechaNacimiento === "" || cliente.fechaNacimiento.trim() === "") {
       text.value = "El campo fecha de nacimiento es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.edad === "") {
+      ocultarD();
+    } else if (cliente.edad === ""  || cliente.edad.trim() === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.fechaIngreso === "") {
+      ocultarD();
+    } else if (cliente.fechaIngreso === "" || cliente.fechaIngreso.trim() === "") {
       text.value = "El campo fecha de ingreso es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.documento === "") {
+      ocultarD();
+    } else if (cliente.documento === "" || cliente.documento.trim() === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.direccion === "") {
+      ocultarD();
+    } else if (cliente.direccion === "" || cliente.direccion.trim() === "") {
       text.value = "El campo dirección es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.Telefono === "") {
+      ocultarD();
+    } else if (cliente.telefono === "" || cliente.telefono.trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.limitaciones === "") {
+      ocultarD();
+    } else if (cliente.limitaciones === "" || cliente.limitaciones.trim() === "") {
       text.value = "El campo limitaciones es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.estado === "") {
+      ocultarD();
+    } else if (cliente.estado === "" || cliente.estado.trim() === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.plan === "") {
+      ocultarD();
+    } else if (cliente.plan === "" || cliente.plan.trim() === "") {
       text.value = "El campo plan es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.fecha === "") {
+      ocultarD();
+    } else if (fecha.value === "" || fecha.value.trim() === "") {
       text.value = "El campo fecha es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.peso === "") {
+      ocultarD();
+    } else if (peso.value === "" || peso.value.trim() === "") {
       text.value = "El campo peso es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.Altura === "") {
+      ocultarD();
+    } else if (Altura.value === "" || Altura.value.trim() === "") {
       text.value = "El campo altura es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.imc === "") {
+      ocultarD();
+    } else if (imc.value === "" || imc.value.trim() === "") {
       text.value = "El campo imc es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.medidaBrazo === "") {
+      ocultarD();
+    } else if (medidaBrazo.value === "" || medidaBrazo.value.trim() === "") {
       text.value = "El campo medida del brazo es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.medidaPierna === "") {
+      ocultarD();
+    } else if (medidaPierna.value === "" || medidaPierna.value.trim() === "") {
       text.value = "El campo medida de la pierna es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
-    }
-
-    if (cliente.seguimiento.medidaCintura === "") {
+      ocultarD();
+    } else if (medidaCintura.value === "" || medidaCintura.value.trim() === "") {
       text.value = "El campo medida de la cintura es obligatorio";
       registroFallido.value = true;
       loading.value = false;
-      ocultar();
-      return;
+      ocultarD();
+    } else {
+      await useClientes.putCliente(Id.value, cliente);
+      registroExitoso.value = true;
+      ocultarD();
+      form.value = false;
+      loading.value = false;
+      r = await useClientes.getClientes();
+      rows.value = r;
     }
-
-    await useClientes.putCliente(Id.value, cliente);
-    registroExitoso.value = true;
-    ocultarD();
-    form.value = false;
-    loading.value = false;
-    r = await useClientes.getClientes();
-    rows.value = r;
   } catch (error) {
     text.value = "Error al modificar el cliente";
     registroFallido.value = true;
@@ -1194,15 +1203,6 @@ label {
   position: relative;
 }
 
-.titulo_seguimiento {
-  position: absolute;
-  color: #ffffff;
-  top: 20px;
-  right: 18%;
-  translate: 50%;
-  font-size: 20px;
-}
-
 .form {
   display: flex;
   align-items: center;
@@ -1528,12 +1528,27 @@ button:after {
   background-color: #ffffff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.411);
   width: 25%;
-  height: 450px;
+  height: 550px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+}
+
+.info_imc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: 25px;
+  border-radius: 8px;
+}
+
+.text_tooltip {
+  font-size: 19px;
+  color: #000000;
+  font-weight: bold;
 }
 
 .cont_fecha,
@@ -1571,5 +1586,67 @@ button:after {
 .text_medidaCintura {
   font-size: 16px;
   color: #000000;
+}
+
+.cont_seguimiento2 {
+  box-shadow: 0 0px 25px rgba(255, 255, 255, 0.6);
+  width: 25%;
+  padding: 0px 2%;
+  padding-top: 45px;
+}
+
+.titulo_seguimiento {
+  color: #ffffff;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+.cont_btn_Seguimiento {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_seguimiento {
+  padding: 15px 20px;
+  border: 2px solid #2c2c2c;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.btn_seguimiento::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.btn_seguimiento:hover::after {
+  transform: scale(4);
+}
+
+.btn_seguimiento:hover {
+  border-color: #666666;
+  background: #292929;
 }
 </style>
