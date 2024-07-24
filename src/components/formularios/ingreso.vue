@@ -164,19 +164,19 @@ async function Ingreso() {
       sede: sede_id,
     };
     console.log(ingreso);
-    if (ingreso.cliente_id === "") {
+    if (ingreso.cliente_id === "" || ingreso.cliente_id.trim() === "") {
       text.value = "El campo Id del cliente no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (ingreso.fecha === "") {
+    if (ingreso.fecha === "" || ingreso.fecha.trim() === "") {
       text.value = "El campo fecha no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (ingreso.sede === "") {
+    if (ingreso.sede === "" || ingreso.sede.trim() === "") {
       text.value = "El campo Sede no puede estar vacío";
       registroFallido.value = true;
       ocultar();

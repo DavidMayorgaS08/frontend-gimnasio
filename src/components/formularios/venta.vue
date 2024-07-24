@@ -132,28 +132,28 @@ async function Venta() {
       cantidad: Cantidad.value,
     };
 
-    if (venta.fecha === "") {
+    if (venta.fecha === "" || venta.fecha.trim() === "") {
       text.value = "El campo fecha no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (venta.codigo_producto === "") {
+    if (venta.codigo_producto === "" || venta.codigo_producto.trim() === "") {
       text.value = "El campo codigo del producto no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (venta.valor === "") {
+    if (venta.valor === "" || venta.valor.trim() === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (venta.cantidad === "") {
+    if (venta.cantidad === "" || venta.cantidad.trim() === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
       ocultar();

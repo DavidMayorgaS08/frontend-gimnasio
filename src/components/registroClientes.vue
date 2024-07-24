@@ -286,119 +286,119 @@ async function cliente() {
       ],
     };
 
-    if (cliente.nombre === "") {
+    if (cliente.nombre === "" || cliente.nombre.trim() === "") {
       text.value = "El campo nombre es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.fechaNacimiento === "") {
+    if (cliente.fechaNacimiento === "" || cliente.fechaNacimiento.trim() === "") {
       text.value = "El campo fecha de nacimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.edad === "") {
+    if (cliente.edad === "" || cliente.edad.trim() === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.fechaIngreso === "") {
+    if (cliente.fechaIngreso === "" || cliente.fechaIngreso.trim() === "") {
       text.value = "El campo fecha de ingreso es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.documento === "") {
+    if (cliente.documento === "" || cliente.documento.trim() === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.direccion === "") {
+    if (cliente.direccion === "" || cliente.direccion.trim() === "") {
       text.value = "El campo dirección es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.Telefono === "") {
+    if (cliente.Telefono === "" || cliente.Telefono.trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.limitaciones === "") {
+    if (cliente.limitaciones === "" || cliente.limitaciones.trim() === "") {
       text.value = "El campo limitaciones es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.estado === "") {
+    if (cliente.estado === "" || cliente.estado.trim() === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (cliente.plan === "") {
+    if (cliente.plan === "" || cliente.plan.trim() === "") {
       text.value = "El campo plan es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (fecha.value === "") {
+    if (fecha.value === "" || fecha.value.trim() === "") {
       text.value = "El campo fecha del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (peso.value === "") {
+    if (peso.value === "" || peso.value.trim() === "") {
       text.value = "El campo peso del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (Altura.value === "") {
+    if (Altura.value === "" || Altura.value.trim() === "") {
       text.value = "El campo altura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (imc.value === "") {
+    if (imc.value === "" || imc.value.trim() === "") {
       text.value = "El campo imc del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaBrazo.value === "") {
+    if (medidaBrazo.value === "" || medidaBrazo.value.trim() === "") {
       text.value = "El campo medida del brazo del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaPierna.value === "") {
+    if (medidaPierna.value === "" || medidaPierna.value.trim() === "") {
       text.value = "El campo medida de la pierna del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaCintura.value === "") {
+    if (medidaCintura.value === "" || medidaCintura.value.trim() === "") {
       text.value = "El campo medida de la cintura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();

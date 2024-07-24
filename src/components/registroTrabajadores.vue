@@ -176,49 +176,49 @@ async function registrarUsuario() {
       rol: parseInt(Rol.value),
     };
 
-    if (usuario.nombre === "") {
+    if (usuario.nombre === "" || usuario.nombre.trim() === "") {
       text.value = "El campo nombre no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.sede === "") {
+    if (usuario.sede === "" || usuario.sede.trim() === "") {
       text.value = "El campo sede no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.correo === "") {
+    if (usuario.correo === "" || usuario.correo.trim() === "") {
       text.value = "El campo correo no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.contrasena === "") {
+    if (usuario.contrasena === "" || usuario.contrasena.trim() === "") {
       text.value = "El campo contraseña no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.telefono === "") {
+    if (usuario.telefono === "" || usuario.telefono.trim() === "") {
       text.value = "El campo telefono no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.estado === "") {
+    if (usuario.estado === "" || usuario.estado.trim() === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.rol === "") {
+    if (usuario.rol === "" || usuario.rol.trim() === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
       ocultar();

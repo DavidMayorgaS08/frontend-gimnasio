@@ -131,25 +131,25 @@ async function Inventario() {
       valor: Valor.value,
       cantidad: Cantidad.value,
     };
-    if (inventario.codigo === "") {
+    if (inventario.codigo === "" ||inventario.codigo.trim() === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (inventario.descripcion === "") {
+    if (inventario.descripcion === "" || inventario.descripcion.trim() === "") {
       text.value = "El campo Descripcion es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (inventario.valor === "") {
+    if (inventario.valor === "" || inventario.valor.trim() === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if (inventario.cantidad === "") {
+    if (inventario.cantidad === "" || inventario.cantidad.trim() === "") {
       text.value = "El campo Cantidad es obligatorio";
       registroFallido.value = true;
       ocultar();

@@ -165,28 +165,28 @@ async function Maquina() {
       estado: Estado.value,
     };
 
-    if (maquina.codigo === "") {
+    if (maquina.codigo === "" || maquina.codigo.trim() === "") {
       text.value = "El campo Codigo no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (maquina.descripcion === "") {
+    if (maquina.descripcion === "" || maquina.descripcion.trim() === "") {
       text.value = "El campo Descripcion no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (maquina.fechaIngreso === "") {
+    if (maquina.fechaIngreso === "" || maquina.fechaIngreso.trim() === "") {
       text.value = "El campo Fecha de ingreso no puede estar vacío";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (maquina.fechaUltimoMantenimiento === "") {
+    if (maquina.fechaUltimoMantenimiento === "" || maquina.fechaUltimoMantenimiento.trim() === "") {
       text.value =
         "El campo Fecha de último mantenimiento no puede estar vacío";
       registroFallido.value = true;
@@ -194,7 +194,7 @@ async function Maquina() {
       return;
     }
 
-    if (maquina.estado === "") {
+    if (maquina.estado === "" || maquina.estado.trim() === "") {
       text.value = "El campo Estado no puede estar vacío";
       registroFallido.value = true;
       ocultar();
