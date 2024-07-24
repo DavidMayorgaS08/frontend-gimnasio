@@ -500,35 +500,35 @@ let modificarPago = async () => {
       estado: Estado.value,
     };
 
-    if (pago.cliente_id === "") {
+    if (pago.cliente_id === "" || pago.cliente_id.trim() === "") {
       text.value = "Seleccione un cliente";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (pago.plan === "") {
+    if (pago.plan === "" || pago.plan.trim() === "") {
       text.value = "Seleccione un plan";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (pago.fecha === "") {
+    if (pago.fecha === "" || pago.fecha.trim() === "") {
       text.value = "Seleccione una fecha";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (pago.valor === "") {
+    if (pago.valor === "" || pago.valor.trim() === "") {
       text.value = "Ingrese un valor";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (pago.estado === "") {
+    if (pago.estado === "" || pago.estado.trim() === "") {
       text.value = "Ingrese un estado";
       registroFallido.value = true;
       loading.value = false;

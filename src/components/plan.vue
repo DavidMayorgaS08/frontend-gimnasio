@@ -410,7 +410,7 @@ let modificarPlan = async () => {
       estado: Estado.value,
     };
 
-    if (plan.codigo === "") {
+    if (plan.codigo === "" || plan.codigo.trim() === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -418,7 +418,7 @@ let modificarPlan = async () => {
       return;
     }
 
-    if (plan.descripcion === "") {
+    if (plan.descripcion === "" || plan.descripcion.trim() === "") {
       text.value = "El campo Descripcion es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -426,7 +426,7 @@ let modificarPlan = async () => {
       return;
     }
 
-    if (plan.valor === "") {
+    if (plan.valor === "" || plan.valor.trim() === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -434,7 +434,7 @@ let modificarPlan = async () => {
       return;
     }
 
-    if (plan.dias === "") {
+    if (plan.dias === "" || plan.dias.trim() === "") {
       text.value = "El campo Dias es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -442,7 +442,7 @@ let modificarPlan = async () => {
       return;
     }
 
-    if (plan.estado === "") {
+    if (plan.estado === "" || plan.estado.trim() === "") {
       text.value = "El campo Estado es obligatorio";
       registroFallido.value = true;
       loading.value = false;
