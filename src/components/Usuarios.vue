@@ -487,7 +487,7 @@ let modificarUsuario = async () => {
       return;
     }
 
-    if (usuario.estado === "" || usuario.estado.trim() === "") {
+    if (usuario.estado === "" || String(usuario.estado).trim() === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
       loading.value = false;
@@ -495,7 +495,7 @@ let modificarUsuario = async () => {
       return;
     }
 
-    if (usuario.rol === "" || usuario.rol.trim() === "") {
+    if (usuario.rol === "" || String(usuario.rol).trim() === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
       loading.value = false;

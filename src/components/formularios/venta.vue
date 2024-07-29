@@ -146,14 +146,14 @@ async function Venta() {
       return;
     }
 
-    if (venta.valor === "" || venta.valor.trim() === "") {
+    if (venta.valor === "" || String(venta.valor).trim() === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (venta.cantidad === "" || venta.cantidad.trim() === "") {
+    if (venta.cantidad === "" || String(venta.cantidad).trim() === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
       ocultar();

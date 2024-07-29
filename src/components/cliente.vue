@@ -743,7 +743,7 @@ let modificarcliente = async () => {
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (cliente.edad === ""  || cliente.edad.trim() === "") {
+    } else if (cliente.edad === ""  || String(cliente.edad).trim() === "") {
       text.value = "El campo edad es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -753,7 +753,7 @@ let modificarcliente = async () => {
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (cliente.documento === "" || cliente.documento.trim() === "") {
+    } else if (cliente.documento === "" || String(cliente.documento).trim() === "") {
       text.value = "El campo documento es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -763,7 +763,7 @@ let modificarcliente = async () => {
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (cliente.telefono === "" || cliente.telefono.trim() === "") {
+    } else if (cliente.telefono === "" || String(cliente.telefono).trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -773,7 +773,12 @@ let modificarcliente = async () => {
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (cliente.estado === "" || cliente.estado.trim() === "") {
+    } else if (cliente.estado === "" || String
+    
+    
+    
+    
+    (cliente.estado).trim() === "") {
       text.value = "El campo estado es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -788,32 +793,32 @@ let modificarcliente = async () => {
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (peso.value === "" || peso.value.trim() === "") {
+    } else if (peso.value === "" || String(peso.value).trim() === "") {
       text.value = "El campo peso es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (Altura.value === "" || Altura.value.trim() === "") {
+    } else if (Altura.value === "" || String(Altura.value).trim() === "") {
       text.value = "El campo altura es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (imc.value === "" || imc.value.trim() === "") {
+    } else if (imc.value === "" || String(imc.value).trim() === "") {
       text.value = "El campo imc es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (medidaBrazo.value === "" || medidaBrazo.value.trim() === "") {
+    } else if (medidaBrazo.value === "" || String(medidaBrazo.value).trim() === "") {
       text.value = "El campo medida del brazo es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (medidaPierna.value === "" || medidaPierna.value.trim() === "") {
+    } else if (medidaPierna.value === "" || String(medidaPierna.value).trim() === "") {
       text.value = "El campo medida de la pierna es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
-    } else if (medidaCintura.value === "" || medidaCintura.value.trim() === "") {
+    } else if (medidaCintura.value === "" || String(medidaCintura.value).trim() === "") {
       text.value = "El campo medida de la cintura es obligatorio";
       registroFallido.value = true;
       loading.value = false;

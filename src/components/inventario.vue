@@ -353,14 +353,14 @@ let modificarInventario = async () => {
       ocultarD();
       return;
     }
-    if (inventario.valor === "" || inventario.valor.trim() === "") {
+    if (inventario.valor === "" || String(inventario.valor).trim() === "") {
       text.value = "El campo Valor es obligatorio";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (inventario.cantidad === "" || inventario.cantidad.trim() === "") {
+    if (inventario.cantidad === "" || String(inventario.cantidad).trim() === "") {
       text.value = "El campo Cantidad es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -380,6 +380,7 @@ let modificarInventario = async () => {
     registroFallido.value = true;
     loading.value = false;
     ocultarD();
+    console.log(error);
   }
 }
 

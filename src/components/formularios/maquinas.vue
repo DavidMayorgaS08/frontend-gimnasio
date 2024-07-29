@@ -194,7 +194,7 @@ async function Maquina() {
       return;
     }
 
-    if (maquina.estado === "" || maquina.estado.trim() === "") {
+    if (maquina.estado === "" || String(maquina.estado).trim() === "") {
       text.value = "El campo Estado no puede estar vacío";
       registroFallido.value = true;
       ocultar();

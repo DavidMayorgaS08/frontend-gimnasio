@@ -355,7 +355,7 @@ let modificarSede = async () => {
       return;
     }
 
-    if (sede.telefono === "" || sede.telefono.trim() === "") {
+    if (sede.telefono === "" || String(sede.telefono).trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       loading.value = false;
@@ -367,7 +367,7 @@ let modificarSede = async () => {
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
-    loading.value = true;
+    loading.value = false;
     r = await useSedes.getSedes();
     rows.value = r;
   } catch (error) {
@@ -375,6 +375,7 @@ let modificarSede = async () => {
     registroFallido.value = true;
     loading.value = false;
     ocultarD();
+    console.log(error);
     return;
   }
 };

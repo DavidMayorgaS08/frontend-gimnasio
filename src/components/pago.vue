@@ -521,14 +521,14 @@ let modificarPago = async () => {
       ocultarD();
       return;
     }
-    if (pago.valor === "" || pago.valor.trim() === "") {
+    if (pago.valor === "" || String(pago.valor).trim() === "") {
       text.value = "Ingrese un valor";
       registroFallido.value = true;
       loading.value = false;
       ocultarD();
       return;
     }
-    if (pago.estado === "" || pago.estado.trim() === "") {
+    if (pago.estado === "" || String(pago.estado).trim() === "") {
       text.value = "Ingrese un estado";
       registroFallido.value = true;
       loading.value = false;
@@ -548,6 +548,7 @@ let modificarPago = async () => {
     registroFallido.value = true;
     loading.value = false;
     ocultarD();
+    console.log(error);
   }
 };
 

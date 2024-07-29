@@ -190,13 +190,13 @@ async function Pago() {
       ocultar();
       return;
     }
-    if(pago.valor === "" || pago.valor.trim() === "") {
+    if(pago.valor === "" || String(pago.valor).trim() === "") {
       text.value = "Ingrese un valor";
       registroFallido.value = true;
       ocultar();
       return;
     }
-    if(pago.estado === "" || pago.estado.trim() === "") {
+    if(pago.estado === "" || String(pago.estado).trim() === "") {
       text.value = "Ingrese un estado";
       registroFallido.value = true;
       ocultar();

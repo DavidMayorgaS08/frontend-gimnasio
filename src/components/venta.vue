@@ -323,7 +323,7 @@ let modificarVenta = async () => {
       return;
     }
 
-    if (venta.valor === "" || venta.valor.trim() === "") {
+    if (venta.valor === "" || String(venta.valor).trim() === "") {
       text.value = "El campo valor no puede estar vacio";
       registroFallido.value = true;
       loading.value = false;
@@ -331,7 +331,7 @@ let modificarVenta = async () => {
       return;
     }
 
-    if (venta.cantidad === "" || venta.cantidad.trim() === "") {
+    if (venta.cantidad === "" || String(venta.cantidad).trim() === "") {
       text.value = "El campo cantidad no puede estar vacio";
       registroFallido.value = true;
       loading.value = false;
@@ -351,6 +351,7 @@ let modificarVenta = async () => {
     registroFallido.value = true;
     loading.value = false;
     ocultarD();
+    console.log(error);
   }
 };
 

@@ -494,7 +494,7 @@ let modificarMaquina = async () => {
       return;
     }
 
-    if (maquina.estado === "" || maquina.estado.trim() === "") {
+    if (maquina.estado === "" || String(maquina.estado).trim() === "") {
       text.value = "El campo Estado no puede estar vacío";
       registroFallido.value = true;
       loading.value = false;
@@ -515,6 +515,7 @@ let modificarMaquina = async () => {
     registroFallido.value = true;
     loading.value = false;
     ocultarD();
+    console.log(error);
     return;
   }
 };

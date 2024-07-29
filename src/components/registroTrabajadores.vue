@@ -211,14 +211,14 @@ async function registrarUsuario() {
       return;
     }
 
-    if (usuario.estado === "" || usuario.estado.trim() === "") {
+    if (usuario.estado === "" || String(usuario.estado).trim() === "") {
       text.value = "El campo estado no puede estar vacio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (usuario.rol === "" || usuario.rol.trim() === "") {
+    if (usuario.rol === "" || String(usuario.rol).trim() === "") {
       text.value = "El campo rol no puede estar vacio";
       registroFallido.value = true;
       ocultar();
@@ -233,6 +233,7 @@ async function registrarUsuario() {
     text.value = "Error al registrar el usuario";
     registroFallido.value = true;
     ocultar();
+    console.log(error);
   }
 }
 

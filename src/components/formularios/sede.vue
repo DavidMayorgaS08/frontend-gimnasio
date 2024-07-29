@@ -179,7 +179,7 @@ async function Sede() {
       return;
     }
 
-    if(sede.telefono === "" || sede.telefono.trim() === "") {
+    if(sede.telefono === "" || String(sede.telefono).trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultar();
