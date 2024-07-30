@@ -149,6 +149,15 @@ const ocultar = () => {
 
 async function Maquina() {
   try {
+    let maquinas = await useMaquinas.getMaquinas();
+
+    if(maquinas.some((inventario) => inventario.codigo === Codigo.value)){
+      text.value = "El código ya existe";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;

@@ -103,7 +103,16 @@
           <label>Fecha</label>
         </div>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="Codigo_Producto" />
+          <select required v-model="selectedOptionI">
+            <option value="" disabled selected hidden></option>
+            <option
+              v-for="(item, index) in inventarios"
+              :key="index.id"
+              :value="index + 1"
+            >
+              {{ item.codigo }} - {{ item.descripcion }}
+            </option>
+          </select>
           <label>Codigo del producto</label>
         </div>
         <div class="user-box">
@@ -191,6 +200,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useVentaStore } from "../stores/venta.js";
+import { useInventarioStore } from "../stores/inventario.js";
 let loading = ref(false);
 import { useRouter } from "vue-router";
 const router = useRouter();
@@ -200,6 +210,7 @@ const formatNumber = (number) => {
 };
 
 let useVentas = useVentaStore();
+let useInventario = useInventarioStore();
 
 let ventas = ref([]);
 
@@ -271,16 +282,20 @@ let registroFallido = ref(false);
 let text = ref("");
 
 let Fecha = ref("");
-let Codigo_Producto = ref("");
+let selectedOptionI = ref("");
 let Valor = ref("");
 let Cantidad = ref("");
 
 let Id = ref("");
 
+let inventarios = ref(null);
+
 let ver = async (row) => {
+  await useInventario.getInventarios();
+  inventarios.value = useInventario.inventario;
   form.value = true;
   Fecha.value = row.fecha.split("T")[0];
-  Codigo_Producto.value = row.codigo_producto;
+  selectedOptionI.value = inventarios.value.findIndex((item) => item.codigo === row.codigo_producto) + 1;
   Valor.value = row.valor;
   Cantidad.value = row.cantidad;
   Id.value = row._id;
@@ -300,9 +315,16 @@ const ocultarD = () => {
 let modificarVenta = async () => {
   loading.value = true;
   try {
+    let inventario = () => {
+      let selectedInventario = inventarios.value[selectedOptionI.value - 1];
+      return selectedInventario.codigo;
+    }
+
+    let inventario_codigo = inventario();
+
     let venta = {
       fecha: Fecha.value,
-      codigo_producto: Codigo_Producto.value,
+      codigo_producto: inventario_codigo,
       valor: Valor.value,
       cantidad: Cantidad.value,
     };
@@ -355,8 +377,9 @@ let modificarVenta = async () => {
   }
 };
 
-let Ventas = () => {
+let Ventas = async () => {
   loading.value = true;
+  await useInventario.getInventarios();
   router.push("/formularioVenta");
   loading.value = false;
 };
@@ -798,6 +821,33 @@ button:after {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
+}
+
+.user-box select {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  appearance: none; /* Ocultar la flecha predeterminada en algunos navegadores */
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.user-box select option {
+  background-color: #181414fc;
+  color: white;
+}
+
+.user-box select:focus ~ label,
+.user-box select:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
 }
 
 .success {

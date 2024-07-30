@@ -125,13 +125,22 @@ const ocultar = () => {
 
 async function Inventario() {
   try {
+    let inventarios = await useInventarios.getInventarios();
+
+    if (inventarios.some((inventario) => inventario.codigo === Codigo.value)) {
+      text.value = "El codigo ya existe";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
     let inventario = {
       codigo: Codigo.value,
       descripcion: Descripcion.value,
       valor: Valor.value,
       cantidad: Cantidad.value,
     };
-    if (inventario.codigo === "" ||inventario.codigo.trim() === "") {
+    if (inventario.codigo === "" || inventario.codigo.trim() === "") {
       text.value = "El campo Codigo es obligatorio";
       registroFallido.value = true;
       ocultar();

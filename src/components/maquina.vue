@@ -422,11 +422,14 @@ let Estado = ref("");
 let sedes = ref(null);
 let Id = ref("");
 
+let codigoInicial = "";
+
 let ver = async (row) => {
   await useSedes.getSedes();
   sedes.value = useSedes.sede;
   form.value = true;
   Codigo.value = row.codigo;
+  codigoInicial = row.codigo;
   selectedOptionS.value =
     sedes.value.findIndex((sede) => sede._id === row.sede) + 1;
   Descripcion.value = row.descripcion;
@@ -446,6 +449,16 @@ const ocultarD = () => {
 let modificarMaquina = async () => {
   loading.value = true;
   try {
+    let maquinas = await useMaquinas.getMaquinas();
+
+    if(maquinas.find((maquina) => maquina.codigo === Codigo.value && maquina.codigo !== codigoInicial)) {
+      text.value = "El código de la maquina ya existe";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
     let sede = () => {
       let selectedSede = sedes.value[selectedOptionS.value - 1];
       return selectedSede._id;

@@ -378,9 +378,12 @@ let Estado = ref("");
 
 let Id = ref("");
 
+let codigoInicial = "";
+
 let ver = async (row) => {
   Id.value = row._id;
   Codigo.value = row.codigo;
+  codigoInicial = row.codigo;
   Descripcion.value = row.descripcion;
   Valor.value = row.valor;
   Dias.value = row.dias;
@@ -402,6 +405,16 @@ let ocultar = () => {
 let modificarPlan = async () => {
   loading.value = true;
   try {
+    let planes = await usePlanes.getPlanes();
+
+    if(planes.some((plan) => plan.codigo === Codigo.value && plan.codigo !== codigoInicial)){
+      text.value = "El código ya existe";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
     let plan = {
       codigo: Codigo.value,
       descripcion: Descripcion.value,

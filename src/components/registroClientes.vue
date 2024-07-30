@@ -255,6 +255,20 @@ let calcularIMC = () => {
 
 async function cliente() {
   try {
+    let clientes = await useClientes.getClientes();
+
+    if (clientes.some(cliente => Number(cliente.documento) === Number(documento.value))) {
+      text.value = "El documento ya se encuentra registrado";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+    else{
+      console.log("no se encuentra");
+      console.log(documento.value);
+      console.log(clientes.some(cliente => cliente.documento === documento.value));
+    }
+
     let plan = () => {
       let selectedPlan = planes.value[selectedOptionP.value - 1];
       return selectedPlan._id;

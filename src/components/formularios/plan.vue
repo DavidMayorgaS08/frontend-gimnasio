@@ -126,6 +126,15 @@ const ocultar = () => {
 
 async function Plan() {
   try {
+    let planes = await usePlanes.getPlanes();
+
+    if(planes.some((plan) => plan.codigo === Codigo.value)) {
+      text.value = "El plan ya existe";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
     let plan = {
       codigo: Codigo.value,
       descripcion: Descripcion.value,

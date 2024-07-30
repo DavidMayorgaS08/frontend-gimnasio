@@ -24,7 +24,7 @@
               :key="plan.id"
               :value="index + 1"
             >
-              {{ plan.descripcion }}
+              {{ plan.descripcion }} - precio: {{ plan.valor }}
             </option>
           </select>
           <label>Planes</label>

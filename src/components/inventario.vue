@@ -313,9 +313,12 @@ let Cantidad = ref("");
 
 let Id = ref("");
 
+let codigoInicial = "";
+
 let ver = async (row) => {
   form.value = true;
   Codigo.value = row.codigo;
+  codigoInicial = row.codigo;
   Descripcion.value = row.descripcion;
   Valor.value = row.valor;
   Cantidad.value = row.cantidad;
@@ -332,6 +335,16 @@ const ocultarD = () => {
 let modificarInventario = async () => {
   loading.value = true
   try {
+    let inventarios = await useInventarios.getInventarios();
+
+    if(inventarios.find(inventario => inventario.codigo === Codigo.value && Codigo.value !== codigoInicial)) {
+      text.value = "El código ya existe";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
     let inventario = {
       codigo: Codigo.value,
       descripcion: Descripcion.value,

@@ -8,7 +8,16 @@
           <label>Fecha</label>
         </div>
         <div class="user-box">
-          <input type="text" name="" required="" v-model="Codigo_Producto" />
+           <select required v-model="selectedOptionI">
+            <option value="" disabled selected hidden></option>
+            <option
+              v-for="(item, index) in inventarios"
+              :key="index.id"
+              :value="index + 1"
+            >
+            {{ item.codigo }} - {{ item.descripcion }}
+          </option>
+           </select>
           <label>Codigo del producto</label>
         </div>
         <div class="user-box">
@@ -102,11 +111,16 @@
 import { ref } from "vue";
 let loading = ref(false);
 import { useVentaStore } from "../../stores/venta.js";
+import { useInventarioStore } from "../../stores/inventario.js";
 
 let useVentas = useVentaStore();
+let useInventario = useInventarioStore();
+
+let inventarios = ref(useInventario.inventario);
+console.log(inventarios.value);
 
 let Fecha = ref("");
-let Codigo_Producto = ref("");
+let selectedOptionI = ref("");
 let Valor = ref("");
 let Cantidad = ref("");
 
@@ -125,9 +139,22 @@ const ocultar = () => {
 
 async function Venta() {
   try {
+    let inventario = () => {
+      let selectedInventario = inventarios.value[selectedOptionI.value - 1];
+      return selectedInventario.codigo;
+    }
+
+    let inventarioID = () => {
+      let selectedInventario = inventarios.value[selectedOptionI.value - 1];
+      return selectedInventario._id;
+    }
+
+    let inventario_codigo = inventario();
+    let inventario_id = inventarioID();
+
     let venta = {
       fecha: Fecha.value,
-      codigo_producto: Codigo_Producto.value,
+      codigo_producto: inventario_codigo,
       valor: Valor.value,
       cantidad: Cantidad.value,
     };
@@ -159,8 +186,26 @@ async function Venta() {
       ocultar();
       return;
     }
+
+    let idInventario = async () => {
+      let inventario = await useInventario.getInventario(inventario_id);
+      return inventario;
+    }
+
+    let inventarioUnico = await idInventario();
+
+    let inventarioModificar = async () => {
+      let inventario = {
+        codigo: inventarioUnico.codigo,
+        descripcion: inventarioUnico.descripcion,
+        valor: inventarioUnico.valor,
+        cantidad: inventarioUnico.cantidad - venta.cantidad,
+      };
+      await useInventario.putInventario(inventario_id, inventario);
+    }
     loading.value = true;
     r = await useVentas.postVenta(venta);
+    await inventarioModificar();
     registroExitoso.value = true;
     loading.value = false;
     ocultar();
@@ -168,6 +213,7 @@ async function Venta() {
     text.value = "Error al registrar la venta";
     registroFallido.value = true;
     ocultar();
+    console.log(error);
   }
 }
 
@@ -353,6 +399,33 @@ button:after {
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
+}
+
+.user-box select {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  appearance: none; /* Ocultar la flecha predeterminada en algunos navegadores */
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.user-box select option {
+  background-color: #181414fc;
+  color: white;
+}
+
+.user-box select:focus ~ label,
+.user-box select:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #bdb8b8;
+  font-size: 12px;
 }
 
 .cont_btn {

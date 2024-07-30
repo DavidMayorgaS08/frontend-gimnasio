@@ -135,6 +135,15 @@ const ocultar = () => {
 
 async function Sede() {
   try {
+    let sedes = await useSedes.getSedes();
+
+    if(sedes.some(sede => sede.codigo === Codigo.value)) {
+      text.value = "El codigo de la sede ya existe";
+      registroFallido.value = true;
+      ocultar();
+      return;
+    }
+
     let sede = {
       nombre: Nombre.value,
       direccion: Direccion.value,

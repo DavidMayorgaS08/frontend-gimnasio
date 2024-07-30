@@ -281,11 +281,14 @@ let Telefono = ref("");
 
 let Id = ref("");
 
+let codigoInicial = "";
+
 let ver = async (row) => {
   form.value = true;
   Nombre.value = row.nombre;
   Direccion.value = row.direccion;
   Codigo.value = row.codigo;
+  codigoInicial = row.codigo;
   Horario.value = row.horario;
   Ciudad.value = row.ciudad;
   Telefono.value = row.telefono;
@@ -306,6 +309,16 @@ const ocultarD = () => {
 let modificarSede = async () => {
   loading.value = true;
   try {
+    let sedes = await useSedes.getSedes();
+
+    if(sedes.some(sede => sede.codigo === Codigo.value && sede.codigo !== codigoInicial)){
+      text.value = "El código ya existe";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
     let sede = {
       nombre: Nombre.value,
       direccion: Direccion.value,
