@@ -289,6 +289,7 @@ let Cantidad = ref("");
 let Id = ref("");
 
 let inventarios = ref(null);
+let cantidadInicial = 0;
 
 let ver = async (row) => {
   await useInventario.getInventarios();
@@ -298,6 +299,7 @@ let ver = async (row) => {
   selectedOptionI.value = inventarios.value.findIndex((item) => item.codigo === row.codigo_producto) + 1;
   Valor.value = row.valor;
   Cantidad.value = row.cantidad;
+  cantidadInicial = row.cantidad;
   Id.value = row._id;
 };
 
@@ -317,10 +319,82 @@ let modificarVenta = async () => {
   try {
     let inventario = () => {
       let selectedInventario = inventarios.value[selectedOptionI.value - 1];
+      return selectedInventario;
+    };
+
+    let inventarioCodigo = () => {
+      let selectedInventario = inventarios.value[selectedOptionI.value - 1];
       return selectedInventario.codigo;
     }
 
-    let inventario_codigo = inventario();
+    let inventarioID = () => {
+      let selectedInventario = inventarios.value[selectedOptionI.value - 1];
+      return selectedInventario._id;
+    }
+
+    let Inventario = inventario();
+    let inventario_codigo = inventarioCodigo();
+    let inventario_id = inventarioID();
+
+    if (Fecha === "") {
+      text.value = "El campo fecha no puede estar vacio";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
+    if (inventario_codigo === "" || inventario_codigo.trim() === "") {
+      text.value = "El campo codigo del producto no puede estar vacio";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
+    if (Valor.value === "" || String(Valor.value).trim() === "") {
+      text.value = "El campo valor no puede estar vacio";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
+    if (Cantidad.value === "" || String(Cantidad.value).trim() === "") {
+      text.value = "El campo cantidad no puede estar vacio";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
+    console.log(Inventario);
+    console.log(inventario_id);
+    console.log(inventario_codigo);
+
+    if (Inventario.cantidad < Cantidad.value) {
+      text.value = "No hay suficiente cantidad en el inventario";
+      registroFallido.value = true;
+      loading.value = false;
+      ocultarD();
+      return;
+    }
+
+    let cantidadEnInventario = Inventario.cantidad;
+    let modificarCantidad = () => {
+      if(cantidadInicial > Cantidad.value) {
+        let cantidadConteo = cantidadInicial - Cantidad.value;
+        return cantidadEnInventario + cantidadConteo;
+      } else if(cantidadInicial === Cantidad.value) {
+        return (Inventario.cantidad - Cantidad.value);
+      } else {
+        let cantidadConteo = Cantidad.value - cantidadInicial;
+        return cantidadEnInventario - cantidadConteo;
+      }
+    }
+
+    let cantidadTotal = modificarCantidad();
+    console.log(cantidadTotal);
 
     let venta = {
       fecha: Fecha.value,
@@ -329,39 +403,15 @@ let modificarVenta = async () => {
       cantidad: Cantidad.value,
     };
 
-    if (venta.fecha === "" || venta.fecha.trim() === "") {
-      text.value = "El campo fecha no puede estar vacio";
-      registroFallido.value = true;
-      loading.value = false;
-      ocultarD();
-      return;
-    }
-
-    if (venta.codigo_producto === "" || venta.codigo_producto.trim() === "") {
-      text.value = "El campo codigo del producto no puede estar vacio";
-      registroFallido.value = true;
-      loading.value = false;
-      ocultarD();
-      return;
-    }
-
-    if (venta.valor === "" || String(venta.valor).trim() === "") {
-      text.value = "El campo valor no puede estar vacio";
-      registroFallido.value = true;
-      loading.value = false;
-      ocultarD();
-      return;
-    }
-
-    if (venta.cantidad === "" || String(venta.cantidad).trim() === "") {
-      text.value = "El campo cantidad no puede estar vacio";
-      registroFallido.value = true;
-      loading.value = false;
-      ocultarD();
-      return;
-    }
+    let invent = {
+      codigo: inventario_codigo,
+      descripcion: Inventario.descripcion,
+      cantidad: cantidadTotal,
+      valor: Inventario.valor,
+    };
 
     await useVentas.putVenta(Id.value, venta);
+    await useInventario.putInventario(inventario_id, invent);
     registroExitoso.value = true;
     ocultarD();
     form.value = false;
