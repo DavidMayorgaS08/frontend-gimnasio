@@ -196,6 +196,12 @@ async function Sede() {
     }
     loading.value = true;
     r = await useSedes.postSede(sede);
+    Nombre.value = "";
+    Direccion.value = "";
+    Codigo.value = "";
+    Horario.value = "";
+    Ciudad.value = "";
+    Telefono.value = "";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

@@ -211,6 +211,12 @@ async function Maquina() {
     }
     loading.value = true;
     r = await useMaquinas.postMaquina(maquina);
+    Codigo.value = "";
+    selectedOptionS.value = "";
+    Descripcion.value = "";
+    Fecha_Ingreso.value = "";
+    Fecha_Ultimo_Mantenimiento.value = "";
+    Estado.value = "1";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

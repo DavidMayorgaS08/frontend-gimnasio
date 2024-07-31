@@ -205,6 +205,10 @@ async function Venta() {
     }
     loading.value = true;
     r = await useVentas.postVenta(venta);
+    Fecha.value = "";
+    selectedOptionI.value = "";
+    Valor.value = "";
+    Cantidad.value = "";
     await inventarioModificar();
     registroExitoso.value = true;
     loading.value = false;

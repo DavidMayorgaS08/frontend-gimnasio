@@ -184,6 +184,9 @@ async function Ingreso() {
     }
     loading.value = true;
     r = await useIngresos.postIngreso(ingreso);
+    selectedOptionC.value = "";
+    fecha.value = "";
+    selectedOptionS.value = "";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

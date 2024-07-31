@@ -204,6 +204,10 @@ async function Pago() {
     }
     loading.value = true
     r = await usePagos.postPago(pago);
+    selectedOptionC.value = "";
+    selectedOptionP.value = "";
+    Fecha.value = "";
+    Valor.value = "";
     registroExitoso.value = true;
     loading.value = false
     ocultar();

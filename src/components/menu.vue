@@ -30,38 +30,38 @@
     </div>
     <div :class="{ cont_menu: true, 'menu-open': menuOpen }">
       <router-link to="/cliente"
-        ><button class="btn" @click="cliente()">Clientes</button></router-link
+        ><button v-if="clientes" class="btn" @click="cliente()">Clientes</button></router-link
       >
       <router-link to="/ingreso"
-        ><button class="btn" @click="ingreso()">Ingresos</button></router-link
+        ><button v-if="ingresos" class="btn" @click="ingreso()">Ingresos</button></router-link
       >
       <router-link to="/inventario"
-        ><button class="btn" @click="inventario()">
+        ><button v-if="inventarios" class="btn" @click="inventario()">
           Inventarios
         </button></router-link
       >
       <router-link to="/mantenimiento"
-        ><button class="btn" @click="mantenimiento()">
+        ><button v-if="mantenimientos" class="btn" @click="mantenimiento()">
           Mantenimientos
         </button></router-link
       >
       <router-link to="/maquina"
-        ><button class="btn" @click="maquina()">Maquinas</button></router-link
+        ><button v-if="maquinas" class="btn" @click="maquina()">Maquinas</button></router-link
       >
       <router-link to="/pago"
-        ><button class="btn" @click="pago()">Pagos</button></router-link
+        ><button v-if="pagos" class="btn" @click="pago()">Pagos</button></router-link
       >
       <router-link to="/plan"
-        ><button class="btn" @click="plan()">Planes</button></router-link
+        ><button v-if="planes" class="btn" @click="plan()">Planes</button></router-link
       >
       <router-link to="/sede"
-        ><button class="btn" @click="sede()">Sedes</button></router-link
+        ><button v-if="sedes" class="btn" @click="sede()">Sedes</button></router-link
       >
       <router-link to="/usuarios"
-        ><button class="btn" @click="usuario()">Usuarios</button></router-link
+        ><button v-if="usuarios" class="btn" @click="usuario()">Usuarios</button></router-link
       >
       <router-link to="/venta"
-        ><button class="btn" @click="venta()">Ventas</button></router-link
+        ><button v-if="ventas" class="btn" @click="venta()">Ventas</button></router-link
       >
     </div>
     <div class="cont_btn_salir">
@@ -79,7 +79,7 @@
     <div class="cont_info">
       <div class="cont_bienvenida" v-if="bienvenida">
         <p class="text_bienvenida">bienvenido</p>
-        <p class="text_user">{{ user }}</p>
+        <p class="text_user">{{ user }} - Rol {{ rolSelected }}</p>
       </div>
       <router-view />
     </div>
@@ -100,10 +100,55 @@ import { ref } from "vue";
 
 let bienvenida = ref(true);
 let user = ref("");
+let userRol = ref("");
 let user1 = localStorage.getItem("usuario");
 if (user1) {
   const userObj = JSON.parse(user1);
   user.value = userObj.user.nombre;
+}
+
+let clientes = false;
+let ingresos = false;
+let inventarios = false;
+let mantenimientos = false;
+let maquinas = false;
+let pagos = false;
+let planes = false;
+let sedes = false;
+let usuarios = false;
+let ventas = false;
+
+if (user1) {
+  const userObj = JSON.parse(user1);
+  userRol.value = userObj.user.rol;
+}
+
+let rolSelected = ref("")
+
+if (userRol.value === 1) {
+  clientes = true;
+  ingresos = true;
+  inventarios = true;
+  mantenimientos = true;
+  maquinas = true;
+  pagos = true;
+  planes = true;
+  sedes = true;
+  usuarios = true;
+  ventas = true;
+  rolSelected.value = "Administrador"
+} else if(userRol.value === 2){
+  clientes = true;
+  ingresos = true;
+  inventarios = true;
+  mantenimientos = true;
+  maquinas = true;
+  pagos = true;
+  ventas = true;
+  rolSelected.value = "Recepcionista " 
+} else if(userRol.value === 3){
+  clientes = true;
+  rolSelected.value = "Entrenador"
 }
 
 let menuOpen = ref(false);

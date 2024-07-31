@@ -226,6 +226,12 @@ async function registrarUsuario() {
     }
     loading.value = true;
     r = await useUsuarios.postUsuario(usuario);
+    nombre.value = "";
+    selectedOptionS.value = "";
+    Correo.value = "";
+    Contraseña.value = "";
+    Telefono.value = "";
+    Rol.value = "";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

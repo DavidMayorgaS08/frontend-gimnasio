@@ -166,6 +166,10 @@ async function Inventario() {
     }
     loading.value = true;
     r = await useInventarios.postInventario(inventario);
+    Codigo.value = "";
+    Descripcion.value = "";
+    Valor.value = "";
+    Cantidad.value = "";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

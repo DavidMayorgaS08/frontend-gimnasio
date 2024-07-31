@@ -342,7 +342,7 @@ async function cliente() {
       return;
     }
 
-    if (cliente.Telefono === "" || cliente.Telefono.trim() === "") {
+    if (cliente.telefono === "" || cliente.telefono.trim() === "") {
       text.value = "El campo telefono es obligatorio";
       registroFallido.value = true;
       ocultar();
@@ -377,42 +377,42 @@ async function cliente() {
       return;
     }
 
-    if (peso.value === "" || peso.value.trim() === "") {
+    if (peso.value === "" || String(peso.value).trim() === "") {
       text.value = "El campo peso del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (Altura.value === "" || Altura.value.trim() === "") {
+    if (Altura.value === "" || String(Altura.value).trim() === "") {
       text.value = "El campo altura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (imc.value === "" || imc.value.trim() === "") {
+    if (imc.value === "" || String(imc.value).trim() === "") {
       text.value = "El campo imc del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaBrazo.value === "" || medidaBrazo.value.trim() === "") {
+    if (medidaBrazo.value === "" || String(medidaBrazo.value).trim() === "") {
       text.value = "El campo medida del brazo del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaPierna.value === "" || medidaPierna.value.trim() === "") {
+    if (medidaPierna.value === "" || String(medidaPierna.value).trim() === "") {
       text.value = "El campo medida de la pierna del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
       return;
     }
 
-    if (medidaCintura.value === "" || medidaCintura.value.trim() === "") {
+    if (medidaCintura.value === "" || String(medidaCintura.value).trim() === "") {
       text.value = "El campo medida de la cintura del seguimiento es obligatorio";
       registroFallido.value = true;
       ocultar();
@@ -420,6 +420,23 @@ async function cliente() {
     }
     loading.value = true;
     r = await useClientes.postCliente(cliente);
+    nombre.value = "";
+    fechaNacimiento.value = "";
+    edad.value = "";
+    fechaIngreso.value = "";
+    documento.value = "";
+    direccion.value = "";
+    Telefono.value = "";
+    limitaciones.value = "";
+    estado.value = "";
+    selectedOptionP.value = "";
+    fecha.value = "";
+    peso.value = "";
+    Altura.value = "";
+    imc.value = "";
+    medidaBrazo.value = "";
+    medidaPierna.value = "";
+    medidaCintura.value = "";
     registroExitoso.value = true;
     loading.value = false;
     ocultar();

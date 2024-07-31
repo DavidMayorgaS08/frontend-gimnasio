@@ -179,6 +179,10 @@ async function Plan() {
     }
     loading.value = true
     r = await usePlanes.postPlan(plan);
+    Codigo.value = "";
+    Descripcion.value = "";
+    Valor.value = "";
+    Dias.value = "";
     registroExitoso.value = true;
     loading.value = false
     ocultar();
